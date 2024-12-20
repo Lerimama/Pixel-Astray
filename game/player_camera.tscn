@@ -184,6 +184,7 @@ theme = SubResource( 194 )
 text = "test"
 
 [node name="TestHud" type="Control" parent="UILayer"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 1248.0

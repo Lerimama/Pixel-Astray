@@ -71,7 +71,7 @@ clip_text = true
 [node name="GameOutline" parent="." instance=ExtResource( 7 )]
 
 [node name="ActionHintPress" parent="." instance=ExtResource( 2 )]
-position = Vector2( 640, 696 )
+position = Vector2( 640, 720 )
 
 [node name="Hint" parent="ActionHintPress" index="1"]
 margin_left = -52.0

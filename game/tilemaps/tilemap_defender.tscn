@@ -36,6 +36,7 @@ __meta__ = {
 position = Vector2( 32, -704 )
 
 [node name="TopScreenLimit" type="StaticBody2D" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 704, 48 )
 collision_layer = 2
@@ -45,12 +46,14 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopScreenLimit"]
 shape = SubResource( 1 )
+disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="TopScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( -640, -16, 640, -16, 640, 16, -640, 16 )
 
 [node name="BottomScreenLimit" type="StaticBody2D" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 704, 720 )
 collision_layer = 4
@@ -60,12 +63,14 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomScreenLimit"]
 shape = SubResource( 1 )
+disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="BottomScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( -640, -16, 640, -16, 640, 16, -640, 16 )
 
 [node name="LeftScreenLimit" type="StaticBody2D" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 672, 80 )
 collision_layer = 8
@@ -76,13 +81,14 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftScreenLimit"]
 position = Vector2( -624, 304 )
 shape = SubResource( 5 )
+disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="LeftScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( -640, -16, -608, -16, -608, 624, -640, 624 )
 
 [node name="RightScreenLimit" type="StaticBody2D" parent="."]
-modulate = Color( 0, 0, 0, 1 )
+visible = false
 position = Vector2( 1359, 384 )
 collision_layer = 16
 __meta__ = {
@@ -92,6 +98,7 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightScreenLimit"]
 position = Vector2( 0.5, 0 )
 shape = SubResource( 5 )
+disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="RightScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )

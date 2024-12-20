@@ -44,12 +44,12 @@ func _input(event: InputEvent) -> void: # unhandled ne pride skozi
 
 	if name_input_popup.visible == true and name_input_popup.modulate.a == 1:
 		if Input.is_action_just_pressed("ui_cancel"):# and name_input.has_focus():
-			Analytics.save_ui_click("InputCancelEsc")
+#			Analytics.save_ui_click("InputCancelEsc")
 			Global.sound_manager.play_gui_sfx("btn_cancel")
 			_on_CancelBtn_pressed()
 			accept_event()
 		if Input.is_action_just_pressed("ui_accept"):# and not input_confirm_btn.has_focus():
-			Analytics.save_ui_click("InputConfirmAccept")
+#			Analytics.save_ui_click("InputConfirmAccept")
 			Global.sound_manager.play_gui_sfx("btn_confirm")
 			_on_ConfirmBtn_pressed()
 			accept_event()
@@ -90,12 +90,12 @@ func _process(delta: float) -> void:
 				var second_scoreline = highscore_table.hs_table.get_child(1) # prvi ima vedno pozicijo 0
 				if not second_scoreline.rect_position.y == 0:
 					current_scoreline_marked = true
-					highscore_table.get_scoreline_position_in_table(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
+					highscore_table.scroll_to_scoreline(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
 
 
 func open_gameover(current_gameover_reason: int):
 
-	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count ])
+#	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 	Profiles.tutorial_mode = false
 
 	gameover_game_data = Global.game_manager.game_data
@@ -197,7 +197,7 @@ func play_selected_level(selected_level: int):
 	Profiles.game_data_sweeper["level"] = selected_level
 	Global.game_manager.game_settings["pregame_screen_on"] = false
 	Global.game_manager.game_settings["always_zoomed_in"] = true
-	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
+#	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.reload_game()
 
@@ -230,7 +230,7 @@ func set_gameover_title():
 			selected_gameover_jingle = "lose_jingle"
 			selected_gameover_title = gameover_title_time
 			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
-				selected_gameover_title.get_node("Subtitle").text = "You have got to be faster!"
+				selected_gameover_title.get_node("Subtitle").text = "You need to be faster!"
 			elif gameover_game_data["game"] == Profiles.Games.HUNTER:
 				selected_gameover_title.get_node("Subtitle").text = "Your screen is drowning in colors."
 			elif gameover_game_data["game"] == Profiles.Games.DEFENDER:
@@ -238,12 +238,10 @@ func set_gameover_title():
 			else:
 				selected_gameover_title.get_node("Subtitle").text = "Can't handle the time?"
 
-	# če je rekord je povsod isti tekst
-	if new_record_set:
-		selected_gameover_title.get_node("Subtitle").text = "You really are the greatest!"
-
 	# GO text color
+	# če je rekord je povsod isti tekst
 	if gameover_reason == Global.game_manager.GameoverReason.CLEANED or new_record_set:
+		selected_gameover_title.get_node("Subtitle").text = "You've set the world rec really are the greatest!"
 		selected_gameover_title.modulate = Global.color_green
 	else:
 		selected_gameover_title.modulate = Global.color_red
@@ -455,7 +453,7 @@ func _on_CancelBtn_pressed() -> void:
 
 func _on_RestartBtn_pressed() -> void:
 
-	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
+#	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 
 	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 		Profiles.game_data_sweeper["level"] = gameover_game_data["level"]

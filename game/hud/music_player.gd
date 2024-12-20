@@ -30,11 +30,11 @@ func _toggle_mute(mute_it: bool):
 	if mute_it:
 		Global.sound_manager.game_music_set_to_off = false
 		Global.sound_manager.play_music("game_music")
-		Analytics.save_ui_click("UnMute")
+#		Analytics.save_ui_click("UnMute")
 	else:
 		Global.sound_manager.game_music_set_to_off = true
 		Global.sound_manager.stop_music("game_music")
-		Analytics.save_ui_click("Mute")
+#		Analytics.save_ui_click("Mute")
 
 
 func _on_TrackBtn_pressed() -> void:
@@ -44,7 +44,7 @@ func _on_TrackBtn_pressed() -> void:
 		var new_track_name: String = Global.sound_manager.skip_track().name
 		track_btn.text = new_track_name
 
-		Analytics.save_ui_click("SkipTrack %d" % (Global.sound_manager.current_music_track_index))
+#		Analytics.save_ui_click("SkipTrack %d" % (Global.sound_manager.current_music_track_index))
 
 
 func toggle_mute():
@@ -58,7 +58,7 @@ func toggle_mute():
 	else:
 		Global.sound_manager.game_music_set_to_off = true
 		Global.sound_manager.stop_music("game_music")
-		Analytics.save_ui_click("Mute")
+#		Analytics.save_ui_click("Mute")
 
 	mute_btn.set_pressed_no_signal(not Global.sound_manager.game_music_set_to_off)
 

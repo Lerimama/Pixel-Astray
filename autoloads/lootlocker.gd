@@ -12,6 +12,8 @@ var guest_is_authenticated: bool = false
 var anonymous_guest_name: String = "anonymous" # ko čekiraš HS v home
 var final_panel_open_time: float = 1
 var multipublish_count: int = 0	# da ve kdaj je prvi in ga avtenticira ...
+var random_id_length: int = 10
+var random_id_delimiter: String = "_#"
 
 # game data
 var lootlocker_live_mode: bool = true
@@ -142,7 +144,10 @@ func _save_lootlocker_leaderboard_to_local_highscore(game_data: Dictionary):
 	for item in new_leaderboard:
 		# poberem podatke iz borda
 		var item_dictionary: Dictionary = item
-		var item_player_name: String = item_dictionary["member_id"]
+		# ločim random id string, ki sem ga uporabil ob sejvanju imena
+		# če je string brez delimiterja, potem uporabi cel string (to se na koncu ne bo več odgajalo)
+		var item_player_name_with_random_string: String = item_dictionary["member_id"]
+		var item_player_name: String = item_player_name_with_random_string.get_slice(random_id_delimiter, 0) # slajsa ob indexu prve črke delimiterja
 		var item_player_score = item_dictionary["score"]
 		var item_player_rank = "%03d" % item_dictionary["rank"]
 		# zapišem v obliko kokalnih HS
@@ -161,7 +166,10 @@ func _authenticate_guest_session(player_name: String, last_attempt_in_row: bool,
 	ConnectCover.cover_label_text = "Connecting ..."
 	ConnectCover.open_cover(update_in_background)
 
+
 	player_id = player_name
+	# dodam random id string, ki sem ga uporabil ob sejvanju imena
+	player_id += random_id_delimiter + Global.generate_random_string(10)
 
 	# authenticate guest session
 	var url: String = "https://api.lootlocker.io/game/v2/session/guest"
@@ -170,10 +178,11 @@ func _authenticate_guest_session(player_name: String, last_attempt_in_row: bool,
 	var lootlocker_game_key: String = lootlocker_game_key_staging
 	if lootlocker_live_mode:
 		lootlocker_game_key = lootlocker_game_key_live
+
 	var request_body: Dictionary = {
 		"game_key": lootlocker_game_key,
 		"game_version": lootlocker_game_version,
-		"player_identifier": player_id, # če je prazen je OS id
+		"player_identifier": player_id, # če je prazen je samo random id (se ne zgodi, ker se prazen input tretira kot esc)
 	}
 	request(url, header, false, method, to_json(request_body))
 

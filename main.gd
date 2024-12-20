@@ -1,15 +1,15 @@
 extends Node
 
 
-var fade_time: float = 0.7
-var menu_fade_sound_length: float = 1.29
-var wait_sound_time: float = menu_fade_sound_length - fade_time + 0.1 # da ne traja med menjavo scen ... 0.1 = zazih
 var current_scene: Node2D
-onready var inverted_scheme: Node2D = $InvertedScheme
+var fade_scene_time: float = 0.7
 
+onready var inverted_scheme: Node2D = $InvertedScheme
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
 
+#func _process(delta: float) -> void:
+#	printt ("strays count", get_tree().get_nodes_in_group(Global.group_strays).size())
 
 func _ready() -> void:
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 		var start_with: String = Profiles.start_with_method
 		call_deferred(start_with)
 
-	Analytics.call_deferred("start_new_session")
+#	Analytics.call_deferred("start_new_session")
 
 
 func home_in_intro():
@@ -37,7 +37,7 @@ func home_in_intro():
 	home_scene.open_with_intro()
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time)
+	fade_in.tween_property(home_scene, "modulate", Color.white, fade_scene_time)
 
 
 func home_in_no_intro():
@@ -48,10 +48,8 @@ func home_in_no_intro():
 	var home_scene = spawn_new_scene(home_scene_path, self)
 	home_scene.open_without_intro()
 
-	Global.delete_all_debug_nodes() # pred tvinom
-
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time).from(Color.black)
+	fade_in.tween_property(home_scene, "modulate", Color.white, fade_scene_time).from(Color.black)
 
 
 func home_in_from_game(finished_game: int):
@@ -65,33 +63,24 @@ func home_in_from_game(finished_game: int):
 #	spawn_new_scene(home_scene_path, self)
 #	current_scene.open_from_game(finished_game) # select game screen
 
-	Global.delete_all_debug_nodes() # pred tvinom
-
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 
 	home_scene.modulate = Color.black
-
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time)
-
-
+	fade_in.tween_property(home_scene, "modulate", Color.white, fade_scene_time)
 
 
 func home_out():
 
 	get_viewport().set_disable_input(true) # zazih ... dobra praksa
-
-	Global.sound_manager.play_gui_sfx("menu_fade")
-
+	var sound_to_play: AudioStreamPlayer = Global.sound_manager.play_gui_sfx("menu_fade")
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu_music")
 
-#	Global.current_scene.get_node("SelectGame/BackBtn").grab_focus() # anti pregame toggle
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_out.tween_property(current_scene, "modulate", Color.black, fade_time)
+	fade_out.tween_property(current_scene, "modulate", Color.black, fade_scene_time)
 	yield(fade_out, "finished")
-
-	yield(get_tree().create_timer(wait_sound_time), "timeout")
+	yield(sound_to_play, "finished") # sound more bit daljši od tweena
 
 	release_scene(current_scene)
 	call_deferred("game_in")
@@ -116,12 +105,10 @@ func game_in():
 	Global.game_manager.set_game_view()
 	Global.game_manager.create_players()
 
-	Global.delete_all_debug_nodes() # pred tvinom
-
 	yield(get_tree().create_timer(0.3), "timeout") # da se kamera centrira
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(game_scene, "modulate", Color.white, fade_time).from(Color.black)
+	fade_in.tween_property(game_scene, "modulate", Color.white, fade_scene_time).from(Color.black)
 	yield(fade_in, "finished")
 
 	Global.game_manager.set_game()
@@ -130,15 +117,13 @@ func game_in():
 func game_out(game_to_exit: int):
 
 	get_viewport().set_disable_input(true) # zazih ... dobra praksa
-
 	Global.game_camera = null
-	Global.sound_manager.play_gui_sfx("menu_fade")
+	var sound_to_play: AudioStreamPlayer = Global.sound_manager.play_gui_sfx("menu_fade")
 
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_out.tween_property(current_scene, "modulate", Color.black, fade_time)
+	fade_out.tween_property(current_scene, "modulate", Color.black, fade_scene_time)
 	yield(fade_out, "finished")
-
-	yield(get_tree().create_timer(wait_sound_time), "timeout")
+	yield(sound_to_play, "finished") # sound more bit daljši od tweena
 
 	release_scene(current_scene)
 	call_deferred("home_in_from_game", game_to_exit) # nujno deferred, ker se tudi relese scene zgodi deferred
@@ -147,38 +132,34 @@ func game_out(game_to_exit: int):
 func reload_game(): # game out z drugačnim zaključkom
 
 	Global.game_camera = null
-	Global.sound_manager.play_gui_sfx("menu_fade")
-
+	var sound_to_play: AudioStreamPlayer = Global.sound_manager.play_gui_sfx("menu_fade")
 	var current_game_enum: int = Global.game_manager.game_data["game"]
 
 	# če relouda, se trenutna igra konča ob kliku in potem tukaj začne nova (nadomešča home btn klik
-	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"])
+#	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"])
 
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_out.tween_property(current_scene, "modulate", Color.black, fade_time)
+	fade_out.tween_property(current_scene, "modulate", Color.black, fade_scene_time)
 	yield(fade_out, "finished")
+	yield(sound_to_play, "finished") # sound more bit daljši od tweena
 
-	yield(get_tree().create_timer(wait_sound_time), "timeout")
 
 	release_scene(current_scene)
 	Profiles.call_deferred("set_game_data", current_game_enum) # nujno deferred, ker se tudi relese scene zgodi deferred
 	call_deferred("game_in") # nujno deferred, ker se tudi relese scene zgodi deferred
 
 
-func quit_exit_game():
+func quit_exit_game(): # ta funkcija je v htmlju nedosegljiva
 
-	if not Profiles.html5_mode:
-		Data.write_settings_to_file()
+	#	if not Profiles.html5_mode:
+	Data.write_settings_to_file()
 
-	Analytics.end_session()
+#	Analytics.end_session()
 	yield(Analytics, "session_saved")
 	get_tree().call_deferred("quit")
 
 
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
-
-
-#var current_scene = null # za scene switching
 
 
 func release_scene(scene_node): # release scene

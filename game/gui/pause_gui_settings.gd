@@ -85,7 +85,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 	$TouchPopUpBtn.text = "TOUCH CONTROLS\n%s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 
-	Analytics.save_ui_click("TouchControls %s" % controller_key)
+#	Analytics.save_ui_click("TouchControls %s" % controller_key)
 
 	# ugasnem za buttons in none
 	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://assets/theme/box_game_btn.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=10]
 [ext_resource path="res://home/touch_swipe_btn.tscn" type="PackedScene" id=11]
-[ext_resource path="res://common/home_screenshot.png" type="Texture" id=12]
 [ext_resource path="res://home/select_game.gd" type="Script" id=13]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
@@ -220,7 +219,7 @@ region = Rect2( 80, 4, 16, 20 )
 filter_clip = true
 
 [sub_resource type="StyleBoxLine" id=531]
-color = Color( 0.996078, 0.976471, 0.545098, 1 )
+color = Color( 1, 1, 1, 1 )
 grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
@@ -2556,7 +2555,7 @@ margin_bottom = 344.0
 rect_min_size = Vector2( 0, 24 )
 focus_neighbour_bottom = NodePath("../TouchPopUpBtn")
 mouse_default_cursor_shape = 2
-text = "Pregame screen"
+text = "Pre-game screen"
 
 [node name="TouchPopUpBtn" type="Button" parent="Settings/Content"]
 margin_top = 352.0
@@ -2717,40 +2716,41 @@ align = 1
 
 [node name="UpdateScoresBtn" type="Button" parent="Highscores"]
 margin_left = 64.0
-margin_top = 69.0
-margin_right = 345.0
-margin_bottom = 93.0
+margin_top = 576.0
+margin_right = 274.0
+margin_bottom = 594.0
 focus_neighbour_top = NodePath("../GameHalls/Cleaner")
-focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../PublishUnpublishedBtn")
+focus_neighbour_bottom = NodePath("../GameHalls/Cleaner")
 mouse_default_cursor_shape = 2
-text = "     Update global scores"
-align = 0
+custom_fonts/font = ExtResource( 14 )
+text = "UPDATE GLOBAL SCORES"
+align = 2
 
 [node name="TextureRect" type="TextureRect" parent="Highscores/UpdateScoresBtn"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 21.0
-margin_bottom = 25.0
+margin_top = -2.0
+margin_right = 24.0
+margin_bottom = 22.0
 texture = SubResource( 533 )
 
 [node name="PublishUnpublishedBtn" type="Button" parent="Highscores"]
-margin_left = 65.0
+margin_left = 304.0
 margin_top = 573.0
-margin_right = 430.0
+margin_right = 584.0
 margin_bottom = 597.0
-focus_neighbour_top = NodePath("../UpdateScoresBtn")
+focus_neighbour_top = NodePath("../GameHalls/Cleaner")
 focus_neighbour_right = NodePath("../BackBtn")
+focus_neighbour_bottom = NodePath("../GameHalls/Cleaner")
 mouse_default_cursor_shape = 2
-text = "    Publish %s local-only scores"
+custom_fonts/font = ExtResource( 14 )
+text = "    publish_btn_text %s"
 align = 0
 
 [node name="TextureRect" type="TextureRect" parent="Highscores/PublishUnpublishedBtn"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 1.0
+margin_left = 4.0
 margin_top = 1.0
-margin_right = 17.0
+margin_right = 20.0
 margin_bottom = 21.0
 texture = SubResource( 536 )
 
@@ -2764,78 +2764,112 @@ margin_bottom = 88.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 focus_neighbour_left = NodePath("../UpdateScoresBtn")
-focus_neighbour_bottom = NodePath("../PublishUnpublishedBtn")
+focus_neighbour_top = NodePath("../../SelectGame/GamesMenu/Unbeatables")
+focus_neighbour_bottom = NodePath("../GameHalls/Unbeatables")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 
-[node name="Legend" type="HBoxContainer" parent="Highscores"]
+[node name="Legend" type="Control" parent="Highscores"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -394.0
+margin_left = -769.0
 margin_top = -2.0
 margin_right = -64.0
 margin_bottom = 20.0
 theme = ExtResource( 15 )
-custom_constants/separation = 24
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label3" type="Label" parent="Highscores/Legend"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 10.0
+margin_top = 2.0
+margin_right = 348.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 14 )
+text = "Scroll by holding UP / DOWN"
+align = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label3" type="Label" parent="Highscores/Legend/Label3"]
+visible = false
+margin_right = 9.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 14 )
+text = "?"
+align = 1
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Label" type="Label" parent="Highscores/Legend"]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 347.0
 margin_top = 2.0
-margin_right = 94.0
+margin_right = 462.0
 margin_bottom = 20.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 14 )
 text = "local scores"
-align = 1
+align = 2
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Jp" type="ColorRect" parent="Highscores/Legend/Label"]
-margin_left = -17.0
 margin_top = 8.0
-margin_right = -9.0
+margin_right = 8.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 8, 8 )
+color = Color( 0.996078, 0.976471, 0.545098, 1 )
 
 [node name="Label2" type="Label" parent="Highscores/Legend"]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 118.0
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 492.0
 margin_top = 2.0
-margin_right = 330.0
+margin_right = 704.0
 margin_bottom = 20.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 14 )
-text = "... unpublished local scores"
+text = "unpublished local scores"
+align = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label3" type="Label" parent="Highscores/Legend/Label2"]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_right = 15.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 14 )
+text = "..."
 align = 1
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Jp" type="ColorRect" parent="Highscores/Legend/Label2"]
-visible = false
-margin_left = -17.0
-margin_top = 8.0
-margin_right = -9.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 8, 8 )
-
 [node name="GameHalls" type="HBoxContainer" parent="Highscores"]
 margin_left = 64.0
-margin_top = 136.0
+margin_top = 128.0
 margin_right = 1216.0
-margin_bottom = 560.0
+margin_bottom = 552.0
 custom_constants/separation = 10
 
 [node name="Cleaner" type="Control" parent="Highscores/GameHalls"]
 margin_right = 280.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
+focus_neighbour_left = NodePath("../Unbeatables")
+focus_neighbour_top = NodePath(".")
+focus_neighbour_bottom = NodePath("../../UpdateScoresBtn")
 focus_mode = 2
 size_flags_vertical = 3
 
@@ -2845,6 +2879,7 @@ anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Edge" type="Panel" parent="Highscores/GameHalls/Cleaner/Undi"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
@@ -2856,7 +2891,8 @@ margin_bottom = 424.0
 visible = false
 
 [node name="HighscoreTable" parent="Highscores/GameHalls/Cleaner/CleanerHall" index="1"]
-margin_top = 15.0
+margin_top = 22.0
+margin_bottom = -31.0
 
 [node name="EdgeMid" type="Panel" parent="Highscores/GameHalls/Cleaner"]
 margin_top = 56.0
@@ -2867,19 +2903,33 @@ custom_styles/panel = SubResource( 532 )
 
 [node name="Title" type="Label" parent="Highscores/GameHalls/Cleaner"]
 margin_left = 32.0
-margin_top = 22.0
+margin_top = 18.0
 margin_right = 260.0
-margin_bottom = 49.0
+margin_bottom = 45.0
 rect_min_size = Vector2( 28, 27 )
 size_flags_vertical = 0
 text = "Cleaner"
 align = 1
+
+[node name="ScrollHint" type="Label" parent="Highscores/GameHalls/Cleaner"]
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 10.0
+margin_top = 392.0
+margin_right = 272.0
+margin_bottom = 410.0
+custom_fonts/font = ExtResource( 14 )
+text = "Hold UP/DOWN to scroll"
+align = 1
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sweepers" type="Control" parent="Highscores/GameHalls"]
 margin_left = 290.0
 margin_right = 570.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
+focus_neighbour_top = NodePath(".")
 focus_neighbour_bottom = NodePath("TabContainer")
 focus_mode = 2
 size_flags_vertical = 3
@@ -2890,6 +2940,7 @@ anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Edge" type="Panel" parent="Highscores/GameHalls/Sweepers/Undi"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
@@ -2981,19 +3032,33 @@ margin_top = 44.0
 
 [node name="Title" type="Label" parent="Highscores/GameHalls/Sweepers"]
 margin_left = 32.0
-margin_top = 22.0
+margin_top = 18.0
 margin_right = 260.0
-margin_bottom = 49.0
+margin_bottom = 45.0
 rect_min_size = Vector2( 28, 27 )
 size_flags_vertical = 0
 text = "Sweepers"
 align = 1
+
+[node name="ScrollHint" type="Label" parent="Highscores/GameHalls/Sweepers"]
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 10.0
+margin_top = 392.0
+margin_right = 272.0
+margin_bottom = 410.0
+custom_fonts/font = ExtResource( 14 )
+text = "Hold UP/DOWN to scroll"
+align = 1
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Erasers" type="Control" parent="Highscores/GameHalls"]
 margin_left = 580.0
 margin_right = 860.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
+focus_neighbour_top = NodePath(".")
 focus_neighbour_bottom = NodePath("TabContainer")
 focus_mode = 2
 size_flags_vertical = 3
@@ -3004,6 +3069,7 @@ anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Edge" type="Panel" parent="Highscores/GameHalls/Erasers/Undi"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
@@ -3047,19 +3113,34 @@ visible = false
 
 [node name="Title" type="Label" parent="Highscores/GameHalls/Erasers"]
 margin_left = 32.0
-margin_top = 22.0
+margin_top = 18.0
 margin_right = 260.0
-margin_bottom = 49.0
+margin_bottom = 45.0
 rect_min_size = Vector2( 28, 27 )
 size_flags_vertical = 0
 text = "Erasers"
 align = 1
+
+[node name="ScrollHint" type="Label" parent="Highscores/GameHalls/Erasers"]
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 10.0
+margin_top = 392.0
+margin_right = 272.0
+margin_bottom = 410.0
+custom_fonts/font = ExtResource( 14 )
+text = "Hold UP/DOWN to scroll"
+align = 1
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Unbeatables" type="Control" parent="Highscores/GameHalls"]
 margin_left = 870.0
 margin_right = 1150.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../Cleaner")
 focus_neighbour_bottom = NodePath("TabContainer")
 focus_mode = 2
 size_flags_vertical = 3
@@ -3070,6 +3151,7 @@ anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Edge" type="Panel" parent="Highscores/GameHalls/Unbeatables/Undi"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
@@ -3106,13 +3188,26 @@ margin_bottom = 0.0
 
 [node name="Title" type="Label" parent="Highscores/GameHalls/Unbeatables"]
 margin_left = 32.0
-margin_top = 22.0
+margin_top = 18.0
 margin_right = 260.0
-margin_bottom = 49.0
+margin_bottom = 45.0
 rect_min_size = Vector2( 28, 27 )
 size_flags_vertical = 0
 text = "Unbeatables"
 align = 1
+
+[node name="ScrollHint" type="Label" parent="Highscores/GameHalls/Unbeatables"]
+self_modulate = Color( 1, 1, 1, 0.552941 )
+margin_left = 10.0
+margin_top = 392.0
+margin_right = 272.0
+margin_bottom = 410.0
+custom_fonts/font = ExtResource( 14 )
+text = "Hold UP/DOWN to scroll"
+align = 1
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="About" type="Control" parent="."]
 visible = false
@@ -3369,7 +3464,7 @@ margin_top = 114.0
 margin_right = 336.0
 margin_bottom = 132.0
 custom_fonts/font = ExtResource( 14 )
-text = "Use settings if you wan't to turn it off."
+text = "Use settings to turn it off."
 autowrap = true
 
 [node name="Scoring" type="Label" parent="About"]
@@ -3409,15 +3504,15 @@ text = "You get rewarded %000 points (multiplied by level count) for cleaning th
 autowrap = true
 
 [node name="NavigationHint" type="Label" parent="."]
-margin_left = 408.0
-margin_top = 655.0
-margin_right = 872.0
-margin_bottom = 673.0
+margin_left = 533.0
+margin_top = 672.0
+margin_right = 748.0
+margin_bottom = 690.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.4, 0.4, 0.4, 0.8 )
 custom_fonts/font = ExtResource( 14 )
-text = "Use keyboard or game-pad to navigate around."
+text = "Use ... to navigate around"
 align = 1
 uppercase = true
 
@@ -3433,13 +3528,6 @@ anims/highscores = SubResource( 141 )
 anims/select_game = SubResource( 142 )
 anims/select_level = SubResource( 275 )
 anims/settings = SubResource( 530 )
-
-[node name="__HomeScreenshot" type="Sprite" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.52549 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 12 )
-centered = false
 
 [connection signal="finished_playing" from="HomeScreen/IntroViewPortContainer/IntroViewport/Intro" to="." method="_on_Intro_finished_playing"]
 [connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_mouse_entered"]

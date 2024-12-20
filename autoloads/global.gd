@@ -58,6 +58,8 @@ var color_thumb_hover: Color = Color("#232323")
 # pixel colors
 var color_almost_black: Color = Color("#141414")
 var color_dark_gray_pixel: Color = Color("#232323")
+var color_hunting: Color = Color("#f35b7f") # color_red
+var color_holding: Color = Color(color_hunting, 1.3) # color_red bloom
 var color_white_pixel_bloom: Color = Color(1, 1, 1, 1.22)
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
@@ -73,6 +75,8 @@ var default_highscore_line_name: String = "Empty score line" # se uporabi, če �
 #func _unhandled_input(event: InputEvent) -> void:
 #
 #	if Input.is_action_just_pressed("next"):
+#		generate_random_string(10)
+
 #		delete_all_debug_nodes()
 
 
@@ -81,24 +85,26 @@ func _ready():
 	randomize() # custom color scheme
 
 
-var nodes_to_delete: Array = []
+var _helper_nodes: Array = []
 var debug_nodes_prefix: String = "__"
 
 
-func delete_all_debug_nodes(hide_instead: bool = true): # kliče main na prehodu scene
-
+func check_on_helper_nodes(delete_it: bool = false): # kliče main na prehodu scene
 	get_all_nodes_in_node("_")
 
-#	if hide_instead:
-#		for node in nodes_to_delete:
-#			if "visible" in node:
-#				node.hide()
-#			else: # recimo audio node
-#				node.queue_free()
-#	else:
-#		for node in nodes_to_delete:
-#			node.queue_free()
-#		nodes_to_delete.clear()
+	for node in _helper_nodes:
+		if delete_it:
+			node.queue_free()
+		else:
+			if "visible" in node:
+#				printt ("_node visibility", node.name, node.visible, node.get_parent())
+				pass
+			else:
+#				printt ("_node visibility", node.name, node.get_parent(), typeof(node))
+				pass
+
+	printt ("_helper_nodes count", _helper_nodes.size())
+	_helper_nodes.clear()
 
 
 func get_all_nodes_in_node(string_to_search: String = "", node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
@@ -108,10 +114,9 @@ func get_all_nodes_in_node(string_to_search: String = "", node_to_check: Node = 
 		if not string_to_search.empty() and node.name.begins_with(string_to_search):
 			#			printt("node", node.name, node.get_parent())
 			if node.name.begins_with(debug_nodes_prefix):
-				nodes_to_delete.append(node)
+				_helper_nodes.append(node)
 		all_nodes_of_nodes = get_all_nodes_in_node(string_to_search, node)
 
-	#	print("Nodes in node ",  all_nodes_of_nodes.size())
 	return all_nodes_of_nodes
 
 
@@ -174,6 +179,21 @@ func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekun
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + "." + "%02d" % hundreds
 
 	return time_on_clock
+
+
+func generate_random_string(random_string_length: int):
+
+#	var available_characters: Array = [a, ]
+	var available_characters: String = "ABCDEFGHIJKLMNURSTUVZYXWQ0123456789"
+	var random_string: String = ""
+	for character in random_string_length:
+		var random_index: int = randi() % available_characters.length()
+		random_string += available_characters[random_index]
+
+	#	print ("Random string ", random_string)
+
+	return random_string
+
 
 
 # COLORS ------------------------------------------------------------------------------------------------

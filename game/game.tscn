@@ -152,4 +152,5 @@ one_shot = true
 [editable path="GUI/SweeperHintPress"]
 [editable path="GUI/GameOver"]
 [editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTable"]
+[editable path="GUI/GameOver/GameSummary/ContentSweeper/LevelBtnsHolder"]
 [editable path="GUI/GameOver/GameSummary/Content/Hs/HighscoreTable"]

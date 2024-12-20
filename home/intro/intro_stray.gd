@@ -38,9 +38,8 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 
 			var step_time: float = Profiles.game_settings["stray_step_time"]
 			var step_tween = get_tree().create_tween()
-			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
-			yield(step_tween, "finished")
-			end_move()
+			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+			step_tween.tween_callback(self ,"end_move")
 
 		else:
 			# začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)

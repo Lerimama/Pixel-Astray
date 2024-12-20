@@ -161,7 +161,6 @@ func slide_in(): # kliče GM set_game()
 		start_countdown.show()
 		var fade_in_tween = get_tree().create_tween()
 		fade_in_tween.tween_property(start_countdown, "modulate:a", 1, 0.3).set_ease(Tween.EASE_IN)
-
 	if Global.game_manager.game_settings["always_zoomed_in"]:
 		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 	else:
@@ -199,7 +198,9 @@ func slide_out(gameover_reason: int): # kliče GM na game over
 	if touch_controls.visible:
 		touch_controls.close()
 	_popups_out()
-	_check_for_new_highscore(game_timer.game_time_hunds, gameover_reason)
+
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # za score ureja že med igro
+		_check_for_new_highscore(game_timer.game_time_hunds, gameover_reason)
 
 	if sweeper_action_hint.visible:
 		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -320,9 +321,7 @@ func _popups_out(): # kliče GM na gameover
 func _get_highscore_on_start():
 
 	var start_highscore_line: Array = Data.get_saved_highscore(Global.game_manager.game_data)
-
 	highscore_on_start = start_highscore_line[0]
-	var highscore_clock: String = Global.get_clock_time(highscore_on_start)
 	var highscore_owner: String = start_highscore_line[1]
 
 	# brez rekorda ... current_highscore == 0
@@ -332,15 +331,16 @@ func _get_highscore_on_start():
 		highscore_label.text = str(highscore_on_start) + " by %s" % highscore_owner
 		highscore_holder.modulate = Global.color_hud_text
 	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+		var highscore_clock: String = Global.get_clock_time(highscore_on_start)
 		highscore_label.text = highscore_clock + " by %s" % highscore_owner
 		highscore_holder.modulate = Global.color_hud_text
-
 
 func _check_for_new_highscore(current_player_score: int, gameover_reason: int = -1):
 
 	# točkovni rekord preverjam sproti, tudi, če je trenutni 0
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 		if current_player_score > highscore_on_start:
+			printt("rekord?", highscore_on_start, current_player_score)
 			new_record_set = true
 			highscore_label.text = str(current_player_score) + " by You"
 			highscore_holder.modulate = Global.color_green

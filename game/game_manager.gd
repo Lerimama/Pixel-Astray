@@ -2,7 +2,7 @@ extends Node
 class_name GameManager
 
 
-signal all_strays_spawned
+signal all_strays_shown
 signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
 
 enum GameoverReason {LIFE, TIME, CLEANED}
@@ -19,9 +19,8 @@ var current_players_in_game: Array # nabira se v FP
 
 # strays
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
-var strays_shown_on_start: Array = [] # za štartni explode fx loop
 var check_for_all_cleaned: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
-var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
+var dont_turn_to_white_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
 
 # colors
 var all_stray_colors: Array = [] # barve spawnanih (resnični color ... iste se pač podvajajo se) ... puca se ko stray umrje
@@ -54,10 +53,17 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Profiles.debug_mode:  # debug OS mode
 		if Input.is_action_just_pressed("no1"):
-			#			get_tree().set_pause(true)
-			game_over(GameoverReason.LIFE)
+			game_settings["follow_mode"] = true
+			var random_stray_index: int = randi() % get_tree().get_nodes_in_group(Global.group_strays).size()
+			var random_stray = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+			random_stray.step(current_players_in_game[0])
+#			game_over(GameoverReason.LIFE)
 		if Input.is_action_just_pressed("no2"):
-			game_over(GameoverReason.TIME)
+			game_settings["follow_mode"] = false
+			var random_stray_index: int = randi() % get_tree().get_nodes_in_group(Global.group_strays).size()
+			var random_stray = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+			random_stray.step()
+#			game_over(GameoverReason.TIME)
 		if Input.is_action_just_pressed("no3"):
 			game_over(GameoverReason.CLEANED)
 
@@ -68,6 +74,9 @@ func _ready() -> void:
 	randomize()
 	if game_data.has("level_goal_count"):
 		level_goal_mode = true
+
+	if Profiles.debug_mode:
+		Global.check_on_helper_nodes()
 
 
 # GAME SETUP --------------------------------------------------------------------------------------
@@ -139,10 +148,10 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	if game_settings["pregame_screen_on"]:
 		yield(Global.hud.instructions_popup, "players_ready")
 
-	Analytics.save_selected_game_data()
+#	Analytics.save_selected_game_data()
 	if game_data.has("level"):
 		Global.hud.level_label.text = "L%02d" % game_data["level"]
-	Global.hud.slide_in() # pokaže countdown
+#	Global.hud.slide_in() # pokaže countdown
 
 	# player
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
@@ -151,7 +160,10 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 
 	# strays
 	create_strays(create_strays_count)
-	yield(self, "all_strays_spawned")
+	yield(self, "all_strays_shown")
+	#	yield(get_tree().create_timer(Global.get_it_time / 2), "timeout")
+	#	Global.hud.slide_in() # pokaže countdown
+	Global.hud.call_deferred("slide_in")
 
 
 	# countdown
@@ -162,7 +174,8 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 		# počakam da se res prizumira, če ni game start countdown
 		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout")
 
-	start_game()
+	call_deferred("start_game")
+	#	start_game()
 
 	# brezšivni tekoči preskok v naslednjo fazo ... če je prej se povozi
 	if game_data["game"] == Profiles.Games.SWEEPER:
@@ -413,6 +426,8 @@ func create_strays(strays_to_spawn_count: int):
 
 		# ko trotlam ne spawna vsega, zato ponovim
 		if throttling_spawned_strays_count < strays_to_spawn_count and not throttling_spawned_strays_count == 0:
+			var strays_left_to_spawn_count: int = strays_to_spawn_count - throttling_spawned_strays_count
+#			call_deferred("create_strays", strays_left_to_spawn_count)
 			create_strays(strays_to_spawn_count - throttling_spawned_strays_count)
 			return
 
@@ -421,48 +436,51 @@ func create_strays(strays_to_spawn_count: int):
 		else:
 			Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu
 
-		var show_strays_loop: int = 0
-		strays_shown_on_start.clear()
-		while strays_shown_on_start.size() < create_strays_count:
-			show_strays_loop += 1
-			show_strays_in_loop(show_strays_loop)
-			yield(get_tree().create_timer(0.1), "timeout") # nujen zamik
-
-		emit_signal("all_strays_spawned")
+		call_deferred("show_strays_in_loop")
+		#		show_strays_in_loop()
 
 
-func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
+func show_strays_in_loop(loop_count: int = 0, strays_shown_on_start: Array = []): # spawn naenkrat
 
-	var spawn_shake_power: float = 0.30
-	var spawn_shake_time: float = 0.7
-	var spawn_shake_decay: float = 0.2
-	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	loop_count += 1
+	yield(get_tree().create_timer(0.1), "timeout") # nujen zamik
+
+	var spawn_shake_power: float = 0.4
+	var spawn_shake_time: float = 0.1
+	var spawn_shake_decay_speed: float = 0.5
+	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay_speed)
+
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 
-	match show_strays_loop:
+	match loop_count:
 		1:
+			Global.sound_manager.play_event_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/10)
 		2:
 			strays_to_show_count = round(strays_in_game_count/8)
+			Global.sound_manager.play_event_sfx("thunder_strike")
 		3:
 			strays_to_show_count = round(strays_in_game_count/4)
 		4:
-			Global.sound_manager.play_event_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-			Global.sound_manager.play_event_sfx("thunder_strike")
 			strays_to_show_count = strays_in_game_count - strays_shown_on_start.size()
 
 	# stray fade-in
-	var loop_count = 0
-	for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
+	for stray_count in strays_in_game_count: # nujno jih ponovno zajamem
+		var stray: Node2D = get_tree().get_nodes_in_group(Global.group_strays)[stray_count]
 		if strays_shown_on_start.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
 			break
-		if loop_count >= strays_to_show_count:
-			stray.call_deferred("show_stray")
-#			stray.show_stray()
+		if stray_count >= strays_to_show_count:
+			#			stray.call_deferred("show_stray")
+			stray.show_stray()
 			strays_shown_on_start.append(stray)
-			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
+
+	if strays_shown_on_start.size() < create_strays_count:
+		#		show_strays_in_loop(loop_count, strays_shown_on_start)
+		call_deferred("show_strays_in_loop", loop_count, strays_shown_on_start)
+	else:
+		emit_signal("all_strays_shown")
 
 
 func respawn_strays(spawn_in_stack: bool = true):
@@ -551,39 +569,34 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	#	Global.game_arena.call_deferred("add_child", new_stray_pixel)
 	Global.game_arena.add_child(new_stray_pixel)
 
-	new_stray_pixel.pixel_face.show()
-
 	if is_white:
-		new_stray_pixel.current_state = new_stray_pixel.STATES.WALL
+		new_stray_pixel.current_state = new_stray_pixel.STATES.WHITE
 
 	return new_stray_pixel
 
 
 func clean_strays_in_game():
 
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		var stray_index: int = get_tree().get_nodes_in_group(Global.group_strays).find(stray)
-		stray.die(stray_index, get_tree().get_nodes_in_group(Global.group_strays).size())
+	for stray_count in strays_in_game_count:
+		var stray: Node2D = get_tree().get_nodes_in_group(Global.group_strays)[stray_count]
+		stray.die(stray_count, strays_in_game_count)
 
 	check_for_all_cleaned = true
 
 
 func turn_random_stray_to_white():
 
-
-
 	var wall_strays_alive: Array
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		var stray_to_tile_position: Vector2 = stray.global_position + Vector2(cell_size_x/2, cell_size_x/2)
-		if stray.current_state == stray.STATES.WALL:
+		if stray.current_state == stray.STATES.WHITE:
 			wall_strays_alive.append(stray)
 	var strays_not_walls_count: int = get_tree().get_nodes_in_group(Global.group_strays).size() - wall_strays_alive.size()
 
 	var random_stray_index: int = randi() % int(strays_not_walls_count)
 	if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index: # error prevent
 		var random_stray: Node2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-#		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-		random_stray.turn_to_wall()
+		random_stray.turn_to_white()
 		return random_stray.stray_color
 	else: # error
 		print("Error - no color to turn to wall")

@@ -134,7 +134,7 @@ func _set_unfocused_state(node: Node):
 func _on_btn_pressed(button: BaseButton):
 #	printt("btn pressed", button)
 
-	Analytics.save_ui_click(button)
+#	Analytics.save_ui_click(button)
 
 	if button.is_in_group(group_cancel_btns):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
@@ -155,7 +155,7 @@ func _on_btn_toggled(button_pressed: bool, button: Button) -> void:
 		else:
 			Global.sound_manager.play_gui_sfx("btn_cancel")
 
-		Analytics.save_ui_click([button, button_pressed])
+#		Analytics.save_ui_click([button, button_pressed])
 
 
 func _on_Slider_value_changed(slider_value: float, slider_node: HSlider):

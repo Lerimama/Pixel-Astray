@@ -99,9 +99,9 @@ func close_tutorial():
 			Global.hud.music_player.track_btn.text = new_track.name
 
 
-	if not Global.sound_manager.game_music_set_to_off:
+#	if not Global.sound_manager.game_music_set_to_off:
 
-		Analytics.save_ui_click("SkipTrack %d" % (Global.sound_manager.current_music_track_index))
+#		Analytics.save_ui_click("SkipTrack %d" % (Global.sound_manager.current_music_track_index))
 
 
 

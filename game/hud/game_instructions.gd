@@ -58,4 +58,4 @@ func _on_HintBtn_pressed() -> void:
 
 	hint_btn.disabled = true
 	confirm_players_ready()
-	Analytics.save_ui_click("ReadyBtn")
+#	Analytics.save_ui_click("ReadyBtn")

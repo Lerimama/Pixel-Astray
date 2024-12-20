@@ -148,12 +148,13 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
-[node name="LineStepPauseTimer" type="Timer" parent="."]
+[node name="StrayStepTimer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="timeout" from="EngineStalledTimer" to="GameManager" method="_on_EngineStalledTimer_timeout"]
-[connection signal="timeout" from="LineStepPauseTimer" to="GameManager" method="_on_LineStepPauseTimer_timeout"]
+[connection signal="timeout" from="StrayStepTimer" to="GameManager" method="_on_LineStepPauseTimer_timeout"]
 
 [editable path="GUI/SweeperHintPress"]
 [editable path="GUI/GameOver"]
+[editable path="GUI/GameOver/GameSummary/ContentSweeper/LevelBtnsHolder"]
 [editable path="GUI/GameOver/GameSummary/Content/Hs/HighscoreTable"]

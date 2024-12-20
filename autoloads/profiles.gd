@@ -53,17 +53,23 @@ var default_game_settings: Dictionary = { # per game
 	"respawn_strays_count_range": [0,0], # če je > 0, je respawn aktiviran
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
-	"stray_step_time": 0.5, # ne manjši od 0.2
+	"stray_step_time": 0.4, # ne manjši od 0.2
+	"stray_step_pause_time": 1, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
+
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"color_pool_colors_count": 500,
 	"step_slowdown_mode": true,
 	"full_power_mode": false, # vedno destroja ves stack, hitrost = max_cock_count
 	"game_music_track_index": 0, # default muska v igri
+	"follow_mode": false,
+	"still_time_limit": 0, # 0 je disejblano ... ko si pri miru se nekaj lahko zgodi
+	"show_expressions": true,
 	# gui
 	"start_countdown": true,
 	"zoom_to_level_size": false, # SHOWCASE
 	"always_zoomed_in": false, # SWEEPER
+
 }
 
 
@@ -104,7 +110,6 @@ var game_data_eraser_m: Dictionary = {
 	"game_name": "Eraser M",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
-#	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m_small.tscn",
 	"description" : "Collect all %d colors and become the brightest again!" % 140,
 }
 
@@ -156,12 +161,11 @@ var game_data_defender: Dictionary = {
 	"description" : "Defend your screen against invading colors!",
 	# štart
 	"level": 1,
-	"level_goal_count": 10, # CON kolikor jih spawnanih v prvi rundi
-	"line_step_pause_time": 1.4, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
+	"level_goal_count": 32, # CON kolikor jih spawnanih v prvi rundi
 	"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
 	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 	# level up
-	"level_goal_count_grow": 100, # dodatno prištejem
+	"level_goal_count_grow": 32, # dodatno prištejem
 	"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
 	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
@@ -260,32 +264,34 @@ func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 	if debug_mode:
-
 #		var debug_game = Games.SHOWCASE # fix camera
 #		var debug_game = Games.CLEANER
-#		var debug_game = Games.ERASER_XS
+		var debug_game = Games.ERASER_XS
 #		var debug_game = Games.ERASER_S
 #		var debug_game = Games.ERASER_M
 #		var debug_game = Games.ERASER_L
 #		var debug_game = Games.ERASER_XL
 #		var debug_game = Games.HUNTER
-		var debug_game = Games.DEFENDER
+#		var debug_game = Games.DEFENDER
 #		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
 
 #		start_with_method = "home_in_intro"
-		start_with_method = "home_in_no_intro"
-#		start_with_method = "game_in"
+#		start_with_method = "home_in_no_intro"
+		start_with_method = "game_in"
 
+#		vsync_on = false
+		analytics_mode = false
 		pregame_screen_on = false
 		tutorial_mode = false
 #		html5_mode = true
 #		touch_available = true
 #		debug_mode = false
-#		game_settings["start_countdown"] = false
 #		game_settings["player_start_life"] = 2
 
 		set_game_data(debug_game)
+		game_settings["start_countdown"] = false
+#	start_with_method = "home_in_no_intro"
 
 
 
@@ -342,6 +348,7 @@ func set_game_data(selected_game):
 			game_settings["full_power_mode"] = true
 			game_settings["create_strays_count"] = 1
 			game_settings["start_countdown"] = false
+			game_settings["follow_mode"] = true
 		Games.SWEEPER:
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/box_hall_level_btn_edge.tres" type="StyleBox" id=2]
 [ext_resource path="res://assets/atlas_hud.png" type="Texture" id=3]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
 
 [sub_resource type="AtlasTexture" id=484]
@@ -43,33 +44,29 @@ anchor_bottom = 1.0
 margin_bottom = -3.0
 custom_constants/separation = 3
 alignment = 1
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="CupIcon" type="TextureRect" parent="RecordContent"]
 margin_left = 88.0
-margin_top = 20.0
+margin_top = 18.0
 margin_right = 104.0
-margin_bottom = 37.0
+margin_bottom = 35.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = SubResource( 484 )
 
 [node name="Record" type="Label" parent="RecordContent"]
-margin_top = 40.0
+margin_top = 38.0
 margin_right = 192.0
-margin_bottom = 58.0
+margin_bottom = 60.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "00:00:00"
 align = 1
 
 [node name="Owner" type="Label" parent="RecordContent"]
-modulate = Color( 1, 1, 1, 0.52549 )
-margin_top = 61.0
+margin_top = 63.0
 margin_right = 192.0
-margin_bottom = 79.0
+margin_bottom = 81.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "%by Somebody"

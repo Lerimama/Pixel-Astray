@@ -241,7 +241,7 @@ bus = "GameSfx"
 
 [node name="ThunderBurst" type="AudioStreamPlayer" parent="SoundManager/Sfx"]
 stream = SubResource( 24 )
-volume_db = -10.0
+volume_db = -14.0
 bus = "GameSfx"
 
 [node name="Inputs" type="Node2D" parent="SoundManager/Sfx"]

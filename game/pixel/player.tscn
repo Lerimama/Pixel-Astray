@@ -1061,6 +1061,8 @@ one_shot = true
 [node name="TouchTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="StillTimer" type="Timer" parent="."]
+
 [connection signal="tree_entered" from="." to="." method="_on_Player_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

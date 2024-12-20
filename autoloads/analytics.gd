@@ -70,6 +70,7 @@ func start_new_session(): # kliče main ... pošlje podatke na Gsheet
 
 # on scene change
 func update_session(): # pošlje podatke na Gsheet
+#	print("update_session")
 
 	if Profiles.analytics_mode and session_tracking:
 		#		print("> updating session")
@@ -79,6 +80,7 @@ func update_session(): # pošlje podatke na Gsheet
 
 # on quit game
 func end_session(): # kliče main ... pošlje podatke na Gsheet
+#	print("end_session")
 
 	if Profiles.analytics_mode and session_tracking:
 		#		print("> ending session")
@@ -88,7 +90,10 @@ func end_session(): # kliče main ... pošlje podatke na Gsheet
 
 
 func save_selected_game_data(game_parameter = null): # parameter je lahko ime igre, končano/nekončano
+#	print("save_selected_game_data")
 
+	# error Jason parse 0
+	# trenutno se funkcija kliče samo ob stisku game/level batna in na GM set_game()
 	if Profiles.analytics_mode:
 
 		match typeof(game_parameter):
@@ -98,11 +103,11 @@ func save_selected_game_data(game_parameter = null): # parameter je lahko ime ig
 				# restart main reload > pred game_in
 				if not game_tracking:
 					game_tracking = true
-					current_game_data = def_game_data # reset
+					 # reset
 					session_data["games_played_count"] += 1
 					current_game_data["game_name"] = game_parameter
 					current_game_data["game_started"] = true
-					update_session()
+					update_session() #... povzorča json parse error
 			TYPE_NIL: # game played ... save to dict
 				# GM pre hud.slidein
 				if game_tracking:
@@ -135,6 +140,7 @@ func save_selected_game_data(game_parameter = null): # parameter je lahko ime ig
 func save_ui_click(ui_action):
 	# podatki se nabirajo iz ui gumbov (global), keyboard input
 	# specials: intro, home ESC keyboard input, settings volume slider, GO name_input & publish
+#	print("save_ui_click")
 
 	if Profiles.analytics_mode:
 
@@ -155,9 +161,6 @@ func save_ui_click(ui_action):
 		session_data["ui_clicks"] +=" > " + save_string
 		#	printt("ui_clicks", session_data["ui_clicks"])
 		btns_clicked.append(save_string)
-
-
-
 
 
 # ROW ACTIONS --------------------------------------------------------------------------------------------------
@@ -237,7 +240,6 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 	if response_code == 200:
 		var res = body.get_string_from_utf8()
 		var json_result = JSON.parse(res).result
-		#		printt("json_result", json_result)
 
 		if json_result:
 			var returned_data = json_result

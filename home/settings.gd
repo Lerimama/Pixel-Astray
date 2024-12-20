@@ -102,6 +102,8 @@ func _on_BackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	$"%AnimationPlayer".play_backwards("settings")
+	get_parent().menu_in()
+
 
 
 # APP SETTINGS ----------------------------------------------------------------------------------------------------------------
@@ -205,7 +207,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 	$Content/TouchPopUpBtn.text = "Touch controls: %s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 
-	Analytics.save_ui_click("TouchControls %s" % controller_key)
+#	Analytics.save_ui_click("TouchControls %s" % controller_key)
 
 	get_parent().home_swipe_btn.show()
 
@@ -234,7 +236,7 @@ func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
 	if button_pressed:
 		Profiles.analytics_mode = true
 	else:
-		Analytics.update_session()
+#		Analytics.update_session()
 		Profiles.set_deferred("analytics_mode", false) # deferr da ujame klik
 
 

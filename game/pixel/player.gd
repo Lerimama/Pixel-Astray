@@ -24,6 +24,8 @@ var change_to_color: Color
 var step_time: float = Global.game_manager.game_settings["player_step_time"]
 var teleporting_wall_tile_id: int = 3
 var first_skill_use = true # beležim, da lahko določen skill izvajam zvezno
+var still_time: float = 0
+
 
 # bursting
 var cocking_room: bool = true
@@ -141,22 +143,28 @@ func _physics_process(delta: float) -> void:
 		if not skilling_start_timer.is_stopped():
 			skilling_start_timer.stop()
 
-	state_machine()
+	state_machine(delta)
 
 
-func state_machine():
+func state_machine(delta: float):
 
 	match current_state:
 		STATES.IDLE:
+			still_time += delta
 			stop_sound("burst_cocking")
 			burst_light_off() # zazih
 			idle_inputs()
+		STATES.STEPPING:
+			still_time = 0
 		STATES.SKILLED:
+			still_time = 0
 			stop_sound("burst_cocking")
 			skill_inputs()
 		STATES.COCKING:
+			still_time = 0
 			cocking_inputs()
 		STATES.BURSTING:
+			still_time = 0
 			stop_sound("burst_cocking")
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity)
@@ -203,8 +211,8 @@ func on_stray_collision(collider_stray: Node2D):
 	global_position = Global.snap_to_nearest_grid(on_hit_positon)
 
 	# reakcija na vrsto hita
-	if collider_stray.current_state == collider_stray.STATES.WALL:
-		collider_stray.animate_face()
+	if collider_stray.current_state == collider_stray.STATES.WHITE:
+		collider_stray.manage_expressions(true)
 		on_hit_wall()
 	else:
 		on_hit_stray(collider_stray)
@@ -322,13 +330,13 @@ func skill_inputs():
 				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
 				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.STATES.MOVING:
-					if current_collider.current_state == current_collider.STATES.WALL:
+					if current_collider.current_state == current_collider.STATES.WHITE:
 						teleport()
 					else:
 						push(current_collider)
 			elif new_direction == - direction: # nazaj
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.STATES.MOVING:
-					if current_collider.current_state == current_collider.STATES.WALL:
+					if current_collider.current_state == current_collider.STATES.WHITE:
 						end_move()
 					else:
 						pull(current_collider)
@@ -336,7 +344,7 @@ func skill_inputs():
 					end_move() # nazaj ... izhod iz skilla, če gre za steno
 			else: # levo/desno ... izhod iz skilla
 				end_move()
-				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.STATES.WALL:
+				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.STATES.WHITE:
 					current_collider.current_state = current_collider.STATES.IDLE
 	else:
 		end_move()
@@ -678,15 +686,20 @@ func push(stray_to_move: Node2D):
 		var room_for_push: bool = true
 		var strays_to_move: Array = [stray_to_move]
 		for stray in strays_to_move:
-			var stray_neighbor = Global.detect_collision_in_direction(push_direction, stray.neighbor_ray)
-			if stray_neighbor:
-				if stray_neighbor.is_in_group(Global.group_strays):
-					if stray_neighbor.current_state == stray_neighbor.STATES.WALL:
-						room_for_push =  false
-					else:
+			# preverja IDLE vse za katere preverja sosede (tudi prvega, ki je dodan pred loopom)
+			if not stray_to_move.current_state == stray_to_move.STATES.IDLE:
+				room_for_push =  false
+				break
+			else:
+				var stray_neighbor = Global.detect_collision_in_direction(push_direction, stray.neighbor_ray)
+				if stray_neighbor:
+					# preverja IDLE vse za, ki imajo status soseda
+					if stray_neighbor.is_in_group(Global.group_strays) and stray_neighbor.current_state == stray_neighbor.STATES.IDLE:
 						strays_to_move.append(stray_neighbor)
-				elif stray_neighbor.is_in_group(Global.group_tilemap):
-					room_for_push =  false
+					else:
+						room_for_push =  false
+						break
+
 
 		play_sound("pushpull_start")
 
@@ -698,12 +711,14 @@ func push(stray_to_move: Node2D):
 		if room_for_push: # če je prostor gre dlje, kot če ga ni
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			# neu
+			push_tween.parallel().tween_property(skill_light, "energy", 0.5, push_cocktime)
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			# lučko zapeljem na začetek ghosta (ostane ob strayu)
 			push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			# release
 			push_tween.tween_callback(self, "play_sound", ["pushpull_end"])
-			push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+#			push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
 			push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 			push_tween.parallel().tween_property(skill_light, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # lučko zapeljem nazaj na začetno lokacijo
 			push_tween.tween_callback(new_push_ghost, "hide") # skrijem ga ko ga pixel pokrije
@@ -718,6 +733,8 @@ func push(stray_to_move: Node2D):
 			var push_tween = get_tree().create_tween()
 			# cock
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			# neu
+			push_tween.parallel().tween_property(skill_light, "energy", 0.5, push_cocktime)
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			# lučko zapeljem na začetek ghosta (ostane ob strayu)
 			push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -744,6 +761,9 @@ func pull(stray_to_move: Node2D):
 	if Global.detect_collision_in_direction(pull_direction, vision_ray):
 		end_move()
 	else:
+#		skill_light.energy = 0.5
+#		skill_light_off()
+
 		current_state = STATES.SKILLING
 
 		previous_position = Vector2.ZERO # nestandardno, ker sem pride pulan stray in ne rabim konfliktov
@@ -757,10 +777,12 @@ func pull(stray_to_move: Node2D):
 
 		var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		pull_tween.tween_property(self, "position", intended_position, pull_cocktime)
+		pull_tween.parallel().tween_property(skill_light, "energy", 0.5, pull_cocktime/2)
 		pull_tween.parallel().tween_callback(stray_to_move, "pull_stray", [pull_direction, pull_time]) # kličem tukaj, da animiram njegov collision_ext
 		pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
 		pull_tween.tween_property(skill_light, "position", Vector2.ZERO, pull_time) # lučko zapeljem nazaj na začetno lokacijo
 		yield(pull_tween, "finished")
+#		skill_light.energy = 1
 
 		# če še drži tipko ponovno povleči, če ne end_move
 		if not first_skill_use: # še drži tipko
@@ -817,7 +839,7 @@ func on_hit_stray(hit_stray: Node2D):
 
 	if hit_stray.current_state == hit_stray.STATES.DYING: # če je že v umiranju, samo kolajdaš
 		end_move()
-	elif hit_stray.current_state == hit_stray.STATES.WALL:
+	elif hit_stray.current_state == hit_stray.STATES.WHITE:
 		end_move()
 	else:
 		# izklopim če začne bel
@@ -952,7 +974,6 @@ func revive(off_time: float = 0):
 	if off_time > 0:
 		yield(get_tree().create_timer(off_time), "timeout")
 	animation_player.play("revive")
-
 
 
 # SPAWNING ------------------------------------------------------------------------------------------
@@ -1181,7 +1202,7 @@ func check_strays_neighbors(hit_stray: Node2D):
 		var first_neighbors: Array = hit_stray.get_neighbor_strays_on_hit() # hit direction je zato da opredelim smer preverjanja sosedov
 		for first_neighbor in first_neighbors:
 			# zaznam belega
-			if first_neighbor.current_state == first_neighbor.STATES.WALL:
+			if first_neighbor.current_state == first_neighbor.STATES.WHITE:
 				if not white_neighbours.has(first_neighbor):
 					white_neighbours.append(first_neighbor)
 			# če še ni dodan med vse sosede ... ga dodam
@@ -1199,7 +1220,7 @@ func check_strays_neighbors(hit_stray: Node2D):
 				# in jih preverim preverim še te sosede
 				for extra_neighbor in extra_neighbors:
 					# zaznam belega
-					if neighbor.current_state == neighbor.STATES.WALL:
+					if neighbor.current_state == neighbor.STATES.WHITE:
 						if not white_neighbours.has(neighbor):
 							white_neighbours.append(neighbor)
 					# če še ni dodan med vse sosede ... ga dodam
@@ -1246,7 +1267,7 @@ func burst_light_off():
 
 
 func skill_light_on():
-
+#	return
 	if not skill_light.enabled:
 
 		# setam smer glede na smer vision raya
@@ -1536,7 +1557,6 @@ func _change_stat(stat_event: String, stat_value):
 
 				player_stats["player_points"] += cleaned_reward
 				var reward_tag: Node = spawn_floating_tag(cleaned_reward)
-				print (reward_tag, cleaned_reward)
 
 		# pošiljanje
 		player_stats["player_energy"] = round(player_stats["player_energy"])

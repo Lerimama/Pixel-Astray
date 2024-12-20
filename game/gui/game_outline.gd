@@ -14,7 +14,7 @@ func get_instructions_content():
 	var current_hs_line: Array = Data.get_saved_highscore(current_game_data)
 	var current_highscore: float = current_hs_line[0]
 	var current_highscore_owner: String = current_hs_line[1]
-	print("current_highscore ", current_highscore)
+
 	# record
 	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		record_panel.hide()

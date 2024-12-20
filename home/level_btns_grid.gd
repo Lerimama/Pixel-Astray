@@ -17,6 +17,7 @@ var owner_label_path: String = "RecordContent/Owner"
 var tilemap_node_path: String = "TilemapHolder/LevelTilemap"
 var tilemap_holder_node_path: String = "TilemapHolder"
 
+var empty_score_string: String = "Waiting for\nfirst cleaning"
 var content_focus_alpha: float = 0
 var content_defocus_alpha: float = 1
 var tilemap_focus_alpha: float = 1
@@ -69,9 +70,9 @@ func set_level_btns_content():
 			btn.get_node(record_label_path).text = level_hs_line[0]
 			btn.get_node(owner_label_path).text = "by " + level_hs_line[1]
 		else:
-			btn.get_node(record_label_path).text = "Waiting for\nfirst cleaning"
+			btn.get_node(owner_label_path).text = empty_score_string
 			btn.get_node(cup_icon_path).hide()
-			btn.get_node(owner_label_path).hide()
+			btn.get_node(record_label_path).hide()
 
 		# tilemap
 		if not btns_are_set:
@@ -249,7 +250,7 @@ func _on_btn_pressed(btn):
 	btns_holder_parent.play_selected_level(pressed_btn_index + 1)
 
 	var sweeper_game_name: String = "Sweeper %02d" % (pressed_btn_index + 1)
-	Analytics.save_selected_game_data(sweeper_game_name)
+#	Analytics.save_selected_game_data(sweeper_game_name) # ... povzroča eror preko update in post request
 
 
 

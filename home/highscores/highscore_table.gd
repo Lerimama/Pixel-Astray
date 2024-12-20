@@ -226,7 +226,7 @@ func publish_unpublished_scores():
 	unpublished_local_scores.clear()
 
 
-func get_scoreline_position_in_table(score: float, score_owner: String, hs_type: int):
+func scroll_to_scoreline(score: float, score_owner: String, hs_type: int):
 
 	var scoreline_to_locate: Control
 	for scoreline in hs_table.get_children():
@@ -243,9 +243,11 @@ func get_scoreline_position_in_table(score: float, score_owner: String, hs_type:
 			scoreline_to_locate = scoreline
 
 	# apliciram efekt
+	var front_scorelines_shown_count: int = 3
 	if scoreline_to_locate:
-		var scroll_to_position: float = scoreline_to_locate.rect_position.y
+		var scroll_to_position: float = scoreline_to_locate.rect_position.y - (scoreline_to_locate.rect_size.y * front_scorelines_shown_count)
+		scroll_to_position = clamp(scroll_to_position, 0, scroll_to_position)
 		var scroll_time: float = 2
 		var scroll_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-		scroll_tween.tween_property(scoreline_to_locate, "modulate", Global.color_green, scroll_time)
+		scroll_tween.tween_property(scoreline_to_locate, "modulate", Global.color_green, scroll_time/2)
 		scroll_tween.parallel().tween_property(table_scroller, "scroll_vertical", scroll_to_position, scroll_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)

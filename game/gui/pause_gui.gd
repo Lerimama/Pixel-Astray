@@ -14,13 +14,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Global.game_manager.game_on:
 		if Input.is_action_just_pressed("pause"):
 			if not visible:
-				Analytics.save_ui_click("PauseEsc")
+#				Analytics.save_ui_click("PauseEsc")
 				pause_game()
 			else:
 				if $TouchControllerPopup.visible:
 					$TouchControllerPopup.hide()
 				else:
-					Analytics.save_ui_click("PlayEsc")
+#					Analytics.save_ui_click("PlayEsc")
 					_on_PlayBtn_pressed()
 
 
@@ -83,7 +83,7 @@ func _on_RestartBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 
-	Analytics.save_selected_game_data([false, Global.game_manager.strays_in_game_count])
+#	Analytics.save_selected_game_data([false, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.reload_game()
 
@@ -94,6 +94,6 @@ func _on_QuitBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 
-	Analytics.save_selected_game_data([false, Global.game_manager.strays_in_game_count])
+#	Analytics.save_selected_game_data([false, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.game_out(Global.game_manager.game_data["game"])

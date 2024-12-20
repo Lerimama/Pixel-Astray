@@ -42,9 +42,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if action_hint_press.visible:
 		if Input.is_action_just_pressed("ui_accept"):
 			_on_HintBtn_pressed()
+			get_tree().set_input_as_handled()
 			Analytics.save_ui_click("SkipIntroReturn") # pazi, če začne delat tako kot bi moralo
 		elif Input.is_action_just_pressed("ui_cancel"):
 			_on_HintBtn_pressed()
+			get_tree().set_input_as_handled() # nujno zaradi MAIN_MENU esc
 			Analytics.save_ui_click("SkipIntroEsc") # pazi, če začne delat tako kot bi moralo
 
 

@@ -13,10 +13,11 @@ var engine_stalled_checking_time: float = 2 # dobro da je večji od stepa ali re
 var strays_in_spawn_round: Array # da jim porinem začetek stepanja
 
 onready var engine_stalled_timer: Timer = $"../EngineStalledTimer"
-onready var line_step_pause_timer: Timer = $"../LineStepPauseTimer"
+onready var stray_step_timer: Timer = $"../StrayStepTimer"
+onready var stray_step_pause_time: float = game_settings["stray_step_pause_time"]
 onready var line_steps_per_spawn_round: int = game_data["line_steps_per_spawn_round"]
-onready var line_step_pause_time: float = game_data["line_step_pause_time"]
 onready var spawn_round_range: Array = game_data["spawn_round_range"]
+
 
 
 func _ready() -> void:
@@ -95,7 +96,7 @@ func game_over(gameover_reason: int):
 
 		Global.hud.game_timer.stop_timer()
 		yield(get_tree().create_timer(Global.get_it_time), "timeout")
-		Global.hud.slide_out()
+		Global.hud.slide_out(gameover_reason)
 		stop_game_elements()
 
 		Global.gameover_gui.open_gameover(gameover_reason)
@@ -228,8 +229,10 @@ func set_new_level():
 	var prev_level_goal_count: int = game_data["level_goal_count"]
 	game_data["level_goal_count"] += game_data["level_goal_count_grow"]
 	line_steps_per_spawn_round *= game_data["line_steps_per_spawn_round_factor"]
-	line_step_pause_time *= game_data["line_step_pause_time_factor"]
-	line_step_pause_time = clamp (line_step_pause_time, 0.2, line_step_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
+
+	stray_step_pause_time *= game_settings["stray_step_pause_time"]
+	stray_step_pause_time = clamp (stray_step_pause_time, 0.2, stray_step_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
+
 	spawn_round_range[0] += game_data["spawn_round_range_grow"][0]
 	spawn_round_range[1] += game_data["spawn_round_range_grow"][1]
 
@@ -259,20 +262,17 @@ func line_step():
 
 		# step
 		var stray_step_offset_time: float = 0.017
+		var following_step_pause: float = 0.7
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			# yield(get_tree().create_timer(stray_step_offset_time), "timeout") # sem in tja se zgodi error "prevously freed instance"
-			stray.step()
-		# step ... trotled
-		#		var throttler_start_msec = Time.get_ticks_msec()
-		#		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		#			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-		#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...
-		#				stray.step()
-		#			else:
-		#				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
-		#				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
-		#				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
-		#				throttler_start_msec = Time.get_ticks_msec()
+			var last_still_player: Node2D
+			for player in current_players_in_game:
+				if player.still_time > game_settings["still_time_limit"] or game_settings["still_time_limit"] == 0: # če je limita 0, ne more bit still time nikoli nižji ... je vedno pri miru
+					last_still_player = player
+			if game_settings["follow_mode"] and last_still_player:
+				stray.step(last_still_player)
+			else:
+				stray.step()
 
 		# spawnam novo rundo, če je izpolnjen pogoj
 		if line_steps_since_spawn_round == line_steps_per_spawn_round: # tukaj, da ne spawna če je konec
@@ -283,7 +283,7 @@ func line_step():
 
 		line_step_in_progress = false
 
-	line_step_pause_timer.start(line_step_pause_time)
+	stray_step_timer.start(stray_step_pause_time)
 
 
 func play_stepping_sound(current_player_energy_part: float):
@@ -296,6 +296,7 @@ func play_stepping_sound(current_player_energy_part: float):
 
 
 func _on_LineStepPauseTimer_timeout() -> void:
+
 	line_step()
 
 

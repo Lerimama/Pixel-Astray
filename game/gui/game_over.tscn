@@ -345,9 +345,9 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="DataContainer" type="VBoxContainer" parent="GameSummary/ContentSweeper/Data"]
 margin_left = 32.0
-margin_top = 18.0
+margin_top = 20.0
 margin_right = 232.0
-margin_bottom = 72.0
+margin_bottom = 74.0
 theme = ExtResource( 3 )
 custom_constants/separation = 4
 __meta__ = {
@@ -469,7 +469,7 @@ __meta__ = {
 [node name="Hs" type="Control" parent="GameSummary/ContentSweeper"]
 margin_top = 192.0
 margin_right = 280.0
-margin_bottom = 504.0
+margin_bottom = 496.0
 rect_clip_content = true
 size_flags_horizontal = 3
 
@@ -480,7 +480,7 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="HighscoreTable" parent="GameSummary/ContentSweeper/Hs" instance=ExtResource( 6 )]
 margin_top = 24.0
-margin_bottom = 322.0
+margin_bottom = 280.0
 size_flags_horizontal = 9
 __meta__ = {
 "_edit_horizontal_guides_": [ 296.0 ],
@@ -493,13 +493,13 @@ anchor_right = 1.0
 margin_left = -792.0
 margin_top = 88.0
 margin_right = 0.0
-margin_bottom = 504.0
+margin_bottom = 496.0
 rect_min_size = Vector2( 664, 400 )
 scroll_horizontal_enabled = false
 
 [node name="LevelBtnsGrid" parent="GameSummary/ContentSweeper/LevelBtnsHolder" index="0"]
 margin_right = 792.0
-margin_bottom = 416.0
+margin_bottom = 408.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -756,15 +756,14 @@ text = "PLAY AGAIN"
 align = 0
 
 [node name="NameInputPopup" type="Control" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -256.0
-margin_top = 72.0
+margin_top = 80.0
 margin_right = 256.0
-margin_bottom = 304.0
+margin_bottom = 312.0
 
 [node name="Label" type="Label" parent="NameInputPopup"]
 anchor_right = 1.0
@@ -855,13 +854,12 @@ text = "CONFIRM"
 align = 0
 
 [node name="PublishPopup" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 384.0
-margin_top = 432.0
+margin_top = 456.0
 margin_right = -384.0
-margin_bottom = -56.0
+margin_bottom = -32.0
 script = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="PublishPopup"]
@@ -870,9 +868,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -152.0
-margin_top = -30.0
+margin_top = -34.0
 margin_right = 152.0
-margin_bottom = 20.0
+margin_bottom = 16.0
 grow_horizontal = 2
 theme = ExtResource( 3 )
 text = "Publish your score to the global leaderboard?"

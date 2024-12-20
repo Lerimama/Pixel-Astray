@@ -87,7 +87,7 @@ func colorize_game_btns():
 func play_selected_game(selected_game_enum: int):
 
 	Profiles.set_game_data(selected_game_enum)
-	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"])
+#	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"]) # ... povzroča eror preko update in post request
 
 	Global.main_node.home_out()
 
@@ -97,6 +97,7 @@ func _on_BackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("select_game")
+	get_parent().menu_in()
 
 
 func _on_CleanerBtn_pressed() -> void:

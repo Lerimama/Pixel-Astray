@@ -3,7 +3,7 @@ extends Control
 
 var highscores_loaded: bool = false
 var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
-var publish_btn_text: String = "    Publish %s local scores online"
+var publish_btn_text: String = "    PUBLISH %s LOCAL SCORES ONLINE" # presledek more bit zaradi ikon
 var focus_color: Color = Global.color_yellow
 
 # tables ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
@@ -55,46 +55,89 @@ onready var back_btn: TextureButton = $BackBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var select_level_node: Control = $"../SelectLevel"
 onready var game_halls: HBoxContainer = $GameHalls
-onready var default_focus_node: Control = update_scores_btn
+
+onready var default_focus_node: Control = $GameHalls/Cleaner
 
 # jp in kb scrollanje
-
-var sw_hs_table
 var scroll_delta: float = 0
-var scroll_stopped: bool = true
+var scroll_delta_limit: float = 5
+var scroll_delta_tick: float = 0.5
+var waiting_for_scroll: bool = false # ko držiš tipko in še ne skorlaš
 
 
 func _input(event):
 
 	# ko je fokusiran tab container
-	if get_focus_owner() and get_focus_owner() is TabContainer:
+	if get_focus_owner():
+		if get_focus_owner() is TabContainer:
+			var focused_tab_container: TabContainer = get_focus_owner()
+			var current_tab_index: int = focused_tab_container.get_current_tab()
+			var tab_container_table_scroller: ScrollContainer = focused_tab_container.get_child(current_tab_index).get_child(1).get_node("TableScroller")
+			# tab select
+			if Input.is_action_just_pressed("ui_right"):
+				if current_tab_index == focused_tab_container.get_tab_count() - 1:
+					focused_tab_container.current_tab = 0
+				else:
+					focused_tab_container.current_tab = current_tab_index + 1
+				get_tree().set_input_as_handled()
+			elif Input.is_action_just_pressed("ui_left"):
+				if current_tab_index == 0:
+					focused_tab_container.current_tab = focused_tab_container.get_tab_count() - 1
+				else:
+					focused_tab_container.current_tab = current_tab_index - 1
+				get_tree().set_input_as_handled()
+			# scroll table
+			if Input.is_action_pressed("ui_down"):
+				scroll_delta += scroll_delta_tick
+				tab_container_table_scroller.scroll_vertical += scroll_delta
+				get_tree().set_input_as_handled()
+			elif Input.is_action_pressed("ui_up"):
+				scroll_delta += scroll_delta_tick
+				waiting_for_scroll = true
+				if scroll_delta > scroll_delta_limit:
+					waiting_for_scroll = false
+					tab_container_table_scroller.scroll_vertical -= scroll_delta - scroll_delta_limit
+				get_tree().set_input_as_handled()
+			# defocus na sekcijo
+			elif Input.is_action_just_pressed("ui_cancel"):
+				get_focus_owner().get_parent().grab_focus()
+				get_tree().set_input_as_handled()
+			else:
+				scroll_delta = 0
 
-		var focused_tab_container: TabContainer = get_focus_owner()
-		var current_tab_index: int = focused_tab_container.get_current_tab()
-		# tab select
-		if Input.is_action_just_pressed("ui_right"):
-			if current_tab_index == focused_tab_container.get_tab_count() - 1:
-				focused_tab_container.current_tab = 0
-			else:
-				focused_tab_container.current_tab = current_tab_index + 1
-			get_tree().set_input_as_handled()
-		elif Input.is_action_just_pressed("ui_left"):
-			if current_tab_index == 0:
-				focused_tab_container.current_tab = focused_tab_container.get_tab_count() - 1
-			else:
-				focused_tab_container.current_tab = current_tab_index - 1
-			get_tree().set_input_as_handled()
-#		elif Input.is_action_pressed("ui_down"):
-#			scroll_delta += 0.1
-#			if scroll_delta > 10 and scroll_stopped:
-#				scroll_stopped = false
-#				sw_hs_table.scroll_vertical += scroll_delta
-#			elif scroll_delta < 10:
-#				print (scroll_delta)
-#			get_tree().set_input_as_handled()
-		elif Input.is_action_just_pressed("ui_cancel"):
-			get_focus_owner().get_parent().grab_focus()
-			get_tree().set_input_as_handled()
+			if Input.is_action_just_released("ui_up"):
+				if waiting_for_scroll:
+					waiting_for_scroll = false
+					get_focus_owner().get_parent().grab_focus()
+
+		elif get_focus_owner() == $GameHalls/Cleaner:
+			var cleaner_hs_table: Control = get_focus_owner().get_child(1).get_child(1) # ne morem iskat po imenu, ker se node ob bildanju preimenuje
+			if cleaner_hs_table.has_node("TableScroller"):
+				var container_table_scroller: ScrollContainer = cleaner_hs_table.get_node("TableScroller")
+				if Input.is_action_pressed("ui_down"):
+					scroll_delta += scroll_delta_tick
+					waiting_for_scroll = true
+					if scroll_delta > scroll_delta_limit:
+						waiting_for_scroll = false
+						container_table_scroller.scroll_vertical += scroll_delta
+					get_tree().set_input_as_handled()
+				elif Input.is_action_pressed("ui_up"):
+					scroll_delta += scroll_delta_tick
+					waiting_for_scroll = true
+					if scroll_delta > scroll_delta_limit:
+						waiting_for_scroll = false
+					container_table_scroller.scroll_vertical -= scroll_delta
+					get_tree().set_input_as_handled()
+				else:
+					scroll_delta = 0
+				if Input.is_action_just_released("ui_down"):
+					if waiting_for_scroll:
+						waiting_for_scroll = false
+						update_scores_btn.grab_focus()
+				elif Input.is_action_just_released("ui_up"):
+					if waiting_for_scroll:
+						waiting_for_scroll = false
+						update_scores_btn.grab_focus()
 
 
 func _ready() -> void:
@@ -139,16 +182,12 @@ func _ready() -> void:
 		section.connect("focus_entered", self, "_on_section_focused", [section])
 		section.connect("focus_exited", self, "_on_section_unfocused", [section])
 		section.get_node("Title").modulate = Global.color_gui_gray_trans
+		section.get_node("ScrollHint").hide() # s tem je disejblan
 
 	var tab_containers: Array = [$GameHalls/Unbeatables/TabContainer, $GameHalls/Sweepers/TabContainer, $GameHalls/Erasers/TabContainer]
 	for container in tab_containers:
 		container.connect("focus_entered", self, "_on_hall_focused", [container])
 		container.connect("focus_exited", self, "_on_hall_unfocused", [container])
-
-	sw_hs_table = $GameHalls/Sweepers/TabContainer.get_child(0).get_child(1).get_node("TableScroller")
-	print(sw_hs_table)
-	sw_hs_table.connect("scroll_ended", self, "_on_hall_scroll_ended")
-	sw_hs_table.connect("scroll_started", self, "_on_hall_scroll_ended")
 
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
@@ -267,26 +306,32 @@ func reset_all_local_scores():
 
 func _on_hall_unfocused(hall_unfocused: Control):
 	hall_unfocused.self_modulate = Color.white
+	# section unfocus
+	hall_unfocused.get_node("../Title").modulate = Global.color_gui_gray_trans
+	hall_unfocused.get_node("../Undi/Edge").modulate.a = 0
+	hall_unfocused.get_node("../ScrollHint").modulate.a = 0
 
 
 func _on_hall_focused(hall_focused: Control):
 	hall_focused.self_modulate = focus_color
-	hall_focused.get_parent().get_node("Title").modulate = focus_color
+	# section focus
+	hall_focused.get_node("../ScrollHint").modulate.a = 1
+	hall_focused.get_node("../Title").modulate = Global.color_gui_gray_trans
+	hall_focused.get_node("../Undi/Edge").modulate = focus_color
 
 
 func _on_section_focused(focused_section: Control):
+	# section focus
+	focused_section.get_node("ScrollHint").modulate.a = 1
 	focused_section.get_node("Title").modulate = focus_color
+	focused_section.get_node("Undi/Edge").modulate = focus_color
 
 
 func _on_section_unfocused(unfocused_section: Control):
+	# section unfocus
+	unfocused_section.get_node("ScrollHint").modulate.a = 0
 	unfocused_section.get_node("Title").modulate = Global.color_gui_gray_trans
-
-
-func _on_hall_scroll_ended():
-	print("scroll STOP")
-	scroll_delta = 0
-	scroll_stopped = true
-
+	unfocused_section.get_node("Undi/Edge").modulate.a = 0
 
 
 # BUTTONS --------------------------------------------------------------------------------------------------------------
@@ -297,12 +342,14 @@ func _on_BackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("highscores")
+	get_parent().menu_in()
+
 
 
 func _on_UpdateScoresBtn_pressed() -> void:
 
 	update_scores_btn.release_focus()
-#	update_scores_btn.disabled = true
+	#	update_scores_btn.disabled = true
 	load_all_highscore_tables(true, false) # update, in front
 
 

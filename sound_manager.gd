@@ -27,7 +27,7 @@ func play_event_sfx(effect_for: String):
 		match effect_for:
 			"blinking": # GM na strays spawn, ker se bolje sliši
 				select_random_sfx($Sfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
-				select_random_sfx($Sfx/BlinkingStatic).play()
+#				select_random_sfx($Sfx/BlinkingStatic).play()
 			"thunder_strike": # intro in GM na strays spawn
 				$Sfx/ThunderBurst.play()
 			"start_countdown_a":
@@ -71,6 +71,8 @@ func play_gui_sfx(effect_for: String, sound_pitch: float = 0):
 		sound_to_play.pitch_scale = sound_pitch
 
 	sound_to_play.play()
+
+	return sound_to_play
 
 
 func stop_gui_sfx(effect_for: String):
@@ -180,11 +182,11 @@ func music_toggle(mute_it = null):
 	if mute_it == true:
 		game_music_set_to_off = true
 		stop_music("game_music")
-		Analytics.save_ui_click("Mute")
+#		Analytics.save_ui_click("Mute")
 	else:
 		game_music_set_to_off = false
 		play_music("game_music")
-		Analytics.save_ui_click("UnMute")
+#		Analytics.save_ui_click("UnMute")
 
 
 func change_menu_music():
