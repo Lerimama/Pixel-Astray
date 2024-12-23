@@ -9,7 +9,7 @@ onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
 onready var navigation_hint: Label = $NavigationHint
-onready var home_swipe_btn: TouchScreenButton = $HomeSwipeBtn
+#onready var home_swipe_btn: TouchScreenButton = $HomeSwipeBtn
 onready var default_focus_node: Control = $HomeScreen/Menu/SelectGameBtn
 
 
@@ -47,12 +47,12 @@ func _ready():
 
 	# navigation hint
 	navigation_hint.modulate.a = 0
-	if Profiles.touch_available:
-		navigation_hint.text = "Swipe or select to navigate around" # ugasne ga swipe gumb
-		home_swipe_btn.show()
-	else:
-		# navigation_hint.text = "Use keyboard or gamepad to navigate around"
-		navigation_hint.hide()
+#	if Profiles.touch_available:
+#		navigation_hint.text = "Swipe or select to navigate around" # ugasne ga swipe gumb
+##		home_swipe_btn.show()
+#	else:
+#		# navigation_hint.text = "Use keyboard or gamepad to navigate around"
+	navigation_hint.hide()
 
 	# btn groups
 	menu.get_node("ExitGameBtn").add_to_group(Batnz.group_cancel_btns)
@@ -61,8 +61,8 @@ func _ready():
 
 	var focused_control: Control = menu.get_focus_owner()
 
-	if Profiles.debug_mode:
-		Global.check_on_helper_nodes()
+#	if Profiles.debug_mode:
+#		Global.check_on_helper_nodes()
 
 
 func open_with_intro(): # kliče main.gd -> home_in_intro()

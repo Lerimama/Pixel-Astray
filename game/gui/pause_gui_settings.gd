@@ -94,8 +94,8 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 		$TouchSensSlider.hide()
 
 	Global.hud.touch_controls.current_touch_controller = Profiles.set_touch_controller
-	get_parent().game_outline.get_instructions_content() # apdejt slikce
-
+#	get_parent().game_outline.get_instructions_content() # apdejt slikce
+	get_parent().game_outline.call_deferred("get_instructions_content")
 
 func _on_TouchSensSlider_value_changed(value: float) -> void:
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/box_hall_level_btn_edge.tres" type="StyleBox" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
+[ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=7]
 
 [sub_resource type="AtlasTexture" id=484]
 atlas = ExtResource( 3 )
@@ -41,34 +42,47 @@ rect_clip_content = true
 [node name="RecordContent" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -3.0
-custom_constants/separation = 3
+margin_top = 3.0
+custom_constants/separation = 0
 alignment = 1
 
-[node name="CupIcon" type="TextureRect" parent="RecordContent"]
-margin_left = 88.0
-margin_top = 18.0
-margin_right = 104.0
-margin_bottom = 35.0
+[node name="LevelCount" type="Label" parent="RecordContent"]
+margin_top = 15.0
+margin_right = 192.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 0, 28 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "01"
+align = 1
+
+[node name="CupIcon" type="TextureRect" parent="RecordContent/LevelCount"]
+visible = false
+margin_left = 64.0
+margin_top = 6.0
+margin_right = 80.0
+margin_bottom = 23.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = SubResource( 484 )
 
 [node name="Record" type="Label" parent="RecordContent"]
-margin_top = 38.0
+margin_top = 43.0
 margin_right = 192.0
-margin_bottom = 60.0
+margin_bottom = 65.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "00:00:00"
 align = 1
+valign = 2
 
 [node name="Owner" type="Label" parent="RecordContent"]
-margin_top = 63.0
+margin_top = 65.0
 margin_right = 192.0
-margin_bottom = 81.0
+margin_bottom = 83.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "%by Somebody"
 align = 1
-valign = 1
+valign = 2

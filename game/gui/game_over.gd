@@ -174,7 +174,7 @@ func show_game_summary():
 func show_menu():
 
 	var restart_btn: Button = $Menu/RestartBtn
-	var focus_btn: Button = restart_btn
+	var focus_btn: Button = select_level_btns_holder.all_level_btns[0]
 
 	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 		restart_btn.text = "TRY AGAIN"

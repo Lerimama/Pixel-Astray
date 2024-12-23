@@ -20,6 +20,7 @@ func _ready() -> void:
 	# menu btn group
 	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 	default_focus_node = select_level_btns_holder.all_level_btns[0]
+	default_focus_node.add_to_group(Global.group_critical_btns)
 
 	if not visible: # zazih
 		show()

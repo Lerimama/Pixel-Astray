@@ -47,6 +47,7 @@ func _ready():
 
 	# testhud
 	set_ui_focus_mode()
+	
 	if not Profiles.debug_mode:
 		$UILayer.hide()
 

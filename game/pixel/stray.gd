@@ -245,6 +245,7 @@ func _hunting_step(step_direction: Vector2, distance_to_target: float):
 		end_move()
 		step_timer.start(next_step_pause)
 
+
 func push_stray(push_direction: Vector2, push_time: float):
 
 #	if not current_state == STATES.MOVING and not current_state == STATES.HUNTING: # and not current_state == STATES.HOLDING:

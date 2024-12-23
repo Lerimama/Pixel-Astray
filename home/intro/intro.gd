@@ -29,12 +29,12 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var stray_step_timer: Timer = $StrayStepTimer
 onready var actor_pixel: KinematicBody2D = $Actor
 onready var text_node: Node2D = $Text
+onready var hint_btn: Button = $ActionHintPress/HintBtn
+onready var action_hint_press: Node2D = $ActionHintPress
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 onready var environment_node: Environment = $ArenaEnvironment.environment
-
-onready var hint_btn: Button = $ActionHintPress/HintBtn
-onready var action_hint_press: Node2D = $ActionHintPress
+onready var game_settings: Dictionary = Profiles.game_settings # da je ni errorja
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -43,11 +43,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_accept"):
 			_on_HintBtn_pressed()
 			get_tree().set_input_as_handled()
-			Analytics.save_ui_click("SkipIntroReturn") # pazi, če začne delat tako kot bi moralo
+#			Analytics.save_ui_click("SkipIntroReturn") # pazi, če začne delat tako kot bi moralo
 		elif Input.is_action_just_pressed("ui_cancel"):
 			_on_HintBtn_pressed()
 			get_tree().set_input_as_handled() # nujno zaradi MAIN_MENU esc
-			Analytics.save_ui_click("SkipIntroEsc") # pazi, če začne delat tako kot bi moralo
+#			Analytics.save_ui_click("SkipIntroEsc") # pazi, če začne delat tako kot bi moralo
 
 
 func _ready() -> void:

@@ -75,8 +75,8 @@ func _ready() -> void:
 	if game_data.has("level_goal_count"):
 		level_goal_mode = true
 
-	if Profiles.debug_mode:
-		Global.check_on_helper_nodes()
+#	if Profiles.debug_mode:
+#		Global.check_on_helper_nodes()
 
 
 # GAME SETUP --------------------------------------------------------------------------------------

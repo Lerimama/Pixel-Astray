@@ -20,11 +20,29 @@ func _ready() -> void:
 	inverted_scheme.modulate.a = 0
 	inverted_scheme.hide()
 
-	if Profiles.html5_mode and not Profiles.debug_mode:
-		call_deferred("home_in_no_intro")
-	else:
-		var start_with: String = Profiles.start_with_method
-		call_deferred(start_with)
+
+	Global.main_node = self
+	inverted_scheme.modulate.a = 0
+	inverted_scheme.hide()
+
+
+#	if Profiles.html5_mode and not Profiles.debug_mode:
+#		call_deferred("home_in_no_intro")
+#	else:
+#		var start_with: String = Profiles.start_with_method
+#		call_deferred(start_with)
+#
+#	Analytics.call_deferred("start_new_session")
+
+
+	var start_with: String = Profiles.start_with_method
+	if not Profiles.debug_mode:
+		if Profiles.html5_mode:
+			start_with = "home_in_intro"
+		else:
+			start_with = "home_in_intro"
+	
+	call_deferred(start_with)
 
 #	Analytics.call_deferred("start_new_session")
 
@@ -155,7 +173,7 @@ func quit_exit_game(): # ta funkcija je v htmlju nedosegljiva
 	Data.write_settings_to_file()
 
 #	Analytics.end_session()
-	yield(Analytics, "session_saved")
+#	yield(Analytics, "session_saved")
 	get_tree().call_deferred("quit")
 
 
@@ -172,9 +190,9 @@ func release_scene(scene_node): # release scene
 
 func _free_scene(scene_node):
 
-	if Profiles.debug_mode:  # debug OS mode
-		#		print("SCENE RELEASED (in next step): ", scene_node)
-		pass
+#	if Profiles.debug_mode:  # debug OS mode
+#		#		print("SCENE RELEASED (in next step): ", scene_node)
+#		pass
 	scene_node.free()
 
 
@@ -183,15 +201,15 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	var scene_resource = ResourceLoader.load(scene_path)
 	var new_current_scene = scene_resource.instance()
 
-	if Profiles.debug_mode: # debug OS mode
-		#		print("SCENE INSTANCED: ", new_current_scene)
-		pass
+#	if Profiles.debug_mode: # debug OS mode
+#		#		print("SCENE INSTANCED: ", new_current_scene)
+#		pass
 	new_current_scene.modulate.a = 0
 	parent_node.add_child(new_current_scene)
 
-	if Profiles.debug_mode:  # debug OS mode
-		#		print("SCENE ADDED: ", new_current_scene)
-		print("--- new scene ---")
+#	if Profiles.debug_mode:  # debug OS mode
+#		#		print("SCENE ADDED: ", new_current_scene)
+#		print("--- new scene ---")
 
 	current_scene = new_current_scene
 	return new_current_scene

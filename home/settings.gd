@@ -17,13 +17,13 @@ func _input(event: InputEvent) -> void:
 	if $TouchControllerPopup.visible:
 		if Input.is_action_just_pressed("ui_cancel"):
 			$TouchControllerPopup.hide()
-			get_parent().home_swipe_btn.show()
+#			get_parent().home_swipe_btn.show()
 			get_tree().set_input_as_handled()
 
 	if $ResetDataPopup.visible:
 		if Input.is_action_just_pressed("ui_cancel"):
 			$ResetDataPopup.hide()
-			get_parent().home_swipe_btn.show()
+#			get_parent().home_swipe_btn.show()
 			get_tree().set_input_as_handled()
 
 
@@ -194,7 +194,7 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 func _on_TouchPopUpBtn_pressed() -> void:
 
 	$TouchControllerPopup.set_current_index(Profiles.set_touch_controller)
-	get_parent().home_swipe_btn.hide()
+#	get_parent().home_swipe_btn.hide()
 	$TouchControllerPopup.popup_centered()
 
 
@@ -209,7 +209,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 
 #	Analytics.save_ui_click("TouchControls %s" % controller_key)
 
-	get_parent().home_swipe_btn.show()
+#	get_parent().home_swipe_btn.show()
 
 	# ugasnem za buttons in none
 	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
@@ -242,7 +242,7 @@ func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
 
 func _on_ResetLocalButton_pressed() -> void:
 
-	get_parent().home_swipe_btn.hide()
+#	get_parent().home_swipe_btn.hide()
 	$ResetDataPopup.popup_centered()
 
 
@@ -251,7 +251,7 @@ func _on_ResetDataPopup_index_pressed(index: int) -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	if index == 2:
 		highscores_node.reset_all_local_scores()
-	get_parent().home_swipe_btn.show()
+#	get_parent().home_swipe_btn.show()
 
 
 func _on_ResetDataPopup_id_focused(id: int) -> void:

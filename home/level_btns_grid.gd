@@ -11,7 +11,9 @@ var btns_are_set: bool = false
 var solved_btns: Array = []
 
 var record_content_path: String = "RecordContent"
-var cup_icon_path: String = "RecordContent/CupIcon"
+
+var level_label_path: String = "RecordContent/LevelCount"
+#var cup_icon_path: String = "LevelCount/CupIcon"
 var record_label_path: String = "RecordContent/Record"
 var owner_label_path: String = "RecordContent/Owner"
 var tilemap_node_path: String = "TilemapHolder/LevelTilemap"
@@ -64,14 +66,17 @@ func set_level_btns_content():
 		var current_hs_time_int: int = int(level_hs_line[0])
 		btn.get_node(record_label_path).show()
 		btn.get_node(owner_label_path).show()
-		btn.get_node(cup_icon_path).show()
+		btn.get_node(level_label_path).show()
+#		btn.get_node(cup_icon_path).show()
 		if current_hs_time_int > 0:
 			solved_btns.append(btn)
+			btn.get_node(level_label_path).text = "%02d" % btn_level_number
 			btn.get_node(record_label_path).text = level_hs_line[0]
 			btn.get_node(owner_label_path).text = "by " + level_hs_line[1]
 		else:
 			btn.get_node(owner_label_path).text = empty_score_string
-			btn.get_node(cup_icon_path).hide()
+#			btn.get_node(cup_icon_path).hide()
+			btn.get_node(level_label_path).hide()
 			btn.get_node(record_label_path).hide()
 
 		# tilemap
@@ -114,6 +119,7 @@ func colorize_level_btns():
 		var btn_level_number: int = btn_count + 1
 
 		btn.get_node(record_content_path).modulate = btn_colors[btn_count]
+		btn.get_node(level_label_path).modulate = btn_colors[btn_count]
 		btn.get_node(record_content_path).modulate.a = content_defocus_alpha
 
 		btn.get_node(tilemap_node_path).modulate = btn_colors[btn_count]

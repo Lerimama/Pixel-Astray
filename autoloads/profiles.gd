@@ -12,8 +12,8 @@ var touch_controller_content: Dictionary = {
 	TOUCH_CONTROLLER.DISABLED: {"Disabled": "Touch controls DISABLED"},
 	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons Right": "On-screen BUTTONS, Burst on right"},
 	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons Left": "On-screen BUTTONS, Burst on left"},
-	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Sliding Right": "SLIDE tracking for motion, Burst on right"},
-	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Sliding Left": "SLIDE tracking for motion, Burst on left"},
+	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Sliding Left": "SLIDE tracking for motion, Burst on left"},
+	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Sliding Right": "SLIDE tracking for motion, Burst on right"},
 }
 
 var default_player_stats: Dictionary = {
@@ -257,7 +257,7 @@ func _ready() -> void:
 		pregame_screen_on = apply_game_settings["pregame_screen_on"]
 		camera_shake_on = apply_game_settings["camera_shake_on"]
 		tutorial_mode = apply_game_settings["tutorial_mode"]
-		#	analytics_mode = apply_game_settings["analytics_mode"]
+		analytics_mode = apply_game_settings["analytics_mode"]
 		self.vsync_on = apply_game_settings["vsync_on"]
 
 	# DEBUG setup
@@ -266,14 +266,14 @@ func _ready() -> void:
 	if debug_mode:
 #		var debug_game = Games.SHOWCASE # fix camera
 #		var debug_game = Games.CLEANER
-		var debug_game = Games.ERASER_XS
+#		var debug_game = Games.ERASER_XS
 #		var debug_game = Games.ERASER_S
 #		var debug_game = Games.ERASER_M
 #		var debug_game = Games.ERASER_L
 #		var debug_game = Games.ERASER_XL
 #		var debug_game = Games.HUNTER
 #		var debug_game = Games.DEFENDER
-#		var debug_game = Games.SWEEPER
+		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
 
 #		start_with_method = "home_in_intro"
@@ -281,7 +281,7 @@ func _ready() -> void:
 		start_with_method = "game_in"
 
 #		vsync_on = false
-		analytics_mode = false
+#		analytics_mode = false
 		pregame_screen_on = false
 		tutorial_mode = false
 #		html5_mode = true

@@ -53,7 +53,7 @@ func toggle_mute():
 	if Global.sound_manager.game_music_set_to_off:
 		Global.sound_manager.game_music_set_to_off = false
 		Global.sound_manager.play_music("game_music")
-		Analytics.save_ui_click("UnMute")
+#		Analytics.save_ui_click("UnMute")
 	# mute
 	else:
 		Global.sound_manager.game_music_set_to_off = true

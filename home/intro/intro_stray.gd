@@ -20,35 +20,36 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	queue_free()
 
 
-func step(step_direction: Vector2 = Vector2.DOWN):
+func _random_step(step_direction: Vector2 = Vector2.DOWN): # smer določa preferenco
 	# namen: detect collision namesto detect free positions
-
+	# namen: manj preferiranja smeri
+	# name: sam sebe kliče samo, če je neuspešen
+	
 	if current_state == STATES.IDLE:
 
-		var intended_position: Vector2 = global_position + step_direction * cell_size_x
+		randomize()
 
-		#	if get_parent().is_floor_position_free(intended_position):
+		var available_directions: Array = [Vector2.LEFT, Vector2.UP, Vector2.RIGHT, Vector2.DOWN]
+		available_directions.append_array([step_direction]) # dodam preferirano smer, da je več možnosti, da obdrži smer
+		var random_index: int = randi() % available_directions.size()
+		step_direction = available_directions[random_index]
+
+		var intended_position: Vector2 = global_position + step_direction * cell_size_x
+		# če je pozicija prosta korakam (in restiram poiskuse, če ni pa probam v drugo smer
 		var current_collider: Object = Global.detect_collision_in_direction(step_direction, neighbor_ray)
 		if not current_collider:
-			step_attempt = 1 # reset na 1
-
+#		if Global.game_manager.is_floor_position_free(intended_position) and not Global.detect_collision_in_direction(step_direction, neighbor_ray): # drug del je zazih
 			current_state = STATES.MOVING
 			previous_position = global_position
-			get_parent().remove_from_free_floor_positions(global_position + step_direction * cell_size_x)
-
-			var step_time: float = Profiles.game_settings["stray_step_time"]
+			Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)
+			var step_time: float = Global.game_manager.game_settings["stray_step_time"]*2
 			var step_tween = get_tree().create_tween()
-			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
 			step_tween.tween_callback(self ,"end_move")
-
+			yield(step_tween, "finished")
 		else:
-			# začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)
-			step_attempt += 1
-			if step_attempt <= 4:
-				var new_direction = step_direction.rotated(deg2rad(90))
-				step(new_direction)
-			else:
-				step_attempt = 1 # reset na 1
+#		_random_step(step_direction)
+			call_deferred("_random_step", step_direction)
 
 
 func play_sound(effect_for: String):

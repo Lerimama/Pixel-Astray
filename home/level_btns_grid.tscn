@@ -26,7 +26,7 @@ custom_constants/hseparation = 8
 columns = 4
 script = ExtResource( 6 )
 
-[node name="LevelBtn16" type="Button" parent="."]
+[node name="__LevelBtn16" type="Button" parent="."]
 margin_right = 182.0
 margin_bottom = 104.0
 mouse_default_cursor_shape = 2
@@ -42,7 +42,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LevelBtn16"]
+[node name="VBoxContainer" type="VBoxContainer" parent="__LevelBtn16"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -55,7 +55,7 @@ grow_vertical = 2
 custom_constants/separation = -2
 alignment = 1
 
-[node name="Label" type="Label" parent="LevelBtn16/VBoxContainer"]
+[node name="Label" type="Label" parent="__LevelBtn16/VBoxContainer"]
 margin_right = 152.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 0, 44 )
@@ -63,7 +63,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "PIXEL"
 align = 1
 
-[node name="Label2" type="Label" parent="LevelBtn16/VBoxContainer/Label"]
+[node name="Label2" type="Label" parent="__LevelBtn16/VBoxContainer/Label"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -74,7 +74,7 @@ text = "ASTRAY"
 align = 1
 valign = 1
 
-[node name="LabelLocked" type="Label" parent="LevelBtn16/VBoxContainer"]
+[node name="LabelLocked" type="Label" parent="__LevelBtn16/VBoxContainer"]
 margin_top = 42.0
 margin_right = 152.0
 margin_bottom = 86.0
@@ -82,7 +82,7 @@ rect_min_size = Vector2( 0, 44 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "   PIXEL"
 
-[node name="Label2" type="Label" parent="LevelBtn16/VBoxContainer/LabelLocked"]
+[node name="Label2" type="Label" parent="__LevelBtn16/VBoxContainer/LabelLocked"]
 margin_left = 44.0
 margin_top = 20.0
 margin_right = 128.0
@@ -91,7 +91,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ASTRAY"
 valign = 1
 
-[node name="__LockedIcon" type="TextureRect" parent="LevelBtn16/VBoxContainer/LabelLocked"]
+[node name="__LockedIcon" type="TextureRect" parent="__LevelBtn16/VBoxContainer/LabelLocked"]
 visible = false
 margin_left = 116.0
 margin_top = 6.0
@@ -101,7 +101,7 @@ grow_horizontal = 0
 mouse_default_cursor_shape = 2
 texture = SubResource( 499 )
 
-[node name="Record" type="Label" parent="LevelBtn16/VBoxContainer"]
+[node name="Record" type="Label" parent="__LevelBtn16/VBoxContainer"]
 visible = false
 margin_top = 55.0
 margin_right = 152.0
@@ -111,7 +111,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "00:00:00"
 align = 1
 
-[node name="Owner" type="Label" parent="LevelBtn16/VBoxContainer"]
+[node name="Owner" type="Label" parent="__LevelBtn16/VBoxContainer"]
 visible = false
 margin_top = 63.0
 margin_right = 152.0

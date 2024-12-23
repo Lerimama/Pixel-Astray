@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
 [ext_resource path="res://game/gui/game_outline.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=5]
-[ext_resource path="res://game/gui/controls_wide.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=6]
 [ext_resource path="res://common/shortcuts.tscn" type="PackedScene" id=7]
 
 [node name="GameOutline" type="HFlowContainer"]

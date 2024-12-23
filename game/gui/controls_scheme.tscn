@@ -1,21 +1,21 @@
 [gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
-[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=3]
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
-[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=5]
+[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=5]
 
 [sub_resource type="AtlasTexture" id=348]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 72, 102, 62, 42 )
 
 [sub_resource type="AtlasTexture" id=347]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 102, 62, 42 )
 
 [sub_resource type="AtlasTexture" id=355]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 154, 134, 22 )
 
 [sub_resource type="StreamTexture" id=349]
@@ -30,27 +30,27 @@ atlas = SubResource( 350 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=352]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 10, 17, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=353]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 30, 40, 18, 18 )
 
 [sub_resource type="AtlasTexture" id=354]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 96, 32, 10, 10 )
 
 [sub_resource type="AtlasTexture" id=514]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 72, 102, 62, 42 )
 
 [sub_resource type="AtlasTexture" id=515]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 112, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=516]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 154, 76, 22 )
 
 [sub_resource type="StreamTexture" id=517]
@@ -65,47 +65,47 @@ atlas = SubResource( 513 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=519]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 10, 17, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=520]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 96, 32, 10, 10 )
 
 [sub_resource type="AtlasTexture" id=521]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 145, 199, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=522]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 102, 62, 42 )
 
 [sub_resource type="AtlasTexture" id=523]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 83, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=524]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 4 )
 region = Rect2( 145, 223, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=536]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 256, 80, 80 )
 
 [sub_resource type="AtlasTexture" id=530]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 48, 144, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=531]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 34, 23, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=525]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 256, 12, 12 )
 
 [sub_resource type="AtlasTexture" id=526]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 10, 256, 60, 2 )
 
 [node name="ControlsCenter" type="Control"]
@@ -244,6 +244,7 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="2P" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -270,7 +271,7 @@ margin_right = 27.0
 margin_bottom = 14.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 text = "P1 "
 valign = 1
 uppercase = true
@@ -369,7 +370,7 @@ margin_right = 24.0
 margin_bottom = 14.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 text = "P2"
 valign = 1
 uppercase = true
@@ -464,7 +465,7 @@ margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 text = "Controls - Screen buttons"
 valign = 1
 uppercase = true
@@ -487,7 +488,7 @@ margin_left = 14.5
 margin_top = 25.5
 margin_right = 69.5
 margin_bottom = 52.5
-theme = ExtResource( 4 )
+theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
@@ -562,7 +563,7 @@ margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 text = "Controls - Screen buttons"
 valign = 1
 uppercase = true
@@ -582,7 +583,7 @@ margin_left = 14.5
 margin_top = 25.5
 margin_right = 69.5
 margin_bottom = 52.5
-theme = ExtResource( 4 )
+theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
@@ -657,7 +658,7 @@ margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 text = "Controls - Slide tracking"
 valign = 1
 uppercase = true
@@ -671,7 +672,7 @@ margin_left = 24.0
 margin_top = 52.0
 margin_right = 178.0
 margin_bottom = 79.0
-theme = ExtResource( 4 )
+theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Touch Sliding area"
 valign = 1
@@ -820,7 +821,7 @@ margin_left = 14.5
 margin_top = 25.0
 margin_right = 69.5
 margin_bottom = 52.0
-theme = ExtResource( 4 )
+theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
@@ -831,7 +832,6 @@ uppercase = true
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -223, -115 )
 scale = Vector2( 0.75, 0.75 )
-z_index = 10
 points = PoolVector2Array( 393.333, 336, 412.79, 336, 424, 324, 456, 356, 436, 378.667, 413.333, 366.667, 382.667, 368, 393.333, 400, 457.333, 410.667, 468, 389.333, 510.667, 378.667, 520, 334.667, 498.667, 324, 477.333, 334.667, 456, 313.333, 488, 292, 530.667, 302.667, 541.333, 281.333, 573.333, 270.667, 584, 292, 564, 304, 564, 336 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -946,7 +946,7 @@ margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 text = "Controls - Slide tracking"
 valign = 1
 uppercase = true
@@ -961,7 +961,7 @@ margin_left = -178.0
 margin_top = 52.0
 margin_right = -24.0
 margin_bottom = 79.0
-theme = ExtResource( 4 )
+theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Touch Sliding area"
 valign = 1
@@ -1110,7 +1110,7 @@ margin_left = 14.5
 margin_top = 25.0
 margin_right = 69.5
 margin_bottom = 52.0
-theme = ExtResource( 4 )
+theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
