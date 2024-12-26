@@ -9,8 +9,9 @@ onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
 onready var navigation_hint: Label = $NavigationHint
-onready var default_focus_node: Control = $HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer/XSBtn
-onready var games_menu: Control = $"%GamesMenu"
+#onready var home_swipe_btn: TouchScreenButton = $HomeSwipeBtn
+onready var default_focus_node: Control = $HomeScreen/Menu/SelectGameBtn
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -18,6 +19,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 
 		match current_screen:
+			Screens.SELECT_GAME:
+				$SelectGame/BackBtn.grab_focus()
+				$SelectGame.call_deferred("_on_BackBtn_pressed")
 			Screens.ABOUT:
 				$About/BackBtn.grab_focus()
 				$About.call_deferred("_on_BackBtn_pressed")
@@ -28,8 +32,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				$Highscores/BackBtn.grab_focus()
 				$Highscores.call_deferred("_on_BackBtn_pressed")
 			Screens.SELECT_LEVEL:
-				$SelectSweeper/BackBtn.grab_focus()
-				$SelectSweeper.call_deferred("_on_BackBtn_pressed")
+				$SelectLevel/BackBtn.grab_focus()
+				$SelectLevel.call_deferred("_on_BackBtn_pressed")
 			Screens.MAIN_MENU:
 				return
 
@@ -40,7 +44,14 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready():
 
 	menu.hide()
-	games_menu.hide()
+
+	# navigation hint
+	navigation_hint.modulate.a = 0
+#	if Profiles.touch_available:
+#		navigation_hint.text = "Swipe or select to navigate around" # ugasne ga swipe gumb
+##		home_swipe_btn.show()
+#	else:
+#		# navigation_hint.text = "Use keyboard or gamepad to navigate around"
 	navigation_hint.hide()
 
 	# btn groups
@@ -48,8 +59,10 @@ func _ready():
 	if Profiles.html5_mode:
 		menu.get_node("ExitGameBtn").hide()
 
-	if not Profiles.debug_mode:
-		Global.hide_helper_nodes()
+	var focused_control: Control = menu.get_focus_owner()
+
+#	if Profiles.debug_mode:
+#		Global.check_on_helper_nodes()
 
 
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -66,8 +79,8 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
-	current_screen = Screens.MAIN_MENU
-#	current_screen = Screens.SELECT_GAME
+	animation_player.play("select_game")
+	current_screen = Screens.SELECT_GAME
 
 	# premik animacije na konec
 	var animation_length: float = animation_player.get_current_animation_length()
@@ -75,18 +88,17 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
-		$HomeScreen/GamesMenu/HBoxContainer/CleanerBtn.grab_focus()
+		$SelectGame/GamesMenu/Cleaner/CleanerBtn.grab_focus()
 	elif finished_game == Profiles.Games.HUNTER:
-		$HomeScreen/GamesMenu/HBoxContainer/HunterBtn.grab_focus()
+		$SelectGame/GamesMenu/Unbeatables/HunterBtn.grab_focus()
 	elif finished_game == Profiles.Games.DEFENDER:
-		$HomeScreen/GamesMenu/HBoxContainer/DefenderBtn.grab_focus()
+		$SelectGame/GamesMenu/Unbeatables/DefenderBtn.grab_focus()
 	elif finished_game == Profiles.Games.SWEEPER:
-		animation_player.play("select_sweeper")
-		$HomeScreen/GamesMenu/HBoxContainer/SweeperBtn.grab_focus()
-#	elif finished_game == Profiles.Games.THE_DUEL:
-#		$SelectGame/GamesMenu/TheDuel/TheDuelBtn.grab_focus()
+		$SelectGame/GamesMenu/Sweeper/SweeperBtn.grab_focus()
+	elif finished_game == Profiles.Games.THE_DUEL:
+		$SelectGame/GamesMenu/TheDuel/TheDuelBtn.grab_focus()
 	else: # ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
-		$HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer/XSBtn.grab_focus()
+		$SelectGame/GamesMenu/Eraser/SBtn.grab_focus()
 
 	intro.finish_intro()
 	_load_highscores_on_start()
@@ -95,8 +107,8 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 func _load_highscores_on_start():
 	# tega procesa ne sme nič prekinit!!!
 
-	if not $SelectSweeper.select_level_btns_holder.btns_are_set:
-		yield ($SelectSweeper.select_level_btns_holder, "level_btns_are_set")
+	if not $SelectLevel.select_level_btns_holder.btns_are_set:
+		yield ($SelectLevel.select_level_btns_holder, "level_btns_are_set")
 
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true)
@@ -113,12 +125,9 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 	menu.modulate.a = 0
 	menu.show()
-	games_menu.modulate.a = 0
-	games_menu.show()
 
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(games_menu, "modulate:a", 1, 0.5)
-	fade_in.parallel().tween_property(menu, "modulate:a", 1, 0.5).set_delay(0.2)
+	fade_in.tween_property(menu, "modulate:a", 1, 0.5)
 	if navigation_hint.visible:
 		fade_in.parallel().tween_property(navigation_hint, "modulate:a", 1, 0.5)
 
@@ -129,12 +138,9 @@ func menu_out():
 
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 0, 0.5)
-	fade_in.parallel().tween_property(games_menu, "modulate:a", 0, 0.5)
 	fade_in.parallel().tween_property(navigation_hint, "modulate:a", 0, 0.2)
-	fade_in.tween_callback(menu, "hide")
-	fade_in.parallel().tween_callback(games_menu, "hide")
-	#	yield(fade_in,"finished")
-	#	menu.hide()
+	yield(fade_in,"finished")
+	menu.hide()
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -156,6 +162,10 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	get_viewport().set_disable_input(false)
 
 	match animation_name:
+		"select_game":
+			if not animation_reversed(Screens.SELECT_GAME):
+				current_screen = Screens.SELECT_GAME
+				$SelectGame.default_focus_node.grab_focus()
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
@@ -172,11 +182,11 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 					ConnectCover.open_cover(false)
 				else:
 					$Highscores.default_focus_node.grab_focus()
-		"select_sweeper":
+		"select_level":
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
-				$SelectSweeper.select_level_btns_holder.all_level_btns[0].call_deferred("grab_focus")
-				#				$SelectSweeper.select_level_btns_holder.all_level_btns[0].grab_focus()
+				$SelectLevel.default_focus_node.grab_focus()
+				$SelectLevel.select_level_btns_holder.all_level_btns[0].grab_focus()
 
 
 func animation_reversed(from_screen: int):
@@ -185,18 +195,17 @@ func animation_reversed(from_screen: int):
 
 		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
 		match from_screen:
+			Screens.SELECT_GAME:
+				menu.get_node("SelectGameBtn").grab_focus()
 			Screens.ABOUT:
-#				menu.get_node("AboutBtn").grab_focus()
-				default_focus_node.grab_focus()
+				menu.get_node("AboutBtn").grab_focus()
 			Screens.SETTINGS:
-#				menu.get_node("SettingsBtn").grab_focus()
-				default_focus_node.grab_focus()
+				menu.get_node("SettingsBtn").grab_focus()
 			Screens.HIGHSCORES:
-#				menu.get_node("HighscoresBtn").grab_focus()
-				default_focus_node.grab_focus()
+				menu.get_node("HighscoresBtn").grab_focus()
 			Screens.SELECT_LEVEL:
-				current_screen = Screens.MAIN_MENU
-				$HomeScreen/GamesMenu/HBoxContainer/SweeperBtn.grab_focus()
+				current_screen = Screens.SELECT_GAME
+				$SelectGame/GamesMenu/Sweeper/SweeperBtn.grab_focus()
 
 		return true
 
@@ -208,6 +217,13 @@ func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
 
 
 # MENU BTNZ ---------------------------------------------------------------------------------------------------
+
+
+func _on_SelectGameBtn_pressed() -> void:
+
+	menu_out()
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	animation_player.play("select_game")
 
 
 func _on_AboutBtn_pressed() -> void:

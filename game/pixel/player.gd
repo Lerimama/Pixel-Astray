@@ -81,7 +81,7 @@ onready var burst_light: Light2D = $BurstLight
 onready var skill_light: Light2D = $SkillLight
 onready var glow_light: Light2D = $GlowLight
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var touch_detect: Node2D = $Touch
+onready var touch_detect_areas: Node2D = $Touch
 
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
@@ -115,7 +115,7 @@ func _ready() -> void:
 
 	# vision ray
 	vision_ray.enabled = false # uporabljam ga z force raycast, ki ne rabi enabled
-	for area in touch_detect.get_children():
+	for area in touch_detect_areas.get_children():
 		vision_ray.add_exception(area)
 
 
@@ -169,6 +169,23 @@ func state_machine(delta: float):
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity)
 
+			# touch kolžn
+#			var touch_collider: Node2D
+#			var areas_in_touch: Array = _detect_touching_objects()[0]
+#			for area in areas_in_touch:
+#				# preverjam areo v smeri bursta (dot produkt), če se česa dotika
+#				if area.position.dot(direction) > 0:# and not area.get_overlapping_areas().empty():
+#					touch_collider = area.get_overlapping_areas()[0]
+#					printt("touch_collider", touch_collider)
+#					break
+			# vision koližn
+			var bursting_vision_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)#, 100)
+			if bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays):
+				_on_stray_collision(bursting_vision_collider)
+			# kinematic koližn
+			elif collision:
+				on_collision()
+
 			# med burstanjem pucam available pozicije za dve poziciji naprej
 			# ampak samo, če so še available (da ne puca greba unih, kjer je hitan stray)
 			var current_position_snapped = Global.snap_to_nearest_grid(global_position)
@@ -181,13 +198,6 @@ func state_machine(delta: float):
 					Global.game_manager.remove_from_free_floor_positions(pos)
 
 			bursting_inputs()
-
-			# koližn
-			var bursting_vision_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)
-			if bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays):
-				on_stray_collision(bursting_vision_collider)
-			elif collision:
-				on_collision()
 
 
 	if not first_skill_use: # resetiram first_skill_use ... samo tukaj dobro dela
@@ -205,7 +215,7 @@ func state_machine(delta: float):
 			skill_light_off()
 
 
-func on_stray_collision(collider_stray: Node2D):
+func _on_stray_collision(collider_stray: Node2D):
 
 	var on_hit_positon: Vector2 = collider_stray.global_position - cell_size_x * direction
 	global_position = Global.snap_to_nearest_grid(on_hit_positon)
@@ -563,13 +573,13 @@ func burst():
 	_change_stat("burst_count", 1)
 
 	# če je sosed, takoj izvede karambol (drugače ga sploh ne dojame)
-	for area in touch_detect.get_children():
+	for area in touch_detect_areas.get_children():
 		# preverjam areo v smeri bursta (dot produkt), če se česa dotika
 		if area.position.dot(direction) > 0 and not area.get_overlapping_areas().empty():
 			# da dobim zazih pravi rezultat preverjam z vision ray, če je stray
 			var bursting_vision_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)
 			if bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays):
-				on_stray_collision(bursting_vision_collider)
+				_on_stray_collision(bursting_vision_collider)
 				break
 
 
@@ -964,6 +974,7 @@ func die(): # kliče statistika
 
 	end_move()
 
+#	set_process(false)
 	set_physics_process(false)
 	animation_player.stop()
 	animation_player.play("die_player")
@@ -1097,6 +1108,7 @@ func on_out_of_bounds():
 
 	# ugasnem plejerja
 	hide()
+#	set_process(false)
 	set_physics_process(false)
 
 	# izžrebam novo pozicijo
@@ -1120,33 +1132,42 @@ func on_out_of_bounds():
 	fade_in.tween_callback(self, "burst_light_off")#.set_delay(0.2)
 
 	# spawn_floating_tag(0) # KUKU! ... neki ne dela
+#	set_process(true)
 	set_physics_process(true)
 	end_move()
 
 
-func detect_touch():
+func _detect_touching_objects():
 
-	var current_player_strays: Array # sosedi v tem koraku
+	var current_player_neighbors: Array # sosedi v tem koraku
 
-	# preverim vsako areo, če ima straysa
+	# preverim vsako areo, če ima straysa ali kak drug objekt, ki omejuje gibanje
 	var areas_touching: Array = []
 
-	for area in touch_detect.get_children():
+	for area in touch_detect_areas.get_children():
 		var objects_touched: Array = area.get_overlapping_bodies()
 		objects_touched.append_array(area.get_overlapping_areas())
 		if not objects_touched.empty():
 			for body in objects_touched:
 				if body.is_in_group(Global.group_strays) or body.is_in_group(Global.group_tilemap):
-					current_player_strays.append_array(objects_touched)
+					current_player_neighbors.append_array(objects_touched)
 					areas_touching.append(area)
 					break
 
+	return [areas_touching, current_player_neighbors]
+
+
+func _check_for_surrounded(surrounding_objects: Array):
+
 	# surrounded
-	if areas_touching.size() == touch_detect.get_child_count():
-		# če je še vedno obkoljen, preverim pe istost sosedov > GO
+	var areas_touching: Array = surrounding_objects[0]
+	var current_player_neighbors: Array = surrounding_objects[1]
+
+	if areas_touching.size() == touch_detect_areas.get_child_count():
+		# če je še vedno obkoljen, preverim še istost sosedov > GO
 		if is_surrounded:
 			# če so sosedi isti je GO
-			if surrounded_player_strays == current_player_strays:
+			if surrounded_player_strays == current_player_neighbors:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 			# če niso isti, restiram sosede in potem normalno naprej
 			else:
@@ -1156,8 +1177,9 @@ func detect_touch():
 		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
 		else:
 			is_surrounded = true
-			surrounded_player_strays = current_player_strays
+			surrounded_player_strays = current_player_neighbors
 			touch_timer.start(is_surrounded_time) # daljši čas
+
 	# not surrounded
 	else:
 		surrounded_player_strays = []
@@ -1165,6 +1187,50 @@ func detect_touch():
 		touch_timer.start(detect_touch_pause_time)
 
 #	print("areas_touching", areas_touching)
+
+
+
+#func detect_touch():
+#
+#	var current_player_strays: Array # sosedi v tem koraku
+#
+#	# preverim vsako areo, če ima straysa ali kak drug objekt, ki omejuje gibanje
+#	var areas_touching: Array = []
+#
+#	for area in touch_detect_areas.get_children():
+#		var objects_touched: Array = area.get_overlapping_bodies()
+#		objects_touched.append_array(area.get_overlapping_areas())
+#		if not objects_touched.empty():
+#			for body in objects_touched:
+#				if body.is_in_group(Global.group_strays) or body.is_in_group(Global.group_tilemap):
+#					current_player_strays.append_array(objects_touched)
+#					areas_touching.append(area)
+#					break
+#
+#	# surrounded
+#	if areas_touching.size() == touch_detect_areas.get_child_count():
+#		# če je še vedno obkoljen, preverim še istost sosedov > GO
+#		if is_surrounded:
+#			# če so sosedi isti je GO
+#			if surrounded_player_strays == current_player_strays:
+#				Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+#			# če niso isti, restiram sosede in potem normalno naprej
+#			else:
+#				surrounded_player_strays = []
+#				is_surrounded = false
+#				touch_timer.start(detect_touch_pause_time)
+#		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
+#		else:
+#			is_surrounded = true
+#			surrounded_player_strays = current_player_strays
+#			touch_timer.start(is_surrounded_time) # daljši čas
+#	# not surrounded
+#	else:
+#		surrounded_player_strays = []
+#		is_surrounded = false # resetiram
+#		touch_timer.start(detect_touch_pause_time)
+#
+##	print("areas_touching", areas_touching)
 
 func get_step_time():
 
@@ -1385,6 +1451,7 @@ func _change_strays_on_start(new_count):
 	strays_on_start_count = new_count
 	if strays_on_start_count == 0:
 		end_move()
+#		set_process(false)
 		set_physics_process(false)
 
 
@@ -1402,8 +1469,10 @@ func _on_ReburstingTimer_timeout() -> void:
 
 func _on_TouchTimer_timeout() -> void:
 
-	# HUNTER
-	detect_touch() # za GO
+
+	var curr_touching_objects: Array = _detect_touching_objects()
+	_check_for_surrounded(curr_touching_objects)
+#	detect_touch() # za GO
 
 
 func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
@@ -1458,6 +1527,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			else:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 		"revive":
+#			set_process(true)
 			set_physics_process(true)
 			_change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"become_white":
@@ -1529,12 +1599,14 @@ func _change_stat(stat_event: String, stat_value):
 			"hit_wall":
 				player_stats["player_energy"] *= Global.game_manager.game_settings["on_hit_wall_energy_factor"]
 				if player_stats["player_energy"] > 0:
+#					set_process(false)
 					set_physics_process(false)
 					revive()
 			"get_hit":
 				# izgubi vso energijo in lajf, ter pol točk
 				player_stats["player_energy"] *= Global.game_manager.game_settings["on_get_hit_energy_factor"]
 				if player_stats["player_energy"] > 0:
+#					set_process(false)
 					set_physics_process(false)
 					revive()
 				# points

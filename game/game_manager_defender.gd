@@ -53,6 +53,7 @@ func set_game():
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
+#		player.set_process(true)
 		player.set_physics_process(true)
 	#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
@@ -79,6 +80,7 @@ func start_game():
 	Global.sound_manager.play_music("game_music")
 
 	for player in current_players_in_game:
+#		player.set_process(true)
 		player.set_physics_process(true)
 
 	game_on = true
@@ -126,6 +128,7 @@ func create_players():
 		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats) # štartno statistiko tako javim
 
 		# pregame setup
+#		new_player_pixel.set_process(false)
 		new_player_pixel.set_physics_process(false)
 		new_player_pixel.player_camera = Global.game_camera
 

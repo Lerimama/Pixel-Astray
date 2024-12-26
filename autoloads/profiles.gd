@@ -4,7 +4,7 @@ extends Node
 func TOP(): pass
 
 
-enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
+enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE, ERASER}
 enum HighscoreTypes {NONE, POINTS, TIME}
 
 enum TOUCH_CONTROLLER {DISABLED, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
@@ -65,6 +65,7 @@ var default_game_settings: Dictionary = { # per game
 	"follow_mode": false,
 	"still_time_limit": 0, # 0 je disejblano ... ko si pri miru se nekaj lahko zgodi
 	"show_expressions": true,
+	"ranking_score_limit": 1,
 	# gui
 	"start_countdown": true,
 	"zoom_to_level_size": false, # SHOWCASE
@@ -83,7 +84,7 @@ var game_data_cleaner: Dictionary = {
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
-	"description": "Clear %d strays to reclaim the one-and-only status!" % 500,
+	"description": "%d minutes to show your cleaning skills. Restore the perfect order!" % 5,
 }
 
 var game_data_eraser_xs: Dictionary = {
@@ -91,7 +92,7 @@ var game_data_eraser_xs: Dictionary = {
 	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Eraser XS",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xs.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 	"description" : "Collect all %d colors and become the brightest again!" % 32,
 }
 
@@ -100,7 +101,7 @@ var game_data_eraser_s: Dictionary = {
 	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Eraser S",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_eraser_s.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_s.tscn",
 	"description" : "Collect all %d colors and become the brightest again!" % 50,
 }
 
@@ -109,7 +110,7 @@ var game_data_eraser_m: Dictionary = {
 	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Eraser M",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_m.tscn",
 	"description" : "Collect all %d colors and become the brightest again!" % 140,
 }
 
@@ -118,7 +119,7 @@ var game_data_eraser_l: Dictionary = {
 	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Eraser L",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_eraser_l.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_l.tscn",
 	"description" : "Collect all %d colors and become the brightest again!" % 230,
 }
 
@@ -127,7 +128,7 @@ var game_data_eraser_xl: Dictionary = {
 	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Eraser XL",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xl.tscn",
 	"description" : "Collect all %d colors and become the brightest again!" % 320,
 }
 
@@ -161,11 +162,11 @@ var game_data_defender: Dictionary = {
 	"description" : "Defend your screen against invading colors!",
 	# štart
 	"level": 1,
-	"level_goal_count": 32, # CON kolikor jih spawnanih v prvi rundi
-	"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
+	"level_goal_count": 320, # CON kolikor jih spawnanih v prvi rundi
+	"spawn_round_range": [1, 3], # random spawn count, največ 120 - 8
 	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 	# level up
-	"level_goal_count_grow": 32, # dodatno prištejem
+	"level_goal_count_grow": 10, # dodatno prištejem
 	"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
 	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
@@ -191,7 +192,36 @@ var game_data_the_duel: Dictionary = {
 	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
+var tilemap_paths: Dictionary = {
+	Games.ERASER: [
+			# _temp ... zaporedje je ključno za level name
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			],
+	Games.SWEEPER: [
+			# zaporedje je ključno za level name
+			"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_10.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_11.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_12.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_13.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
+			"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
+			]
 
+}
 var sweeper_level_tilemap_paths: Array = [
 	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
@@ -210,6 +240,20 @@ var sweeper_level_tilemap_paths: Array = [
 	"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
+#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	]
+
+var eraser_level_tilemap_paths: Array = [
+	# _temp ... zaporedje je ključno za level name
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 	]
 
 
@@ -230,7 +274,7 @@ var tutorial_mode: bool = true # sejvam
 var analytics_mode: bool = true
 var brightness: float = 1 setget _change_brightness # 0.6 > 1.1 ... def = 1
 var vsync_on: bool = true setget _change_vsync
-var set_touch_controller: int = TOUCH_CONTROLLER.SCREEN_LEFT
+var set_touch_controller: int = TOUCH_CONTROLLER.BUTTONS_RIGHT
 var screen_touch_sensitivity: float = 0.1 # 0 - 20% VP width ... def 0.1 ... ročno nastavljen ticker node
 
 var game_settings: Dictionary
@@ -247,6 +291,7 @@ func _ready() -> void:
 	else:
 		html5_mode = false
 	analytics_mode = not html5_mode # vsa analitika preverja, če je v modu
+	vsync_on = not html5_mode
 	tutorial_mode = not html5_mode
 	touch_available = OS.has_touchscreen_ui_hint()
 	debug_mode = OS.is_debug_build()
@@ -260,12 +305,13 @@ func _ready() -> void:
 		analytics_mode = apply_game_settings["analytics_mode"]
 		self.vsync_on = apply_game_settings["vsync_on"]
 
+	tutorial_mode = false
 	# DEBUG setup
 
 	# če greš iz menija je tole povoženo
 	if debug_mode:
 #		var debug_game = Games.SHOWCASE # fix camera
-#		var debug_game = Games.CLEANER
+		var debug_game = Games.CLEANER
 #		var debug_game = Games.ERASER_XS
 #		var debug_game = Games.ERASER_S
 #		var debug_game = Games.ERASER_M
@@ -273,12 +319,12 @@ func _ready() -> void:
 #		var debug_game = Games.ERASER_XL
 #		var debug_game = Games.HUNTER
 #		var debug_game = Games.DEFENDER
-		var debug_game = Games.SWEEPER
+#		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
 
 #		start_with_method = "home_in_intro"
-#		start_with_method = "home_in_no_intro"
-		start_with_method = "game_in"
+		start_with_method = "home_in_no_intro"
+#		start_with_method = "game_in"
 
 #		vsync_on = false
 #		analytics_mode = false
@@ -291,6 +337,7 @@ func _ready() -> void:
 
 		set_game_data(debug_game)
 		game_settings["start_countdown"] = false
+#		game_settings["ranking_score_limit"] = 1
 #	start_with_method = "home_in_no_intro"
 
 
@@ -303,12 +350,11 @@ func set_game_data(selected_game):
 	match selected_game:
 		Games.CLEANER:
 			current_game_data = game_data_cleaner.duplicate()
-			game_settings["player_start_life"] = 3
-			game_settings["create_strays_count"] = 500 # spawna jih cca 1200 (tilemap setup)
+			game_settings["game_time_limit"] = 300
+			game_settings["create_strays_count"] = 500
 			game_settings["start_countdown"] = false
 		Games.ERASER_XS:
 			current_game_data = game_data_eraser_xs.duplicate()
-			game_settings["player_start_life"] = 1
 			game_settings["game_time_limit"] = 0
 			game_settings["cleaned_reward_points"] = 1
 			game_settings["create_strays_count"] = 32
@@ -362,7 +408,7 @@ func set_game_data(selected_game):
 			# zoom-in je samo prvi level iz home menija
 			# med igro se seta na off, da ostane zoomiran
 			# play iz GO je že zumiran
-			game_settings["always_zoomed_in"] = false
+#			game_settings["always_zoomed_in"] = false
 			tutorial_mode = false # _temp rabi posebn tutorial
 		Games.THE_DUEL:
 			current_game_data = game_data_the_duel.duplicate()

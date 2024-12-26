@@ -35,6 +35,7 @@ var group_critical_btns = "Menu confirm btns" # scene changing > turn off > turn
 var group_menu_cancel_btns = "Menu cancel btns"
 
 # colors
+var current_color_pool: Array
 var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")
@@ -86,25 +87,15 @@ func _ready():
 
 
 var _helper_nodes: Array = []
-var debug_nodes_prefix: String = "__"
+var helper_nodes_prefix: String = "__"
 
 
-func check_on_helper_nodes(delete_it: bool = false): # kliče main na prehodu scene
-	get_all_nodes_in_node("_")
+func hide_helper_nodes(delete_it: bool = false):
 
+	get_all_nodes_in_node(helper_nodes_prefix)
 	for node in _helper_nodes:
-		if delete_it:
-			node.queue_free()
-		else:
-			if "visible" in node:
-#				printt ("_node visibility", node.name, node.visible, node.get_parent())
-				pass
-			else:
-#				printt ("_node visibility", node.name, node.get_parent(), typeof(node))
-				pass
-
-	printt ("_helper_nodes count", _helper_nodes.size())
-	_helper_nodes.clear()
+		if "visible" in node:
+				node.hide()
 
 
 func get_all_nodes_in_node(string_to_search: String = "", node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
@@ -113,7 +104,7 @@ func get_all_nodes_in_node(string_to_search: String = "", node_to_check: Node = 
 	for node in node_to_check.get_children():
 		if not string_to_search.empty() and node.name.begins_with(string_to_search):
 			#			printt("node", node.name, node.get_parent())
-			if node.name.begins_with(debug_nodes_prefix):
+			if node.name.begins_with(helper_nodes_prefix):
 				_helper_nodes.append(node)
 		all_nodes_of_nodes = get_all_nodes_in_node(string_to_search, node)
 

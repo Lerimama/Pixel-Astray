@@ -389,10 +389,12 @@ func _on_mute_btn_pressed():
 
 
 func _on_HintBtn_pressed() -> void:
+	# ker hint btn na klik ne dela, more za touch bit posebej gumb
+	# sweepr hint dela že v normanem gumbu
 
 	if Global.tutorial_gui.tutorial_on:
 		Global.tutorial_gui.skip_step()
-	elif Global.hud.sweeper_action_hint.visible:
-		Global.hud._on_HintBtn_pressed()
+	else:
+		hint_btn.hide()
 
 

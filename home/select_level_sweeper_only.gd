@@ -1,8 +1,6 @@
 extends Control
 
 
-export (Profiles.Games) var levels_for_game: int = Profiles.Games.SWEEPER
-
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var select_level_btns_holder: Control = $LevelBtnsGrid
 onready var default_focus_node: Control# = select_level_btns_holder.all_level_btns[0]
@@ -16,7 +14,7 @@ func _ready() -> void:
 	select_level_btns_holder.btns_holder_parent = self
 	yield(get_tree().create_timer(0.1), "timeout") # da se zgodi po štartnem branju HS-jev
 
-	select_level_btns_holder.spawn_level_btns(levels_for_game)
+	select_level_btns_holder.spawn_level_btns()
 	select_level_btns_holder.call_deferred("set_level_btns_content")
 
 	# menu btn group

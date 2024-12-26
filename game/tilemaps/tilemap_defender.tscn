@@ -46,7 +46,6 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopScreenLimit"]
 shape = SubResource( 1 )
-disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="TopScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -63,7 +62,6 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomScreenLimit"]
 shape = SubResource( 1 )
-disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="BottomScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -81,7 +79,6 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftScreenLimit"]
 position = Vector2( -624, 304 )
 shape = SubResource( 5 )
-disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="LeftScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -98,7 +95,6 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightScreenLimit"]
 position = Vector2( 0.5, 0 )
 shape = SubResource( 5 )
-disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="RightScreenLimit"]
 color = Color( 0.980392, 0.980392, 0.980392, 1 )

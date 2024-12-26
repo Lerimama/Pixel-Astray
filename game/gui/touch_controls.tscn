@@ -218,7 +218,7 @@ shape = SubResource( 369 )
 visibility_mode = 1
 
 [node name="HintBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 639, 608 )
+position = Vector2( 639, 624 )
 shape = SubResource( 374 )
 shape_centered = false
 visibility_mode = 1

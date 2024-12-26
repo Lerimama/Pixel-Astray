@@ -42,7 +42,8 @@ rect_clip_content = true
 [node name="RecordContent" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 3.0
+margin_top = -2.0
+margin_bottom = -5.0
 custom_constants/separation = 0
 alignment = 1
 

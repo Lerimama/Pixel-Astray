@@ -7,10 +7,11 @@ onready var gradient_icon: TextureRect = $Content/ColorSchemeOptions/RandomizeBt
 onready var spectrum_icon: TextureRect = $Content/ColorSchemeOptions/RandomizeBtn/SpectrumIcon
 
 onready var intro: Node2D = $"%Intro"
-onready var select_level_node: Control = $"../SelectLevel"
-onready var select_game_node: Control = $"../SelectGame"
+onready var select_level_node: Control = $"../SelectSweeper"
 onready var highscores_node: Control = $"../Highscores"
+onready var games_menu: Control = $"%GamesMenu"
 onready var default_focus_node: Control = $Content/MenuMusicBtn
+
 
 func _input(event: InputEvent) -> void:
 
@@ -121,21 +122,23 @@ func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
 func _on_SchemeResetBtn_pressed() -> void:
 
-	spectrum_icon.show()
-	gradient_icon.hide()
-	reset_btn.hide()
+	if not intro.recreating_strays:
 
-	Profiles.use_default_color_theme = true
-	randomize_btn.grab_focus()
+		spectrum_icon.show()
+		gradient_icon.hide()
+		reset_btn.hide()
 
-	intro.respawn_title_strays()
-	select_level_node.select_level_btns_holder.colorize_level_btns()
-	select_game_node.colorize_game_btns()
+		Profiles.use_default_color_theme = true
+		randomize_btn.grab_focus()
+
+#		intro.respawn_title_strays()
+		select_level_node.select_level_btns_holder.colorize_level_btns()
+		games_menu.update_btn_colors()
 
 
 func _on_RandomizeBtn_pressed() -> void:
 
-	if not intro.creating_strays:
+	if not intro.recreating_strays:
 		spectrum_icon.hide()
 		gradient_icon.show()
 		reset_btn.show()
@@ -145,9 +148,20 @@ func _on_RandomizeBtn_pressed() -> void:
 		var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
 		gradient_icon.texture.gradient = current_color_scheme_gradient
 
-		intro.respawn_title_strays()
+#		intro.respawn_title_strays()
 		select_level_node.select_level_btns_holder.colorize_level_btns()
-		select_game_node.colorize_game_btns()
+		games_menu.update_btn_colors()
+
+
+func _on_InvertBtn_toggled(button_pressed: bool) -> void:
+
+	var fade_time: float = 1
+	Global.main_node.invert_colors(fade_time)
+
+	# disejbl, da se ne da klikat
+	$Content/InvertBtn.disabled = true
+	yield(get_tree().create_timer(fade_time), "timeout")
+	$Content/InvertBtn.disabled = false
 
 
 func _on_VsyncBtn_toggled(button_pressed: bool) -> void:
@@ -257,14 +271,3 @@ func _on_ResetDataPopup_index_pressed(index: int) -> void:
 func _on_ResetDataPopup_id_focused(id: int) -> void:
 
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
-
-
-func _on_InvertBtn_toggled(button_pressed: bool) -> void:
-
-	var fade_time: float = 1
-	Global.main_node.invert_colors(fade_time)
-
-	# disejbl, da se ne da klikat
-	$Content/InvertBtn.disabled = true
-	yield(get_tree().create_timer(fade_time), "timeout")
-	$Content/InvertBtn.disabled = false

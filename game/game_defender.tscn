@@ -79,7 +79,6 @@ __meta__ = {
 
 [node name="SweeperHintPress" parent="GUI" instance=ExtResource( 8 )]
 position = Vector2( 640, 680 )
-z_index = 0
 
 [node name="Hint" parent="GUI/SweeperHintPress" index="1"]
 margin_left = -77.0

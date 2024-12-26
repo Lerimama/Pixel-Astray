@@ -405,7 +405,7 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="ActionHintPress" parent="." instance=ExtResource( 6 )]
-position = Vector2( 640, 680 )
+position = Vector2( 640, 694 )
 
 [node name="Hint" parent="ActionHintPress" index="1"]
 margin_left = -107.0

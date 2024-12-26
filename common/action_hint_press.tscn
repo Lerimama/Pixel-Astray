@@ -13,8 +13,10 @@ margin = Rect2( 0, 2, 0, 2 )
 
 [node name="ActionHintPress" type="Node2D"]
 pause_mode = 2
-z_index = 1000
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="__pos" type="ColorRect" parent="."]
 visible = false

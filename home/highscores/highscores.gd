@@ -53,9 +53,8 @@ onready var update_scores_btn: Button = $UpdateScoresBtn
 onready var publish_unpublished_btn: Button = $PublishUnpublishedBtn
 onready var back_btn: TextureButton = $BackBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-onready var select_level_node: Control = $"../SelectLevel"
+onready var select_level_node: Control = $"../SelectSweeper"
 onready var game_halls: HBoxContainer = $GameHalls
-
 onready var default_focus_node: Control = $GameHalls/Cleaner
 
 # jp in kb scrollanje
@@ -343,7 +342,6 @@ func _on_BackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("highscores")
 	get_parent().menu_in()
-
 
 
 func _on_UpdateScoresBtn_pressed() -> void:

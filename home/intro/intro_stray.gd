@@ -24,7 +24,7 @@ func _random_step(step_direction: Vector2 = Vector2.DOWN): # smer določa prefer
 	# namen: detect collision namesto detect free positions
 	# namen: manj preferiranja smeri
 	# name: sam sebe kliče samo, če je neuspešen
-	
+
 	if current_state == STATES.IDLE:
 
 		randomize()
@@ -67,7 +67,9 @@ func play_sound(effect_for: String):
 
 
 func _on_Stray_tree_exiting() -> void:
-	# namen: ven štetje strajsov v igri
+	# namen: drugačno štetje strajsov v igri
+
+	Global.game_manager.on_stray_die(self)
 
 	get_parent().add_to_free_floor_positions(global_position)
 

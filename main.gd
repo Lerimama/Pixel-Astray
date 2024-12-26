@@ -36,12 +36,11 @@ func _ready() -> void:
 
 
 	var start_with: String = Profiles.start_with_method
-	if not Profiles.debug_mode:
-		if Profiles.html5_mode:
-			start_with = "home_in_intro"
-		else:
-			start_with = "home_in_intro"
-	
+	if Profiles.html5_mode:
+		start_with = "home_in_no_intro"
+	elif not Profiles.debug_mode:
+		start_with = "home_in_intro"
+
 	call_deferred(start_with)
 
 #	Analytics.call_deferred("start_new_session")
@@ -71,6 +70,9 @@ func home_in_no_intro():
 
 
 func home_in_from_game(finished_game: int):
+
+	# ker se v sweeperju zaklene
+	Profiles.default_game_settings["always_zoomed_in"] = false
 
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)

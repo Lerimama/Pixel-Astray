@@ -59,7 +59,7 @@ func imitate_input(direction_key: int, imitate_pressed: bool = true):
 				parent_node.get_node("Highscores").call_deferred("_on_BackBtn_pressed")
 		parent_node.Screens.SELECT_LEVEL:
 			if direction_key == SWIPE_DIRECTION.RIGHT or direction_key == SWIPE_DIRECTION.DOWN:
-				parent_node.get_node("SelectLevel").call_deferred("_on_BackBtn_pressed")
+				parent_node.get_node("SelectSweeper").call_deferred("_on_BackBtn_pressed")
 
 
 func get_swipe_direction():

@@ -2,6 +2,8 @@ extends Node2D
 
 
 signal finished_playing
+signal all_home_strays_died
+
 
 export var actor_in_motion: bool = true # exportano za animacijo
 
@@ -10,7 +12,7 @@ var camera_is_shaking: bool = false # da se šejk ne podvaja
 var actor_step_time: float = 0.08
 
 # strays
-var creating_strays: bool = false
+var recreating_strays: bool = false
 var spawned_strays_count: int = 0
 var strays_shown_on_start: Array = []
 var create_strays_count: int = 149 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
@@ -92,15 +94,15 @@ func finish_intro(): # ob skipanju in regularnem koncu intra
 
 func set_strays(): # kliče animacija
 
-	if not creating_strays:
-		# positions
-		free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
-		# colors
-		set_color_pool()
-		# reset
-		spawned_strays_count = 0
-		creating_strays = true
-		create_strays(create_strays_count)
+#	if not recreating_strays:
+	# positions
+	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
+	# colors
+	set_color_pool()
+	# reset
+	spawned_strays_count = 0
+#	recreating_strays = true
+	create_strays(create_strays_count)
 
 
 func create_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
@@ -222,18 +224,20 @@ func show_strays_in_loop(show_strays_loop: int):
 		1, 2:
 			Global.sound_manager.play_event_sfx("thunder_strike")
 		5:
-			creating_strays = false
+			recreating_strays = false
 
 
 func respawn_title_strays():
 
-	if not creating_strays:
+	if not recreating_strays:
+		recreating_strays = true
 		stray_step_timer.stop()
 		var pseudo_value: int = -1
 		var intro_strays: Array = get_tree().get_nodes_in_group(Global.group_strays)
 		for stray in intro_strays:
 			stray.die(intro_strays.find(stray), intro_strays.size())
-		yield(get_tree().create_timer(1), "timeout") # ... da je časovni razmak
+		yield(self, "all_home_strays_died")
+#		yield(get_tree().create_timer(1), "timeout") # ... da je časovni razmak
 		call_deferred("set_strays")
 		yield(get_tree().create_timer(3), "timeout")
 		call_deferred("random_stray_step")
@@ -262,6 +266,33 @@ func random_stray_step():
 	var random_pause_time_divider: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
 	var random_pause_time = 1 / random_pause_time_divider
 	stray_step_timer.start(random_pause_time)
+
+
+
+func on_stray_die(stray_out: Node2D):
+	# namen: rabim samo za preverjanje kdaj so vsi zunaj
+	spawned_strays_count -= 1
+
+	if spawned_strays_count <= 0:
+		emit_signal("all_home_strays_died")
+
+##func on_stray_die(stray_out: KinematicBody2D):
+#
+#	# če je dosežen cilj levela apgrejdam level, če prikažem stage indikator in ga zbrišem iz barv
+#	if level_goal_mode:
+#		Global.hud.all_color_indicators.pop_front().modulate.a = 1 # remove zato, dani errorja
+#		if Global.hud.all_color_indicators.empty():
+#			upgrade_level()
+#	else:
+#		# če ni edina taka barva med trenutnimi strejsi, je ne skrijem
+#		var same_color_stray_count: int = 0
+#		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+#			if stray.stray_color == stray_out_color:
+#				same_color_stray_count += 1
+#				if same_color_stray_count > 1:
+#					return
+#		Global.hud.indicate_color_collected(stray_out_color)
+
 
 
 # UTILITY ------------------------------------------------------------------------------------

@@ -82,15 +82,13 @@ visible = false
 visible = false
 
 [node name="TutorialGui" parent="GUI" instance=ExtResource( 5 )]
-visible = false
 
 [node name="SweeperHintPress" parent="GUI" instance=ExtResource( 6 )]
-position = Vector2( 640, 680 )
-z_index = 0
+position = Vector2( 640, 694 )
 
 [node name="Hint" parent="GUI/SweeperHintPress" index="1"]
-margin_left = -77.0
-margin_right = 79.0
+margin_left = -106.0
+margin_right = 108.0
 
 [node name="TOUCH" parent="GUI/SweeperHintPress/Hint" index="0"]
 visible = true

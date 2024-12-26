@@ -140,6 +140,16 @@ func burst():
 
 	_change_stat("burst_count", 1)
 
+	# če se dotika, karambol izvede takoj (drugače gre čez njega)
+	for area in touch_detect_areas.get_children():
+		# preverjam areo v smeri bursta (dot produkt), če se česa dotika
+		if area.position.dot(direction) > 0 and not area.get_overlapping_areas().empty():
+			# da dobim zazih pravi rezultat preverjam z vision ray, če je stray
+			var bursting_vision_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)
+			if bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays):
+				_on_stray_collision(bursting_vision_collider)
+				break
+
 
 func play_sound(effect_for: String):
 	# namen: brez vrtoglavice hit wall

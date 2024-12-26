@@ -75,8 +75,8 @@ func _ready() -> void:
 	if game_data.has("level_goal_count"):
 		level_goal_mode = true
 
-#	if Profiles.debug_mode:
-#		Global.check_on_helper_nodes()
+	if not Profiles.debug_mode:
+		Global.hide_helper_nodes()
 
 
 # GAME SETUP --------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	# countdown
 	if game_settings["start_countdown"] and not Profiles.tutorial_mode:
 		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
-		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po home_in_from_game
 	else:
 		# počakam da se res prizumira, če ni game start countdown
 		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout")
@@ -179,7 +179,10 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 
 	# brezšivni tekoči preskok v naslednjo fazo ... če je prej se povozi
 	if game_data["game"] == Profiles.Games.SWEEPER:
-		game_settings["always_zoomed_in"] = true # setam global always_zoomed_in, da ni zoomouta na koncu
+		# always_zoomed_in, da ni zoomouta na koncu
+		game_settings["always_zoomed_in"] = true # setam always_zoomed_in, da ni zoomouta na koncu
+		# global always_zoomed_in, da je ob replay in next level že uzumirano ... resetam na game_out
+		Profiles.default_game_settings["always_zoomed_in"] = true # setam global
 
 
 # GAME LOOP --------------------------------------------------------------------------------------
@@ -191,6 +194,7 @@ func start_game():
 	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
 			Global.game_camera.camera_target = player
+#		player.set_process(true)
 		player.set_physics_process(true)
 
 	Global.sound_manager.play_music("game_music")
@@ -230,6 +234,7 @@ func stop_game_elements():
 	for player in current_players_in_game:
 		player.end_move()
 		player.stop_sound("teleport")
+#		player.call_deferred("set_process", false)
 		player.call_deferred("set_physics_process", false)
 
 
@@ -333,6 +338,7 @@ func create_players(): # kliče MAIN pred fade-in scene 04.
 		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats) # štartno statistiko tako javim
 
 		# pregame setup
+#		new_player_pixel.set_process(true)
 		new_player_pixel.set_physics_process(false)
 
 		new_player_pixel.player_camera = Global.game_camera
