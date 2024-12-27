@@ -43,11 +43,11 @@ func imitate_input(direction_key: int, imitate_pressed: bool = true):
 					parent_node._on_SettingsBtn_pressed()
 				SWIPE_DIRECTION.DOWN:
 					parent_node._on_HighscoresBtn_pressed()
-		parent_node.Screens.SELECT_GAME:
-			if direction_key == SWIPE_DIRECTION.LEFT or direction_key == SWIPE_DIRECTION.UP:
-				parent_node.get_node("SelectGame")._on_SweeperBtn_pressed()
-			elif direction_key == SWIPE_DIRECTION.RIGHT:
-				parent_node.get_node("SelectGame").call_deferred("_on_BackBtn_pressed")
+#		parent_node.Screens.SELECT_GAME:
+#			if direction_key == SWIPE_DIRECTION.LEFT or direction_key == SWIPE_DIRECTION.UP:
+#				parent_node.get_node("SelectGame")._on_SweeperBtn_pressed()
+#			elif direction_key == SWIPE_DIRECTION.RIGHT:
+#				parent_node.get_node("SelectGame").call_deferred("_on_BackBtn_pressed")
 		parent_node.Screens.ABOUT:
 			if direction_key == SWIPE_DIRECTION.DOWN:
 				parent_node.get_node("About").call_deferred("_on_BackBtn_pressed")

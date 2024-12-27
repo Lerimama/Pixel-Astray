@@ -1,7 +1,7 @@
 extends Node
 
 
-enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
+enum Screens {INTRO, MAIN_MENU, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL, SELECT_ERASER}
 var current_screen = Screens.INTRO # se določi z main animacije
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -9,30 +9,14 @@ onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
 onready var navigation_hint: Label = $NavigationHint
-onready var default_focus_node: Control = $HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer/XSBtn
+onready var default_focus_node: Control = $HomeScreen/GamesMenu/HBoxContainer/EraserBtn
 onready var games_menu: Control = $"%GamesMenu"
 
 
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("ui_cancel"):
-
-		match current_screen:
-			Screens.ABOUT:
-				$About/BackBtn.grab_focus()
-				$About.call_deferred("_on_BackBtn_pressed")
-			Screens.SETTINGS:
-				$Settings/BackBtn.grab_focus()
-				$Settings.call_deferred("_on_BackBtn_pressed")
-			Screens.HIGHSCORES:
-				$Highscores/BackBtn.grab_focus()
-				$Highscores.call_deferred("_on_BackBtn_pressed")
-			Screens.SELECT_LEVEL:
-				$SelectSweeper/BackBtn.grab_focus()
-				$SelectSweeper.call_deferred("_on_BackBtn_pressed")
-			Screens.MAIN_MENU:
-				return
-
+		_on_BackBtn_pressed()
 		get_viewport().set_disable_input(true)
 #		Analytics.save_ui_click("BackEsc")
 
@@ -83,10 +67,13 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	elif finished_game == Profiles.Games.SWEEPER:
 		animation_player.play("select_sweeper")
 		$HomeScreen/GamesMenu/HBoxContainer/SweeperBtn.grab_focus()
-#	elif finished_game == Profiles.Games.THE_DUEL:
-#		$SelectGame/GamesMenu/TheDuel/TheDuelBtn.grab_focus()
-	else: # ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
-		$HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer/XSBtn.grab_focus()
+	elif finished_game == Profiles.Games.ERASER:
+		animation_player .play("select_eraser")
+		$HomeScreen/GamesMenu/HBoxContainer/EraserBtn.grab_focus()
+	elif finished_game == Profiles.Games.THE_DUEL:
+		$SelectGame/GamesMenu/HBoxContainer/TheDuelBtn.grab_focus()
+#	else: # ERASER
+#		$HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer/XSBtn.grab_focus()
 
 	intro.finish_intro()
 	_load_highscores_on_start()
@@ -144,7 +131,7 @@ func _on_Intro_finished_playing() -> void:
 
 	intro_viewport.set_disable_input(true) # dokler se predvaja mora biti, da skipanje deluje
 
-	if not current_screen == Screens.SELECT_GAME and not current_screen == Screens.SELECT_LEVEL : # v primeru ko se vrnem iz igre
+	if not current_screen == Screens.SELECT_ERASER and not current_screen == Screens.SELECT_LEVEL : # v primeru ko se vrnem iz igre
 		menu_in()
 
 	if not Global.sound_manager.menu_music_set_to_off: # tale pogoj je možen samo ob vračanju iz igre
@@ -176,7 +163,10 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
 				$SelectSweeper.select_level_btns_holder.all_level_btns[0].call_deferred("grab_focus")
-				#				$SelectSweeper.select_level_btns_holder.all_level_btns[0].grab_focus()
+		"select_eraser":
+			if not animation_reversed(Screens.SELECT_ERASER):
+				current_screen = Screens.SELECT_ERASER
+				$SelectEraser.select_level_btns_holder.all_level_btns[0].call_deferred("grab_focus")
 
 
 func animation_reversed(from_screen: int):
@@ -234,3 +224,30 @@ func _on_HighscoresBtn_pressed() -> void:
 func _on_QuitGameBtn_pressed() -> void:
 
 	Global.main_node.quit_exit_game()
+
+
+func _on_BackBtn_pressed() -> void:
+
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_cancel")
+
+	match current_screen:
+		Screens.ABOUT:
+			$About/BackBtn.grab_focus()
+			animation_player.play_backwards("about")
+		Screens.SETTINGS:
+			$Settings/BackBtn.grab_focus()
+			animation_player.play_backwards("settings")
+		Screens.HIGHSCORES:
+			$Highscores/BackBtn.grab_focus()
+			animation_player.play_backwards("highscores")
+		Screens.SELECT_LEVEL:
+			$SelectSweeper/BackBtn.grab_focus()
+			animation_player.play_backwards("select_sweeper")
+		Screens.SELECT_ERASER:
+			$SelectEraser/BackBtn.grab_focus()
+			animation_player.play_backwards("select_eraser")
+		Screens.MAIN_MENU:
+			return
+
+	menu_in()

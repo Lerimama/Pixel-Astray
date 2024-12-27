@@ -66,18 +66,19 @@ func get_saved_highscore(current_game_data: Dictionary):
 
 func delete_highscores_file(file_game_data: Dictionary):
 
-	var game_name: String
+	var file_game_name: String
 	var local_highscores = true
 
-	if file_game_data["game"] == Profiles.Games.SWEEPER:
-		game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + str(file_game_data["level"])
+	if Profiles.tilemap_paths[file_game_data["game"]].size() > 1:
+		file_game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + str(file_game_data["level"])
 	else:
-		game_name = Profiles.Games.keys()[file_game_data["game"]]
+		file_game_name = Profiles.Games.keys()[file_game_data["game"]]
+
 	if not local_highscores:
-		game_name += "_Global"
+		file_game_name += "_Global"
 
 	var file_directory: Directory = Directory.new()
-	var file_path: String = "user://%s_highscores.save" % game_name
+	var file_path: String = "user://%s_highscores.save" % file_game_name
 	var error = file_directory.remove(file_path)
 
 
@@ -152,7 +153,6 @@ func read_settings_from_file():
 	var error = data_file.open("user://%s.save" % settings_file_name, File.READ)
 	if error != OK:
 		write_settings_to_file()
-	#	yield(get_tree().create_timer(0.1), "timeout") # zazih, da res zapiše v file
 	# odprem filet za branje
 	data_file.open("user://%s.save" % settings_file_name, File.READ)
 
@@ -167,7 +167,7 @@ func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: 
 
 	# get hs name
 	var write_game_name: String
-	if write_game_data["game"] == Profiles.Games.SWEEPER:
+	if Profiles.tilemap_paths[write_game_data["game"]].size() > 1:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + str(write_game_data["level"])
 	else:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]]
@@ -192,10 +192,11 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 
 	var read_game_name: String
 
-	if read_game_data["game"] == Profiles.Games.SWEEPER:
+	if Profiles.tilemap_paths[read_game_data["game"]].size() > 1:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 	else:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]]
+
 	if not local_highscores:
 		read_game_name += "_Global"
 
@@ -210,7 +211,8 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 			data_file.close()
 		# če iščem globalnega in ga ni, probam z lokalnim
 		else:
-			if read_game_data["game"] == Profiles.Games.SWEEPER:
+			if Profiles.tilemap_paths[read_game_data["game"]].size() > 1:
+#			if read_game_data["game"] == Profiles.Games.SWEEPER:
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 			else:
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]]

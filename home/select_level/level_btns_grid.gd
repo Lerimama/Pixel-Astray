@@ -3,6 +3,7 @@ extends GridContainer
 
 signal level_btns_are_set
 
+var game_key: int # na spawn button se napolne
 var unfocused_color: Color = Global.color_almost_black
 var btn_colors: Array
 var all_level_btns: Array # naberem ob spawnu
@@ -10,6 +11,7 @@ var btns_holder_parent # določim od zunaj ... (GO ali home > select level)
 var btns_are_set: bool = false
 var solved_btns: Array = []
 
+# vsebina gumba (v taki obliki, ker še niso spawnani)
 var record_holder_path: String = "RecordContent"
 var level_label_path: String = "RecordContent/LevelCount"
 var record_label_path: String = "RecordContent/Record"
@@ -23,30 +25,29 @@ var content_defocus_alpha: float = 1
 var tilemap_focus_alpha: float = 1
 var tilemap_defocus_alpha: float = 0.32
 
-onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
+onready var LevelBtn: PackedScene = preload("res://home/select_level/level_btn.tscn")
 
 
-func spawn_level_btns(game_name_key: int = Profiles.Games.SWEEPER):
+func spawn_level_btns(game_name_key: int):
 
 	# zbrišem vzorčne gumbe v holderju
 	for btn in get_children():
 		btn.queue_free()
 
-	# spawnam nove gumbe za vsak tilemap_path
-	for tilemap_path in Profiles.tilemap_paths[game_name_key]:
-#	for tilemap_path in Profiles.sweeper_level_tilemap_paths:
-		var tilemap_path_index: int = Profiles.sweeper_level_tilemap_paths.find(tilemap_path)
-		var tilemap_path_level_number: int = tilemap_path_index + 1
+	game_key = game_name_key
+	var game_tilemap_paths: Array = Profiles.tilemap_paths[game_key]
+	var column_number: int = round(sqrt(game_tilemap_paths.size()))
+	columns = column_number
 
-		# spawnam vse razen zadnjega, ki je že notri
-#		if tilemap_path_level_number <= Profiles.sweeper_level_tilemap_paths.size():
+	# spawnam nove gumbe za vsak tilemap_path
+	for tilemap_index in game_tilemap_paths.size():
+		var tilemap_path_level_number: int = tilemap_index + 1
 		var new_level_btn: Button = LevelBtn.instance()
 		add_child(new_level_btn)
+
+		# props
 		new_level_btn.add_to_group(Batnz.group_critical_btns)
 		all_level_btns.append(new_level_btn)
-
-	var column_number: int = round(sqrt(Profiles.sweeper_level_tilemap_paths.size()))
-	columns = column_number
 
 
 func set_level_btns_content():
@@ -58,7 +59,6 @@ func set_level_btns_content():
 		# poimenujem gumb in barvam ozadje
 		var btn = all_level_btns[btn_count]
 		var btn_level_number: int = btn_count + 1
-#		btn.name = "Sweeper%02dBtn" % btn_level_number
 		btn.name = "LevelBtn_%d" % btn_level_number
 		# highscore ... preverjam HScore > 0
 		var level_hs_line: Array = _get_btn_highscore(btn_level_number)
@@ -81,7 +81,6 @@ func set_level_btns_content():
 			_create_level_btn_tilemap(btn, btn_level_number)
 
 	colorize_level_btns() # more bit spredaj
-
 	_connect_level_btns()
 
 #	if not btns_are_set: # _temp preprečim error s signalom
@@ -123,9 +122,9 @@ func colorize_level_btns():
 
 func _create_level_btn_tilemap(level_btn: Button, btn_level_number: int):
 
-		var sweeper_tilemap_path: String = "res://game/tilemaps/sweeper/tilemap_sweeper_%02d.tscn" % btn_level_number
-		var BtnTilemap: PackedScene = load(sweeper_tilemap_path)
-
+		var game_tilemap_paths: Array = Profiles.tilemap_paths[game_key]
+		var level_tilemap_path: String = game_tilemap_paths[btn_level_number - 1]
+		var BtnTilemap: PackedScene = load(level_tilemap_path)
 		_spawn_btn_tilemap(level_btn, BtnTilemap)
 
 
@@ -153,11 +152,11 @@ func _spawn_btn_tilemap(level_btn, BtnTilemap):
 
 func _get_btn_highscore(btn_level_number: int):
 
-	var btn_level_game_data = Profiles.game_data_sweeper
+
+	var btn_level_game_data = Profiles.game_data[game_key]
 	btn_level_game_data["level"] = btn_level_number
 
 	var current_highscore_line: Array = Data.get_saved_highscore(btn_level_game_data)
-
 	var current_highscore_clock = 0
 	# če je < 0, ga ne formatiram (bolje vem, da je "scoreless")
 	if current_highscore_line[0] > 0:
@@ -227,11 +226,4 @@ func _on_btn_unhovered_or_unfocused(btn):
 func _on_btn_pressed(btn):
 
 	var pressed_btn_index: int = get_children().find(btn)
-
-
 	btns_holder_parent.play_selected_level(pressed_btn_index + 1)
-
-	var sweeper_game_name: String = "Sweeper %02d" % (pressed_btn_index + 1)
-#	Analytics.save_selected_game_data(sweeper_game_name) # ... povzroča eror preko update in post request
-
-

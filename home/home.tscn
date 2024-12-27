@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -8,15 +8,16 @@
 [ext_resource path="res://home/intro/intro.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/player_camera.gd" type="Script" id=7]
 [ext_resource path="res://home/highscores/highscores.gd" type="Script" id=8]
+[ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=9]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=10]
 [ext_resource path="res://common/home_screenshot.png" type="Texture" id=11]
 [ext_resource path="res://assets/theme/box_game_btn_new.tres" type="StyleBox" id=12]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
 [ext_resource path="res://home/about.gd" type="Script" id=16]
-[ext_resource path="res://home/select_level.gd" type="Script" id=17]
+[ext_resource path="res://home/select_level/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
-[ext_resource path="res://home/level_btns_grid.tscn" type="PackedScene" id=19]
+[ext_resource path="res://home/select_level/level_btns_grid.tscn" type="PackedScene" id=19]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=20]
 [ext_resource path="res://assets/theme/box_game_btn_focus_new.tres" type="StyleBox" id=22]
 [ext_resource path="res://home/games_menu.gd" type="Script" id=23]
@@ -181,6 +182,8 @@ noise = ExtResource( 10 )
 [sub_resource type="AtlasTexture" id=559]
 atlas = ExtResource( 11 )
 region = Rect2( 320, 320, 1916, 640 )
+
+[sub_resource type="StyleBoxEmpty" id=564]
 
 [sub_resource type="StyleBoxEmpty" id=151]
 
@@ -612,6 +615,40 @@ tracks/19/keys = {
 "update": 0,
 "values": [ Vector2( 920, 720 ) ]
 }
+tracks/20/type = "bezier"
+tracks/20/path = NodePath("SelectEraser:rect_position:x")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("SelectEraser:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("SelectEraser:modulate:a")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [sub_resource type="Animation" id=137]
 resource_name = "about"
@@ -974,101 +1011,67 @@ tracks/4/keys = {
 [sub_resource type="Animation" id=563]
 resource_name = "select_eraser"
 step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("SelectSweeper:modulate:a")
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("HomeScreen:rect_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.75, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 0.0, 1.0, 1.0 ]
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -960, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("SelectSweeper:rect_position:x")
+tracks/1/path = NodePath("HomeScreen:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 312, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0.04, 1 )
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("SelectSweeper:visible")
+tracks/2/path = NodePath("SelectEraser:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.02 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
+"times": PoolRealArray( 0, 0.25, 0.75, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0, 1.0 ]
 }
-tracks/3/type = "bezier"
-tracks/3/path = NodePath("HomeScreen:rect_position:x")
+tracks/3/type = "value"
+tracks/3/path = NodePath("SelectEraser:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, -960, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0.04, 1 )
+"times": PoolRealArray( 0, 0.02 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("HomeScreen:rect_position:y")
+tracks/4/path = NodePath("SelectEraser:rect_position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 312, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("SelectEraser:modulate")
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("SelectEraser:rect_position:y")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 0,
-"values": [  ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("SelectEraser:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("SelectEraser:rect_position:x")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray(  ),
-"times": PoolRealArray(  )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("SelectEraser:rect_position:y")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
 "points": PoolRealArray(  ),
 "times": PoolRealArray(  )
 }
@@ -1526,8 +1529,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_top = 45.0
-margin_bottom = 45.0
+margin_top = 120.0
+margin_bottom = 120.0
 theme = ExtResource( 15 )
 script = ExtResource( 23 )
 
@@ -1535,106 +1538,34 @@ script = ExtResource( 23 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -464.0
-margin_top = 75.0
 margin_right = 464.0
-margin_bottom = 139.0
+margin_bottom = 64.0
 size_flags_horizontal = 3
-custom_constants/separation = 8
+custom_constants/separation = 16
 
-[node name="Eraser" type="Control" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_right = 336.0
+[node name="EraserBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
+margin_right = 141.0
 margin_bottom = 64.0
-rect_min_size = Vector2( 336, 0 )
+rect_min_size = Vector2( 0, 64 )
+focus_neighbour_left = NodePath("../HunterBtn")
+focus_neighbour_bottom = NodePath("../../../Menu/HighscoresBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
-
-[node name="Background" type="Panel" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = ExtResource( 22 )
-
-[node name="Label" type="Label" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 33.0
-margin_top = 21.0
-margin_right = 103.0
-margin_bottom = 43.0
-mouse_filter = 0
-text = "ERASE"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser"]
-margin_left = 114.0
-margin_right = 314.0
-margin_bottom = 64.0
-custom_constants/separation = 0
-
-[node name="XSBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer"]
-margin_right = 40.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 40, 64 )
-focus_neighbour_left = NodePath("../../../HunterBtn")
-focus_neighbour_bottom = NodePath("../../../../../Menu/HighscoresBtn")
-mouse_default_cursor_shape = 2
-text = "XS"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer"]
-margin_left = 40.0
-margin_right = 80.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 40, 64 )
-focus_neighbour_bottom = NodePath("../../../../../Menu/HighscoresBtn")
-mouse_default_cursor_shape = 2
-text = "S"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="MBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer"]
-margin_left = 80.0
-margin_right = 120.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 40, 64 )
-focus_neighbour_bottom = NodePath("../../../../../Menu/HighscoresBtn")
-mouse_default_cursor_shape = 2
-text = "M"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer"]
-margin_left = 120.0
-margin_right = 160.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 40, 64 )
-focus_neighbour_bottom = NodePath("../../../../../Menu/HighscoresBtn")
-mouse_default_cursor_shape = 2
-text = "L"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="XLBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer"]
-margin_left = 160.0
-margin_right = 200.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 40, 64 )
-focus_neighbour_right = NodePath("../../../DefenderBtn")
-focus_neighbour_bottom = NodePath("../../../../../Menu/HighscoresBtn")
-mouse_default_cursor_shape = 2
-text = "XL"
+custom_styles/hover = ExtResource( 22 )
+custom_styles/pressed = ExtResource( 22 )
+custom_styles/focus = ExtResource( 22 )
+custom_styles/disabled = SubResource( 564 )
+custom_styles/normal = ExtResource( 12 )
+text = "ERASER"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="DefenderBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 344.0
-margin_right = 484.0
+margin_left = 157.0
+margin_right = 298.0
 margin_bottom = 64.0
-rect_min_size = Vector2( 136, 64 )
-focus_neighbour_left = NodePath("../Eraser/HBoxContainer/XLBtn")
+rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/SettingsBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -1643,18 +1574,18 @@ custom_styles/pressed = ExtResource( 22 )
 custom_styles/focus = ExtResource( 22 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 12 )
-text = "DEFEND"
+text = "DEFENDER"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="SweeperBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 492.0
-margin_right = 632.0
+margin_left = 314.0
+margin_right = 455.0
 margin_bottom = 64.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_min_size = Vector2( 136, 64 )
+rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -1663,18 +1594,18 @@ custom_styles/pressed = ExtResource( 22 )
 custom_styles/focus = ExtResource( 22 )
 custom_styles/disabled = SubResource( 478 )
 custom_styles/normal = ExtResource( 12 )
-text = "SWEEP"
+text = "SWEEPER"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="CleanerBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 640.0
-margin_right = 780.0
+margin_left = 471.0
+margin_right = 613.0
 margin_bottom = 64.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_min_size = Vector2( 136, 64 )
+rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -1683,17 +1614,16 @@ custom_styles/pressed = ExtResource( 22 )
 custom_styles/focus = ExtResource( 22 )
 custom_styles/disabled = SubResource( 478 )
 custom_styles/normal = ExtResource( 12 )
-text = "CLEAN"
+text = "CLEANER"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="HunterBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 788.0
-margin_right = 928.0
+margin_left = 629.0
+margin_right = 770.0
 margin_bottom = 64.0
-rect_min_size = Vector2( 136, 64 )
-focus_neighbour_right = NodePath("../Eraser/HBoxContainer/XSBtn")
+rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -1702,7 +1632,25 @@ custom_styles/pressed = ExtResource( 22 )
 custom_styles/focus = ExtResource( 22 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 12 )
-text = "HUNT"
+text = "HUNTER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="TheDuelBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
+margin_left = 786.0
+margin_right = 928.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 22 )
+custom_styles/pressed = ExtResource( 22 )
+custom_styles/focus = ExtResource( 22 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 12 )
+text = "THE DUEL"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -1711,8 +1659,9 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -464.0
+margin_top = 64.0
 margin_right = 464.0
-margin_bottom = 77.0
+margin_bottom = 136.0
 
 [node name="Background" type="ColorRect" parent="HomeScreen/GamesMenu/Description"]
 visible = false
@@ -1725,12 +1674,26 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -431.5
-margin_top = -12.0
-margin_right = 431.5
-margin_bottom = 10.0
+margin_left = -464.0
+margin_top = -6.5
+margin_right = 464.0
+margin_bottom = 15.5
+custom_fonts/font = ExtResource( 9 )
+text = "Stop invading colors from taking over the screen as they keep crashing in!"
+align = 1
+autowrap = true
+
+[node name="Label2" type="Label" parent="HomeScreen/GamesMenu/Description"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -464.0
+margin_top = -244.0
+margin_right = -320.0
+margin_bottom = -116.0
 custom_fonts/font = ExtResource( 14 )
-text = "Pick a screen size that fits you and eliminate all stray pixels. Give it your best and beat the record time!"
+text = "Stop invading colors from taking over the screen as they keep crashing in!"
 align = 1
 autowrap = true
 
@@ -1753,10 +1716,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -360.0
-margin_top = 209.0
-margin_right = 360.0
-margin_bottom = 234.0
+margin_left = -200.0
+margin_top = 65.0
+margin_right = 200.0
+margin_bottom = 90.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 custom_constants/separation = 24
@@ -1766,9 +1729,9 @@ __meta__ = {
 }
 
 [node name="HighscoresBtn" type="Button" parent="HomeScreen/Menu"]
-margin_left = 196.0
+margin_left = 36.0
 margin_top = 7.0
-margin_right = 304.0
+margin_right = 144.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
@@ -1780,9 +1743,9 @@ enabled_focus_mode = 1
 text = "HALL OF FAME"
 
 [node name="SettingsBtn" type="Button" parent="HomeScreen/Menu"]
-margin_left = 328.0
+margin_left = 168.0
 margin_top = 7.0
-margin_right = 397.0
+margin_right = 237.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -1794,9 +1757,9 @@ enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="AboutBtn" type="Button" parent="HomeScreen/Menu"]
-margin_left = 421.0
+margin_left = 261.0
 margin_top = 7.0
-margin_right = 466.0
+margin_right = 306.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../ExitGameBtn")
@@ -1808,9 +1771,9 @@ enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="ExitGameBtn" type="Button" parent="HomeScreen/Menu"]
-margin_left = 490.0
+margin_left = 330.0
 margin_top = 7.0
-margin_right = 523.0
+margin_right = 363.0
 margin_bottom = 25.0
 focus_neighbour_right = NodePath("../HighscoresBtn")
 focus_mode = 1
@@ -1837,6 +1800,22 @@ margin_bottom = 720.0
 rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
 script = ExtResource( 17 )
+game_key = 4
+
+[node name="BackBtn" type="TextureButton" parent="SelectSweeper"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -32.0
+margin_top = 72.0
+margin_right = -8.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_top = NodePath("../LevelBtnsGrid/PixelAstrayLevelBtn")
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+flip_h = true
 
 [node name="Title" type="Label" parent="SelectSweeper"]
 modulate = Color( 1, 1, 1, 0.470588 )
@@ -1846,7 +1825,7 @@ margin_right = 154.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
-text = "Select Sweeper level"
+text = "Select situation to sweep"
 
 [node name="Subtitle" type="Label" parent="SelectSweeper"]
 margin_left = 8.0
@@ -1875,7 +1854,20 @@ text = "More comming soon ..."
 align = 2
 autowrap = true
 
-[node name="BackBtn" type="TextureButton" parent="SelectSweeper"]
+[node name="SelectEraser" type="Control" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1280.0
+margin_right = 2200.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 0, 720 )
+theme = ExtResource( 15 )
+script = ExtResource( 17 )
+game_key = 1
+
+[node name="BackBtn" type="TextureButton" parent="SelectEraser"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -32.0
@@ -1890,18 +1882,6 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
 
-[node name="SelectEraser" type="Control" parent="."]
-modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1280.0
-margin_right = 2200.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 0, 720 )
-theme = ExtResource( 15 )
-script = ExtResource( 17 )
-levels_for_game = 11
-
 [node name="Title" type="Label" parent="SelectEraser"]
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 7.0
@@ -1910,7 +1890,7 @@ margin_right = 154.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
-text = "Select Sweeper level"
+text = "Select Eraser"
 
 [node name="Subtitle" type="Label" parent="SelectEraser"]
 margin_left = 8.0
@@ -1938,21 +1918,6 @@ custom_fonts/font = ExtResource( 14 )
 text = "More comming soon ..."
 align = 2
 autowrap = true
-
-[node name="BackBtn" type="TextureButton" parent="SelectEraser"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -32.0
-margin_top = 72.0
-margin_right = -8.0
-margin_bottom = 96.0
-rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../LevelBtnsGrid/PixelAstrayLevelBtn")
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 195 )
-texture_hover = SubResource( 196 )
-texture_focused = SubResource( 196 )
-flip_h = true
 
 [node name="Settings" type="Control" parent="."]
 visible = false
@@ -2352,6 +2317,22 @@ rect_min_size = Vector2( 1280, 520 )
 theme = ExtResource( 15 )
 script = ExtResource( 8 )
 
+[node name="BackBtn" type="TextureButton" parent="Highscores"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 64.0
+margin_right = -40.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+focus_neighbour_left = NodePath("../UpdateScoresBtn")
+focus_neighbour_bottom = NodePath("../GameHalls/Unbeatables")
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+
 [node name="Title" type="Label" parent="Highscores"]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -2405,22 +2386,6 @@ margin_top = 1.0
 margin_right = 20.0
 margin_bottom = 21.0
 texture = SubResource( 536 )
-
-[node name="BackBtn" type="TextureButton" parent="Highscores"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -64.0
-margin_top = 64.0
-margin_right = -40.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 16, 16 )
-rect_rotation = 89.9999
-focus_neighbour_left = NodePath("../UpdateScoresBtn")
-focus_neighbour_bottom = NodePath("../GameHalls/Unbeatables")
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 195 )
-texture_hover = SubResource( 196 )
-texture_focused = SubResource( 196 )
 
 [node name="Legend" type="Control" parent="Highscores"]
 anchor_left = 1.0
@@ -3220,14 +3185,13 @@ anims/settings = SubResource( 530 )
 [connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_mouse_entered"]
 [connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_mouse_exited"]
 [connection signal="pressed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_pressed"]
-[connection signal="mouse_entered" from="HomeScreen/GamesMenu/HBoxContainer/Eraser/Label" to="HomeScreen/GamesMenu" method="_on_Label_mouse_entered"]
 [connection signal="pressed" from="HomeScreen/Menu/HighscoresBtn" to="." method="_on_HighscoresBtn_pressed"]
 [connection signal="pressed" from="HomeScreen/Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="HomeScreen/Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="HomeScreen/Menu/ExitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
-[connection signal="pressed" from="SelectSweeper/BackBtn" to="SelectSweeper" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectEraser/BackBtn" to="SelectEraser" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="SelectSweeper/BackBtn" to="." method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="SelectEraser/BackBtn" to="." method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="Settings/BackBtn" to="." method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/Content/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]
 [connection signal="pressed" from="Settings/Content/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/Content/ColorSchemeOptions/SchemeResetBtn" to="Settings" method="_on_SchemeResetBtn_pressed"]
@@ -3247,14 +3211,14 @@ anims/settings = SubResource( 530 )
 [connection signal="index_pressed" from="Settings/TouchControllerPopup" to="Settings" method="_on_TouchControllerPopup_index_pressed"]
 [connection signal="id_focused" from="Settings/ResetDataPopup" to="Settings" method="_on_ResetDataPopup_id_focused"]
 [connection signal="index_pressed" from="Settings/ResetDataPopup" to="Settings" method="_on_ResetDataPopup_index_pressed"]
+[connection signal="pressed" from="Highscores/BackBtn" to="." method="_on_BackBtn_pressed"]
 [connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
 [connection signal="focus_entered" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_pressed"]
-[connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="About/BackBtn" to="." method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/PA/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/PA/LinkLabel2" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]

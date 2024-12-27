@@ -1,0 +1,145 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://home/select_level/level_btn.tscn" type="PackedScene" id=5]
+[ext_resource path="res://home/select_level/level_btns_grid.gd" type="Script" id=6]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=7]
+
+[node name="LevelBtnsGrid" type="GridContainer"]
+margin_left = 8.0
+margin_top = 184.0
+margin_right = 760.0
+margin_bottom = 624.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 7 )
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
+columns = 4
+script = ExtResource( 6 )
+
+[node name="LevelBtn" parent="." instance=ExtResource( 5 )]
+margin_right = 182.0
+margin_bottom = 104.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn2" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_right = 372.0
+margin_bottom = 104.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn3" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_right = 562.0
+margin_bottom = 104.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn4" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_right = 752.0
+margin_bottom = 104.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn5" parent="." instance=ExtResource( 5 )]
+margin_top = 112.0
+margin_right = 182.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn6" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_top = 112.0
+margin_right = 372.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn7" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_top = 112.0
+margin_right = 562.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn8" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_top = 112.0
+margin_right = 752.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn9" parent="." instance=ExtResource( 5 )]
+margin_top = 224.0
+margin_right = 182.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn10" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_top = 224.0
+margin_right = 372.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn11" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_top = 224.0
+margin_right = 562.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn12" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_top = 224.0
+margin_right = 752.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn13" parent="." instance=ExtResource( 5 )]
+margin_top = 336.0
+margin_right = 182.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn14" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_top = 336.0
+margin_right = 372.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn15" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_top = 336.0
+margin_right = 562.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}

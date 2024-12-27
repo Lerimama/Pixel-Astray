@@ -154,6 +154,7 @@ func reload_game(): # game out z drugačnim zaključkom
 	Global.game_camera = null
 	var sound_to_play: AudioStreamPlayer = Global.sound_manager.play_gui_sfx("menu_fade")
 	var current_game_enum: int = Global.game_manager.game_data["game"]
+#	printt ("reload", Global.game_manager.game_data["game"], Global.game_manager.game_data.key())
 
 	# če relouda, se trenutna igra konča ob kliku in potem tukaj začne nova (nadomešča home btn klik
 #	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"])
@@ -162,7 +163,6 @@ func reload_game(): # game out z drugačnim zaključkom
 	fade_out.tween_property(current_scene, "modulate", Color.black, fade_scene_time)
 	yield(fade_out, "finished")
 	yield(sound_to_play, "finished") # sound more bit daljši od tweena
-
 
 	release_scene(current_scene)
 	Profiles.call_deferred("set_game_data", current_game_enum) # nujno deferred, ker se tudi relese scene zgodi deferred

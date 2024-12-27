@@ -35,7 +35,7 @@ var group_critical_btns = "Menu confirm btns" # scene changing > turn off > turn
 var group_menu_cancel_btns = "Menu cancel btns"
 
 # colors
-var current_color_pool: Array
+var current_color_pool: Array  # ni še v uporabi
 var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")

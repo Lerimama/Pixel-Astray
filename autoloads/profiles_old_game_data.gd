@@ -4,7 +4,7 @@ extends Node
 func TOP(): pass
 
 
-enum Games {CLEANER, ERASER, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
+enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE, ERASER}
 enum HighscoreTypes {NONE, POINTS, TIME}
 
 enum TOUCH_CONTROLLER {DISABLED, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
@@ -78,6 +78,122 @@ var default_game_settings: Dictionary = { # per game
 func GAME_DATA(): pass
 
 
+var game_data_cleaner: Dictionary = {
+	"game": Games.CLEANER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.POINTS,
+	"game_name": "Cleaner",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
+	"description": "%d minutes to show your cleaning skills. Restore the perfect order!" % 5,
+}
+
+
+var game_data_eraser_xs: Dictionary = {
+	"game": Games.ERASER_XS, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
+	"game_name": "Eraser XS",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"description" : "Collect all %d colors and become the brightest again!" % 32,
+}
+
+var game_data_eraser_s: Dictionary = {
+	"game": Games.ERASER_S, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
+	"game_name": "Eraser S",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_s.tscn",
+	"description" : "Collect all %d colors and become the brightest again!" % 50,
+}
+
+var game_data_eraser_m: Dictionary = {
+	"game": Games.ERASER_M, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
+	"game_name": "Eraser M",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_m.tscn",
+	"description" : "Collect all %d colors and become the brightest again!" % 140,
+}
+
+var game_data_eraser_l: Dictionary = {
+	"game": Games.ERASER_L, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
+	"game_name": "Eraser L",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_l.tscn",
+	"description" : "Collect all %d colors and become the brightest again!" % 230,
+}
+
+var game_data_eraser_xl: Dictionary = {
+	"game": Games.ERASER_XL, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
+	"game_name": "Eraser XL",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xl.tscn",
+	"description" : "Collect all %d colors and become the brightest again!" % 320,
+}
+
+var game_data_hunter: Dictionary = {
+	"game": Games.HUNTER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.POINTS,
+	"game_name": "Hunter",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_hunter.tscn",
+	"description" : "Keep the colors in check as they keep popping in!",
+	# štart
+	"level": 1,
+	"level_goal_count": 1, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
+	"level_goal_count_grow": 3,
+	# "create_strays_count": 0, # določi tilemap
+	"create_strays_count_grow": 0,
+	# "respawn_strays_count_range": [2,8],
+	"respawn_strays_count_range_grow": [1,1],
+	# "respawn_pause_time": 3,
+	"respawn_pause_time_factor": 0.80,
+	# "spawn_white_stray_part": 0.21,
+	"spawn_white_stray_part_grow": 0, # omejena na 2. level na set_new_level
+}
+
+var game_data_defender: Dictionary = {
+	"game": Games.DEFENDER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.POINTS,
+	"game_name": "Defender",
+	"game_scene_path": "res://game/game_defender.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
+	"description" : "Defend your screen against invading colors!",
+	# štart
+	"level": 1,
+	"level_goal_count": 320, # CON kolikor jih spawnanih v prvi rundi
+	"spawn_round_range": [1, 3], # random spawn count, največ 120 - 8
+	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
+	# level up
+	"level_goal_count_grow": 10, # dodatno prištejem
+	"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
+	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
+	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
+}
+
+var game_data_sweeper: Dictionary = {
+	"game": Games.SWEEPER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
+	"game_name": "Sweeper",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+	"description" : "Sweep the entire screen with one spectacular move!",
+	"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
+	"level": 1,
+}
+
+var game_data_the_duel: Dictionary = {
+	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.NONE,
+	"game_name": "The Duel",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
+	"description" : "Only the best cleaner will shine in this epic battle!",
+	"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
+}
+
 var game_data: Dictionary = {
 
 	Games.CLEANER: {
@@ -85,19 +201,16 @@ var game_data: Dictionary = {
 			"highscore_type": HighscoreTypes.POINTS,
 			"game_name": "Cleaner",
 			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
+			"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 			"description": "%d minutes to show your cleaning skills. Restore the perfect order!" % 5,
-			"home_btn_desc": "You have %d minutes to restore order to this vibrant mess." % 5,
-			"level": 0, # 0 pomeni, da se lvel ne upošteva
 			},
 	Games.DEFENDER: {
 			"game": Games.DEFENDER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.POINTS,
 			"game_name": "Defender",
 			"game_scene_path": "res://game/game_defender.tscn",
-#			"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
+			"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
 			"description" : "Defend your screen against invading colors!",
-			"home_btn_desc": "Stop invading colors from taking over the screen as they keep crashing in!",
 			# štart
 			"level": 1,
 			"level_goal_count": 320, # CON kolikor jih spawnanih v prvi rundi
@@ -114,9 +227,8 @@ var game_data: Dictionary = {
 			"highscore_type": HighscoreTypes.POINTS,
 			"game_name": "Hunter",
 			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/tilemap_hunter.tscn",
+			"tilemap_path": "res://game/tilemaps/tilemap_hunter.tscn",
 			"description" : "Keep the colors in check as they keep popping in!",
-			"home_btn_desc": "Stop nasty colors from flooding the screen as they keep poping in!",
 			# štart
 			"level": 1,
 			"level_goal_count": 1, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
@@ -131,59 +243,33 @@ var game_data: Dictionary = {
 			"spawn_white_stray_part_grow": 0, # omejena na 2. level na set_new_level
 			},
 	Games.ERASER: {
-			"game": Games.ERASER, # key igre je key lootlocker tabele
+			"game": Games.ERASER_XS, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.TIME,
 			"game_name": "Eraser XS",
 			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 			"description" : "Collect all %d colors and become the brightest again!" % 32,
-			"home_btn_desc": "Pick which of the %d the crisis situations you can handle!" % 5, # % tilemap_paths[Games.ERASER].size(),
-			"level": 1,
 			},
 	Games.SWEEPER: {
 			"game": Games.SWEEPER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.TIME,
 			"game_name": "Sweeper",
 			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+			"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 			"description" : "Sweep the entire screen with one spectacular move!",
-			"home_btn_desc": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
 			"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
 			"level": 1,
-			},
-	Games.THE_DUEL: {
-			"game": Games.THE_DUEL, # key igre je key lootlocker tabele
-			"highscore_type": HighscoreTypes.NONE,
-			"game_name": "The Duel",
-			"game_scene_path": "res://game/game.tscn",
-			"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-			"description" : "Only the best cleaner will shine in this epic battle!",
-			"home_btn_desc": "Sofa showdown! Battle for the ultimate cleaning champ title!",
-			"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
-			"level": 0,
 			},
 
 }
 
 
-#onready var game_descriptions: Array = [
-#	"You have %d minutes to show your cleaning skills. Restore perfect order to this vibrant mess."  % 5,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 32,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 0,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 01,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 02,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 03,
-#	"Stop invading colors from taking over the screen as they keep crashing in!",
-#	"Stop nasty colors from flooding the screen as they keep poping in!",
-#	"Sweep them all in one move! %d saturated screens need a quick cleaning service." % Profiles.sweeper_level_tilemap_paths.size()
-#	]
-
 var tilemap_paths: Dictionary = {
 	Games.ERASER: [
 			# _temp ... zaporedje je ključno za level name
 			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-			"res://game/tilemaps/eraser/tilemap_eraser_s.tscn",
-			"res://game/tilemaps/eraser/tilemap_eraser_m.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 			],
@@ -205,54 +291,42 @@ var tilemap_paths: Dictionary = {
 			"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
 			"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
 			"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
-			],
-	Games.CLEANER: [
-			"res://game/tilemaps/tilemap_cleaner.tscn",
-			],
-	Games.DEFENDER: [
-			"res://game/tilemaps/tilemap_defender.tscn",
-			],
-	Games.HUNTER: [
-			"res://game/tilemaps/tilemap_hunter.tscn",
-			],
-	Games.THE_DUEL: [
-			"res://game/tilemaps/tilemap_duel.tscn",
-			],
+			]
 
 }
-#var sweeper_level_tilemap_paths: Array = [
-#	# zaporedje je ključno za level name
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_10.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_11.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_12.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_13.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	]
-#
-#var eraser_level_tilemap_paths: Array = [
-#	# _temp ... zaporedje je ključno za level name
+var sweeper_level_tilemap_paths: Array = [
+	# zaporedje je ključno za level name
+	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_10.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_11.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_12.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_13.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
 #	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 #	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 #	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 #	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 #	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	]
+	]
+
+var eraser_level_tilemap_paths: Array = [
+	# _temp ... zaporedje je ključno za level name
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+	]
 
 
 # PROCES -----------------------------------------------------------------------------------
@@ -358,41 +432,36 @@ func set_game_data(selected_game):
 			game_settings["cleaned_reward_points"] = 1
 			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
-#		Games.ERASER_XS:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_xs.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 32
-#			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
-#		Games.ERASER_S:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_s.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 50
-#			game_settings["spawn_white_stray_part"] = 0.11
-#		Games.ERASER_M:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_m.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 140
-#			game_settings["spawn_white_stray_part"] = 0.11
-#		Games.ERASER_L:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_l.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 230
-#			game_settings["spawn_white_stray_part"] = 0.11
-#		Games.ERASER_XL:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_xl.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 320
-#			game_settings["spawn_white_stray_part"] = 0.11
+		Games.ERASER_XS:
+			current_game_data = game_data_eraser_xs.duplicate()
+			game_settings["game_time_limit"] = 0
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 32
+			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
+		Games.ERASER_S:
+			current_game_data = game_data_eraser_s.duplicate()
+			game_settings["game_time_limit"] = 0
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 50
+			game_settings["spawn_white_stray_part"] = 0.11
+		Games.ERASER_M:
+			current_game_data = game_data_eraser_m.duplicate()
+			game_settings["game_time_limit"] = 0
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 140
+			game_settings["spawn_white_stray_part"] = 0.11
+		Games.ERASER_L:
+			current_game_data = game_data_eraser_l.duplicate()
+			game_settings["game_time_limit"] = 0
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 230
+			game_settings["spawn_white_stray_part"] = 0.11
+		Games.ERASER_XL:
+			current_game_data = game_data_eraser_xl.duplicate()
+			game_settings["game_time_limit"] = 0
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 320
+			game_settings["spawn_white_stray_part"] = 0.11
 		Games.HUNTER:
 			current_game_data = game_data[Games.HUNTER].duplicate()
 #			current_game_data = game_data_hunter.duplicate()

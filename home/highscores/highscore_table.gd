@@ -45,7 +45,8 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	# table title
 	if show_title:
 		table_title_label.text = "Top " + table_game_data["game_name"] + "s"
-		if table_game_data["game"] == Profiles.Games.SWEEPER:
+		if Profiles.tilemap_paths[table_game_data["game"]].size() > 1:
+#		if table_game_data["game"] == Profiles.Games.SWEEPER:
 			table_title_label.text += " %02d" % table_game_data["level"]
 	else:
 		table_title_edge.hide()
@@ -141,12 +142,6 @@ func _add_local_to_global_scores(separate_local_scores: bool):
 			# konvertam uro v stotinke
 			if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 				global_player_score = Global.get_hunds_from_clock(global_player_score_from_line)
-				# menjam piko v dvopičje, da mi pravilno spremeni v int
-				#				print (global_player_score_from_line)
-				#				var global_player_clock_from_label: String = global_player_score_from_line
-				#				var global_player_clock_formated: String = global_player_clock_from_label.format([":"], ".")
-				#				printt (global_player_clock_formated, global_player_clock_from_label)
-				#				global_player_score = int(global_player_clock_formated)
 			else:
 				global_player_score = int(global_player_score_from_line)
 

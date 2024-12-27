@@ -2,9 +2,9 @@
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
-[ext_resource path="res://home/games_menu_on_select_game.gd" type="Script" id=3]
-[ext_resource path="res://assets/theme/box_game_btn.tres" type="StyleBox" id=4]
-[ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=5]
+[ext_resource path="res://_obs/games_menu_on_select_game.gd" type="Script" id=3]
+[ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=4]
+[ext_resource path="res://assets/theme/box_game_btn.tres" type="StyleBox" id=5]
 
 [sub_resource type="StyleBoxEmpty" id=478]
 
@@ -53,11 +53,11 @@ focus_neighbour_top = NodePath("../../../TutorialModeBtn")
 focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../Unbeatables/HunterBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 478 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "CLEANER"
 __meta__ = {
 "_editor_description_": ""
@@ -94,11 +94,11 @@ focus_neighbour_left = NodePath("../../Unbeatables/HunterBtn")
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "XS"
 __meta__ = {
 "_editor_description_": ""
@@ -112,11 +112,11 @@ margin_bottom = 184.0
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "S"
 __meta__ = {
 "_editor_description_": ""
@@ -130,11 +130,11 @@ margin_bottom = 184.0
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "M"
 __meta__ = {
 "_editor_description_": ""
@@ -148,11 +148,11 @@ margin_bottom = 184.0
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "L"
 __meta__ = {
 "_editor_description_": ""
@@ -167,11 +167,11 @@ focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_right = NodePath("../../Unbeatables/HunterBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "XL"
 __meta__ = {
 "_editor_description_": ""
@@ -268,11 +268,11 @@ margin_right = -40.0
 margin_bottom = 176.0
 focus_neighbour_top = NodePath("../../Cleaner/CleanerBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "HUNTER"
 __meta__ = {
 "_editor_description_": ""
@@ -288,11 +288,11 @@ focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
 focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
 focus_neighbour_bottom = NodePath("../../../TutorialModeBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "DEFENDER"
 __meta__ = {
 "_editor_description_": ""
@@ -333,11 +333,11 @@ focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_right = NodePath("../../Cleaner/CleanerBtn")
 focus_neighbour_bottom = NodePath("../../Eraser/XXLBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "SWEEPER"
 __meta__ = {
 "_editor_description_": ""
@@ -378,11 +378,11 @@ focus_neighbour_left = NodePath("../../Unbeatables/DefenderBtn")
 focus_neighbour_right = NodePath("../../Unbeatables/DefenderBtn")
 focus_neighbour_bottom = NodePath("../../../TutorialModeBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 5 )
-custom_styles/pressed = ExtResource( 5 )
-custom_styles/focus = ExtResource( 5 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 4 )
+custom_styles/focus = ExtResource( 4 )
 custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 5 )
 text = "THE DUEL"
 __meta__ = {
 "_editor_description_": ""

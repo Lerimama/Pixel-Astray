@@ -110,7 +110,7 @@ func _set_hud_elements():
 
 	# game name and level
 	game_label.text = Global.game_manager.game_data["game_name"]
-	if Global.game_manager.game_data.has("level"):
+	if Global.game_manager.game_data["level"] > 0:
 		level_label.show()
 	else:
 		level_label.hide()

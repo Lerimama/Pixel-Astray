@@ -101,12 +101,14 @@ func _colorize_tiles():
 	# tilemap edge
 	match Global.game_manager.game_data["game"]:
 		# manjši ekran
-		Profiles.Games.ERASER_XS, Profiles.Games.ERASER_S:
+		Profiles.Games.ERASER:
+#		Profiles.Games.ERASER_XS, Profiles.Games.ERASER_S:
 			# ga obarvam drugače da je viden
 			get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
 			edge_cover.hide()
-		# večji ekran (+ defender vogali
-		Profiles.Games.CLEANER, Profiles.Games.ERASER_L, Profiles.Games.ERASER_XL:
+		# večji ekran (+ defender vogali=
+#		Profiles.Games.CLEANER, Profiles.Games.ERASER_L, Profiles.Games.ERASER_XL:
+		Profiles.Games.CLEANER:
 			get_tileset().tile_set_modulate(edge_tile_id, Color.black)
 			edge_cover.show()
 		# fit

@@ -23,7 +23,7 @@ func open(): # kliče GM set game
 	var current_game_data: Dictionary = Global.game_manager.game_data
 
 	# game title
-	if current_game_data["game"] == Profiles.Games.SWEEPER: # samo enigam ima številko levela
+	if Profiles.tilemap_paths[current_game_data["game"]].size() > 1:
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]
@@ -58,4 +58,4 @@ func _on_HintBtn_pressed() -> void:
 
 	hint_btn.disabled = true
 	confirm_players_ready()
-#	Analytics.save_ui_click("ReadyBtn")
+	#	Analytics.save_ui_click("ReadyBtn")

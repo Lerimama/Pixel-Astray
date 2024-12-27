@@ -8,6 +8,7 @@ var game_final_time: float # unrounded hunds
 var p1_final_stats: Dictionary
 var p2_final_stats: Dictionary
 
+var played_game_key: int # ob odprtju
 var gameover_game_data: Dictionary # napolnem ob odprtju
 var gameover_reason: int
 var new_record_set: bool = false # za barvanje in texte titlov
@@ -99,12 +100,13 @@ func open_gameover(current_gameover_reason: int):
 	Profiles.tutorial_mode = false
 
 	gameover_game_data = Global.game_manager.game_data
+	played_game_key = Global.game_manager.game_data["game"]
 	gameover_reason = current_gameover_reason
 	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
 	game_final_time = Global.hud.game_timer.game_time_hunds
 	new_record_set = Global.hud.new_record_set
 
-	if gameover_game_data["game"] == Profiles.Games.THE_DUEL:
+	if played_game_key == Profiles.Games.THE_DUEL:
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
 		_set_duel_gameover_title()
 	else:
@@ -175,11 +177,11 @@ func show_menu():
 
 	var restart_btn: Button = $Menu/RestartBtn
 	var focus_btn: Button = restart_btn
-	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+	if Profiles.tilemap_paths[played_game_key] > 1:
 		focus_btn = select_level_btns_holder.all_level_btns[gameover_game_data["level"] - 1]
-		restart_btn.text = "TRY AGAIN"
-		restart_btn.hide()
-	elif gameover_game_data["game"] == Profiles.Games.THE_DUEL:
+		#		restart_btn.text = "TRY AGAIN"
+		#		restart_btn.hide()
+	elif played_game_key == Profiles.Games.THE_DUEL:
 		restart_btn.text = "REMATCH"
 
 	gameover_menu.modulate.a = 0
@@ -194,12 +196,15 @@ func show_menu():
 
 func play_selected_level(selected_level: int):
 
+	# set level on game data
+	Profiles.game_data[played_game_key]["level"] = selected_level
+
 	# set sweeper level
-	Profiles.game_data_sweeper["level"] = selected_level
 	Global.game_manager.game_settings["pregame_screen_on"] = false
-#	Global.game_manager.game_settings["always_zoomed_in"] = true
-#	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
+
+	#	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 	Global.main_node.reload_game()
+
 
 
 # SETUP ----------------------------------------------------------------------------------------
@@ -213,15 +218,14 @@ func _set_gameover_title():
 			selected_gameover_jingle = "win_jingle"
 			selected_gameover_title = gameover_title_cleaned
 			selected_gameover_title.modulate = Global.color_green
-			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+			if played_game_key == Profiles.Games.SWEEPER:
 				selected_gameover_title.get_node("Subtitle").text = "That was impressive!"
 			else:
-#				selected_gameover_title.get_node("Subtitle").text = "You are full of colors again!"
 				selected_gameover_title.get_node("Subtitle").text = "You are the brightest of them all!"
 		Global.game_manager.GameoverReason.LIFE:
 			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
-			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+			if played_game_key == Profiles.Games.SWEEPER:
 				selected_gameover_title = gameover_title_fail
 				selected_gameover_title.get_node("Subtitle").text = "You missed the target."
 			else:
@@ -233,17 +237,17 @@ func _set_gameover_title():
 			selected_gameover_jingle = "lose_jingle"
 			selected_gameover_title = gameover_title_time
 			selected_gameover_title.modulate = Global.color_red
-			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+			if played_game_key == Profiles.Games.SWEEPER:
 				selected_gameover_title.get_node("Subtitle").text = "You need to be faster!"
-			elif gameover_game_data["game"] == Profiles.Games.CLEANER:
+			elif played_game_key == Profiles.Games.CLEANER:
 				selected_gameover_title.get_node("Subtitle").text = "Time is up!"
 				if player_final_score > Global.game_manager.game_settings["ranking_score_limit"]: # _temp go reason
 					selected_gameover_jingle = "win_jingle"
 					name_input_label.text = "Great work!"
 					selected_gameover_title.modulate = Global.color_green
-			elif gameover_game_data["game"] == Profiles.Games.HUNTER:
+			elif played_game_key == Profiles.Games.HUNTER:
 				selected_gameover_title.get_node("Subtitle").text = "Your screen is drowning in colors."
-			elif gameover_game_data["game"] == Profiles.Games.DEFENDER:
+			elif played_game_key == Profiles.Games.DEFENDER:
 				selected_gameover_title.get_node("Subtitle").text = "You were overpowered."
 			else:
 				selected_gameover_title.get_node("Subtitle").text = "Can't handle the time?"
@@ -304,7 +308,7 @@ func _set_game_summary():
 
 	# set content node
 	var selected_content: Control
-	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+	if Profiles.tilemap_paths[played_game_key].size() > 1:
 		selected_content = $GameSummary/ContentSweeper
 	else:
 		selected_content = $GameSummary/Content
@@ -325,19 +329,19 @@ func _set_game_summary():
 	var stat_bursts_count: Label = selected_content.get_node("Data/DataContainer/BurstCount")
 	var stat_skills_used: Label = selected_content.get_node("Data/DataContainer/SkillsUsed")
 
-	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+	if played_game_key == Profiles.Games.SWEEPER:
 		summary_title.text = "Sweeper %02d Summary" % gameover_game_data["level"]
 		stats_title.text = "Game stats"
 		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
 		# select level btns
 		select_level_btns_holder.btns_holder_parent = self
-		select_level_btns_holder.spawn_level_btns()
+		select_level_btns_holder.spawn_level_btns(Profiles.Games.SWEEPER)
 		select_level_btns_holder.set_level_btns_content()
 		# summary content show/hide
 		$GameSummary/ContentSweeper.show()
 		$GameSummary/Content.hide()
-	elif gameover_game_data["game"] == Profiles.Games.ERASER:
+	elif played_game_key == Profiles.Games.ERASER:
 		summary_title.text = "Eraser %02d Summary" % gameover_game_data["level"]
 		stats_title.text = "Game stats"
 		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
@@ -353,7 +357,7 @@ func _set_game_summary():
 		summary_title.text = "%s Summary" % gameover_game_data["game_name"]
 		stats_title.text = "Game stats"
 		# level reached, če je level game
-		if gameover_game_data.has("level"):
+		if gameover_game_data["level"] > 0:
 			stat_level_reached.text = "Level reached: " + str(gameover_game_data["level"])
 			stat_level_reached.show()
 		else:
@@ -477,14 +481,17 @@ func _on_RestartBtn_pressed() -> void:
 
 #	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 
-	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
-		Profiles.game_data_sweeper["level"] = gameover_game_data["level"]
+	if Profiles.tilemap_paths[played_game_key].size() > 1:
+#	if played_game_key == Profiles.Games.SWEEPER or played_game_key == Profiles.Games.ERASER:
+		Profiles.game_data[played_game_key]["level"] = gameover_game_data["level"]
+#	if played_game_key == Profiles.Games.SWEEPER:
+#		Profiles.game_data_sweeper["level"] = gameover_game_data["level"]
 	Global.main_node.reload_game()
 
 
 func _on_QuitBtn_pressed() -> void:
 
-	Global.main_node.game_out(gameover_game_data["game"])
+	Global.main_node.game_out(played_game_key)
 
 
 func _on_ExitGameBtn_pressed() -> void:

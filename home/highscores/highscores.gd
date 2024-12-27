@@ -5,49 +5,14 @@ var highscores_loaded: bool = false
 var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
 var publish_btn_text: String = "    PUBLISH %s LOCAL SCORES ONLINE" # presledek more bit zaradi ikon
 var focus_color: Color = Global.color_yellow
-
-# tables ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
 var all_tables: Array = []
-var sweeper_tables: Array = []
-var hall_tables: Array = []
-onready var halls: Array = [
-	$GameHalls/Cleaner/CleanerHall,
-	$GameHalls/Erasers/TabContainer/XSHall,
-	$GameHalls/Erasers/TabContainer/SHall,
-	$GameHalls/Erasers/TabContainer/MHall,
-	$GameHalls/Erasers/TabContainer/LHall,
-	$GameHalls/Erasers/TabContainer/XLHall,
-	$GameHalls/Unbeatables/TabContainer/HunterHall,
-	$GameHalls/Unbeatables/TabContainer/DefenderHall,
-	]
-onready var all_sweeper_halls: Array = [ # na ready jih dodam med vse halls
-	$GameHalls/Sweepers/TabContainer/Sweeper1Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper2Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper3Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper4Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper5Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper6Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper7Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper8Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper9Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper10Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper11Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper12Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper13Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper14Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper15Hall,
-	$GameHalls/Sweepers/TabContainer/Sweeper16Hall
-	]
-onready var hall_tables_game_data: Array = [
-	Profiles.game_data_cleaner,
-	Profiles.game_data_eraser_xs,
-	Profiles.game_data_eraser_s,
-	Profiles.game_data_eraser_m,
-	Profiles.game_data_eraser_l,
-	Profiles.game_data_eraser_xl,
-	Profiles.game_data_hunter,
-	Profiles.game_data_defender,
-	]
+
+# jp in kb scrollanje
+var scroll_delta: float = 0
+var scroll_delta_limit: float = 5
+var scroll_delta_tick: float = 0.5
+var waiting_for_scroll: bool = false # ko držiš tipko in še ne skorlaš
+
 
 onready var update_scores_btn: Button = $UpdateScoresBtn
 onready var publish_unpublished_btn: Button = $PublishUnpublishedBtn
@@ -56,12 +21,7 @@ onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var select_level_node: Control = $"../SelectSweeper"
 onready var game_halls: HBoxContainer = $GameHalls
 onready var default_focus_node: Control = $GameHalls/Cleaner
-
-# jp in kb scrollanje
-var scroll_delta: float = 0
-var scroll_delta_limit: float = 5
-var scroll_delta_tick: float = 0.5
-var waiting_for_scroll: bool = false # ko držiš tipko in še ne skorlaš
+onready var HighscoresHall: PackedScene = preload("res://home/highscores/highscores_hall.tscn")
 
 
 func _input(event):
@@ -149,21 +109,46 @@ func _ready() -> void:
 		publish_unpublished_btn.hide()
 		default_focus_node = back_btn
 
-	# naberem tabele
-	for sweeper_hall in all_sweeper_halls:
-		var hall_table: Control = sweeper_hall.get_node("HighscoreTable")
-		# novo hall ime, ker se vidi v tabih
-		sweeper_hall.name = "%02d" % (all_sweeper_halls.find(sweeper_hall) + 1)
-		hall_table.name = "Sweeper" + sweeper_hall.name + "Table"
-		sweeper_tables.append(hall_table)
-	for hall in halls:
+	# debug
+	for sweeper_hall in $GameHalls/Sweepers/TabContainer.get_children():
+		sweeper_hall.queue_free()
+	for eraser_hall in $GameHalls/Erasers/TabContainer.get_children():
+		eraser_hall.queue_free()
+
+	for sweeper_tilemap_index in Profiles.tilemap_paths[Profiles.Games.SWEEPER].size():
+		# spawn
+		var new_hall: Control = HighscoresHall.instance()
+		$GameHalls/Sweepers/TabContainer.add_child(new_hall)
+		# imena tabov in tabel
+		var hall_table: Control = new_hall.get_node("HighscoreTable")
+		new_hall.name = "%02d" % (sweeper_tilemap_index + 1)
+		hall_table.name = "Sweeper" + new_hall.name + "Table"
+		# append
+		all_tables.append(hall_table)
+
+	for eraser_tilemap_index in Profiles.tilemap_paths[Profiles.Games.ERASER].size():
+		# spawn
+		var new_hall: Control = HighscoresHall.instance()
+		$GameHalls/Erasers/TabContainer.add_child(new_hall)
+		# imena tabov in tabel
+		var hall_table: Control = new_hall.get_node("HighscoreTable")
+		new_hall.name = "%02d" % (eraser_tilemap_index + 1)
+		hall_table.name = "Eraser" + new_hall.name + "Table"
+		# append
+		all_tables.append(hall_table)
+
+	var other_halls: Array = [
+		$GameHalls/Cleaner/CleanerHall,
+		$GameHalls/Unbeatables/TabContainer/HunterHall,
+		$GameHalls/Unbeatables/TabContainer/DefenderHall,
+		]
+	for hall in other_halls:
+		# imena tabov in tabel
 		var hall_table: Control = hall.get_node("HighscoreTable")
-		# novo hall ime, ker se vidi v tabih
 		hall.name = hall.name.trim_suffix("Hall")
 		hall_table.name = hall.name + "Table"
-		hall_tables.append(hall_table)
-	all_tables = sweeper_tables.duplicate()
-	all_tables.append_array(hall_tables)
+		# append
+		all_tables.append(hall_table)
 
 	# premik frontalnih tabel na vrh
 	var first_update_table_names: Array = ["Cleaner", "01", "XS", "Hunter"]
@@ -195,14 +180,7 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 
 	var update_object_count: int = 0
 	for table in all_tables:
-		var table_game_data: Dictionary
-		if sweeper_tables.has(table):
-			table_game_data = Profiles.game_data_sweeper
-			table_game_data["level"] = sweeper_tables.find(table) + 1
-		else:
-			var table_index: int = hall_tables.find(table)
-			table_game_data = hall_tables_game_data[table_index]
-
+		var table_game_data: Dictionary = _get_tables_game_data(table)
 		if update_with_global:
 			update_object_count += 1
 			var update_count_string: String = "%02d/"  % update_object_count + str(all_tables.size())
@@ -216,7 +194,6 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 			else:
 				LootLocker.update_lootlocker_leaderboard(table_game_data, false, update_count_string, update_in_background)
 				yield(LootLocker, "leaderboard_updated")
-
 		table.build_highscore_table(table_game_data, false)
 
 	# print ("All tables updated")
@@ -243,7 +220,6 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 
 func publish_all_unpublished_scores():
 
-#	disable_btns()
 	get_viewport().set_disable_input(true)
 
 	var tables_to_update: Array = []
@@ -259,19 +235,13 @@ func publish_all_unpublished_scores():
 
 	# rebuild tables
 	for table in tables_to_update:
-		var game_data_local: Dictionary
-		if sweeper_tables.has(table):
-			game_data_local = Profiles.game_data_sweeper
-			game_data_local["level"] = sweeper_tables.find(table) + 1
-		else:
-			var table_index: int = all_tables.find(table)
-			game_data_local = hall_tables_game_data[table_index]
+
+		var game_data_local: Dictionary = _get_tables_game_data(table)
 		table.build_highscore_table(table.table_game_data, false)
 
 	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
 	ConnectCover.close_cover()
 
-#	disable_btns(false)
 	get_viewport().set_disable_input(false)
 
 
@@ -285,19 +255,34 @@ func reset_all_local_scores():
 
 	# rebuild tables
 	for table in all_tables:
-		var game_data_local: Dictionary
-		if sweeper_tables.has(table):
-			game_data_local = Profiles.game_data_sweeper
-			game_data_local["level"] = sweeper_tables.find(table) + 1
-		else:
-			var table_index: int = all_tables.find(table)
-			game_data_local = hall_tables_game_data[table_index]
+		var game_data_local: Dictionary = _get_tables_game_data(table)
 		table.build_highscore_table(table.table_game_data, fake_player_ranking, false)
 
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(0.5), "timeout")
 	ConnectCover.cover_label_text = "Finished"
 	yield(get_tree().create_timer(0.2), "timeout")
 	ConnectCover.close_cover()
+
+
+func _get_tables_game_data(hs_table: Control):
+
+	var hs_table_game_data: Dictionary
+
+	if hs_table.name.begins_with("Cleaner"):
+		hs_table_game_data = Profiles.game_data[Profiles.Games.CLEANER]
+	elif hs_table.name.begins_with("Sweeper"):
+		hs_table_game_data = Profiles.game_data[Profiles.Games.SWEEPER]
+		hs_table_game_data["level"] = int(hs_table.name.get_slice("Sweeper", 1).substr(0, 2)) # poiščem številko v imenu, delimiter je kar ime
+	elif hs_table.name.begins_with("Hunter"):
+		hs_table_game_data = Profiles.game_data[Profiles.Games.HUNTER]
+	elif hs_table.name.begins_with("Defender"):
+		hs_table_game_data = Profiles.game_data[Profiles.Games.DEFENDER]
+	elif hs_table.name.begins_with("Eraser"):
+		hs_table_game_data = Profiles.game_data[Profiles.Games.ERASER]
+		hs_table_game_data["level"] = int(hs_table.name.get_slice("Eraser", 1).substr(0, 2))
+
+	#	printt("hs_table_game_data", hs_table.name)
+	return hs_table_game_data
 
 
 # HALLS NAV --------------------------------------------------------------------------------------------------------------

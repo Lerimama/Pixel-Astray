@@ -98,15 +98,6 @@ func _ready() -> void:
 		$ResetDataPopup.set_current_index(1)
 
 
-func _on_BackBtn_pressed() -> void:
-
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	$"%AnimationPlayer".play_backwards("settings")
-	get_parent().menu_in()
-
-
-
 # APP SETTINGS ----------------------------------------------------------------------------------------------------------------
 
 
