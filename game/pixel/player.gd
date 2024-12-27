@@ -26,7 +26,6 @@ var teleporting_wall_tile_id: int = 3
 var first_skill_use = true # beležim, da lahko določen skill izvajam zvezno
 var still_time: float = 0
 
-
 # bursting
 var cocking_room: bool = true
 var cocking_loop_pause: float = 1
@@ -82,6 +81,7 @@ onready var skill_light: Light2D = $SkillLight
 onready var glow_light: Light2D = $GlowLight
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var touch_detect_areas: Node2D = $Touch
+onready var bursting_ray: RayCast2D = $BurstingRay
 
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
@@ -154,37 +154,49 @@ func state_machine(delta: float):
 			stop_sound("burst_cocking")
 			burst_light_off() # zazih
 			idle_inputs()
+			bursting_ray.enabled = false
 		STATES.STEPPING:
 			still_time = 0
+			bursting_ray.enabled = false
 		STATES.SKILLED:
 			still_time = 0
 			stop_sound("burst_cocking")
 			skill_inputs()
+			bursting_ray.enabled = false
 		STATES.COCKING:
 			still_time = 0
 			cocking_inputs()
+			bursting_ray.enabled = false
 		STATES.BURSTING:
 			still_time = 0
 			stop_sound("burst_cocking")
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity)
+			if not bursting_ray.enabled:
+				bursting_ray.enabled = true
 
-			# touch kolžn
-#			var touch_collider: Node2D
-#			var areas_in_touch: Array = _detect_touching_objects()[0]
-#			for area in areas_in_touch:
-#				# preverjam areo v smeri bursta (dot produkt), če se česa dotika
-#				if area.position.dot(direction) > 0:# and not area.get_overlapping_areas().empty():
-#					touch_collider = area.get_overlapping_areas()[0]
-#					printt("touch_collider", touch_collider)
-#					break
-			# vision koližn
 			var bursting_vision_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)#, 100)
-			if bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays):
+			var bursting_collider: Node2D = Global.detect_collision_in_direction(direction, bursting_ray, 1000)#, 100)
+			if bursting_collider and bursting_collider.is_in_group(Global.group_strays):
+				var distance_to_target: float = 0
+				if bursting_collider.global_position.x == global_position.x:
+					distance_to_target = abs(bursting_collider.global_position.y - global_position.y)
+				elif bursting_collider.global_position.y == global_position.y:
+					distance_to_target = abs(bursting_collider.global_position.x - global_position.x)
+				if not distance_to_target > cell_size_x + 80: # ta 80 ne vpliva čist kot bi si mislil
+					printt("bursting_collider", distance_to_target, bursting_collider.global_position, global_position)
+					color_poly.modulate = Color.white
+					_on_stray_collision(bursting_collider)
+			# vision koližn
+			elif bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays): # zazih ... nisem še opazu
 				_on_stray_collision(bursting_vision_collider)
-			# kinematic koližn
+				printt("bursting_vision_collider", bursting_vision_collider, bursting_vision_collider.global_position, global_position)
+				# kinematic koližn
 			elif collision:
 				on_collision()
+				printt("collision", collision)
+			else:
+				bursting_inputs() # če je koližn, ne morš več ustavlat
 
 			# med burstanjem pucam available pozicije za dve poziciji naprej
 			# ampak samo, če so še available (da ne puca greba unih, kjer je hitan stray)
@@ -196,9 +208,6 @@ func state_machine(delta: float):
 				if Global.game_manager.is_floor_position_free(pos) and not burst_removed_free_positions.has(pos): # da se ne podvajajo:
 					burst_removed_free_positions.append(pos)
 					Global.game_manager.remove_from_free_floor_positions(pos)
-
-			bursting_inputs()
-
 
 	if not first_skill_use: # resetiram first_skill_use ... samo tukaj dobro dela
 		if Input.is_action_just_released(key_up):

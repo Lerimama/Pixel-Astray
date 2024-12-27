@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
-[ext_resource path="res://_mat/tilemap art/Pinterest_Download10_owned.jpg" type="Texture" id=3]
 
 [node name="Tilemap" type="TileMap"]
 tile_set = ExtResource( 2 )
@@ -56,6 +55,5 @@ margin_left = 5161.0
 margin_top = 279.0
 margin_right = 7038.0
 margin_bottom = 2417.0
-texture = ExtResource( 3 )
 expand = true
 stretch_mode = 5

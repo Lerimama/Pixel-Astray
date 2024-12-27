@@ -177,7 +177,7 @@ func show_menu():
 
 	var restart_btn: Button = $Menu/RestartBtn
 	var focus_btn: Button = restart_btn
-	if Profiles.tilemap_paths[played_game_key] > 1:
+	if Profiles.tilemap_paths[played_game_key].size() > 1:
 		focus_btn = select_level_btns_holder.all_level_btns[gameover_game_data["level"] - 1]
 		#		restart_btn.text = "TRY AGAIN"
 		#		restart_btn.hide()

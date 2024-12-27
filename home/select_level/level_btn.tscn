@@ -87,3 +87,9 @@ custom_fonts/font = ExtResource( 1 )
 text = "%by Somebody"
 align = 1
 valign = 2
+
+[node name="__screenRatio" type="ColorRect" parent="."]
+visible = false
+margin_right = 220.0
+margin_bottom = 112.0
+color = Color( 1, 0.937255, 0, 0.380392 )

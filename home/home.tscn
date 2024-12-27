@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://home/intro/intro.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/player_camera.gd" type="Script" id=7]
 [ext_resource path="res://home/highscores/highscores.gd" type="Script" id=8]
-[ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=9]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=10]
 [ext_resource path="res://common/home_screenshot.png" type="Texture" id=11]
 [ext_resource path="res://assets/theme/box_game_btn_new.tres" type="StyleBox" id=12]
@@ -937,17 +936,49 @@ tracks/19/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
-tracks/20/type = "value"
-tracks/20/path = NodePath("SelectEraser:rect_size")
+tracks/20/type = "bezier"
+tracks/20/path = NodePath("SelectEraser:rect_position:x")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = {
+"points": PoolRealArray( 2240, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/21/type = "bezier"
+tracks/21/path = NodePath("SelectEraser:rect_position:y")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("SelectEraser:modulate")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 920, 720 ) ]
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("SelectEraser:visible")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=141]
@@ -1529,8 +1560,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_top = 120.0
-margin_bottom = 120.0
+margin_top = 112.0
+margin_bottom = 112.0
 theme = ExtResource( 15 )
 script = ExtResource( 23 )
 
@@ -1538,13 +1569,14 @@ script = ExtResource( 23 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -464.0
+margin_top = 8.0
 margin_right = 464.0
-margin_bottom = 64.0
+margin_bottom = 72.0
 size_flags_horizontal = 3
-custom_constants/separation = 16
+custom_constants/separation = 8
 
 [node name="EraserBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_right = 141.0
+margin_right = 148.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 focus_neighbour_left = NodePath("../HunterBtn")
@@ -1562,8 +1594,8 @@ __meta__ = {
 }
 
 [node name="DefenderBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 157.0
-margin_right = 298.0
+margin_left = 156.0
+margin_right = 304.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/SettingsBtn")
@@ -1580,8 +1612,8 @@ __meta__ = {
 }
 
 [node name="SweeperBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 314.0
-margin_right = 455.0
+margin_left = 312.0
+margin_right = 460.0
 margin_bottom = 64.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -1600,8 +1632,8 @@ __meta__ = {
 }
 
 [node name="CleanerBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 471.0
-margin_right = 613.0
+margin_left = 468.0
+margin_right = 616.0
 margin_bottom = 64.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -1620,8 +1652,8 @@ __meta__ = {
 }
 
 [node name="HunterBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 629.0
-margin_right = 770.0
+margin_left = 624.0
+margin_right = 772.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
@@ -1638,7 +1670,7 @@ __meta__ = {
 }
 
 [node name="TheDuelBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 786.0
+margin_left = 780.0
 margin_right = 928.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
@@ -1659,9 +1691,8 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -464.0
-margin_top = 64.0
+margin_top = -72.0
 margin_right = 464.0
-margin_bottom = 136.0
 
 [node name="Background" type="ColorRect" parent="HomeScreen/GamesMenu/Description"]
 visible = false
@@ -1677,13 +1708,13 @@ anchor_bottom = 0.5
 margin_left = -464.0
 margin_top = -6.5
 margin_right = 464.0
-margin_bottom = 15.5
-custom_fonts/font = ExtResource( 9 )
+margin_bottom = 18.5
 text = "Stop invading colors from taking over the screen as they keep crashing in!"
 align = 1
 autowrap = true
 
 [node name="Label2" type="Label" parent="HomeScreen/GamesMenu/Description"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1717,9 +1748,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -200.0
-margin_top = 65.0
+margin_top = 249.0
 margin_right = 200.0
-margin_bottom = 90.0
+margin_bottom = 274.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 custom_constants/separation = 24
@@ -1890,7 +1921,7 @@ margin_right = 154.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
-text = "Select Eraser"
+text = "Select screen to erase"
 
 [node name="Subtitle" type="Label" parent="SelectEraser"]
 margin_left = 8.0
@@ -1906,6 +1937,98 @@ margin_top = 176.0
 margin_right = 912.0
 margin_bottom = 648.0
 rect_min_size = Vector2( 903, 472 )
+columns = 3
+
+[node name="LevelBtn" parent="SelectEraser/LevelBtnsGrid" index="0"]
+margin_right = 296.0
+margin_bottom = 152.0
+
+[node name="LevelBtn2" parent="SelectEraser/LevelBtnsGrid" index="1"]
+margin_left = 304.0
+margin_right = 600.0
+margin_bottom = 152.0
+
+[node name="LevelBtn3" parent="SelectEraser/LevelBtnsGrid" index="2"]
+margin_left = 608.0
+margin_right = 904.0
+margin_bottom = 152.0
+
+[node name="LevelBtn4" parent="SelectEraser/LevelBtnsGrid" index="3"]
+margin_left = 0.0
+margin_top = 160.0
+margin_right = 296.0
+margin_bottom = 312.0
+
+[node name="LevelBtn5" parent="SelectEraser/LevelBtnsGrid" index="4"]
+margin_left = 304.0
+margin_top = 160.0
+margin_right = 600.0
+margin_bottom = 312.0
+
+[node name="LevelBtn6" parent="SelectEraser/LevelBtnsGrid" index="5"]
+margin_left = 608.0
+margin_top = 160.0
+margin_right = 904.0
+margin_bottom = 312.0
+
+[node name="LevelBtn7" parent="SelectEraser/LevelBtnsGrid" index="6"]
+margin_left = 0.0
+margin_top = 320.0
+margin_right = 296.0
+margin_bottom = 472.0
+
+[node name="LevelBtn8" parent="SelectEraser/LevelBtnsGrid" index="7"]
+margin_left = 304.0
+margin_top = 320.0
+margin_right = 600.0
+margin_bottom = 472.0
+
+[node name="LevelBtn9" parent="SelectEraser/LevelBtnsGrid" index="8"]
+visible = false
+margin_top = 320.0
+margin_right = 220.0
+margin_bottom = 472.0
+
+[node name="LevelBtn10" parent="SelectEraser/LevelBtnsGrid" index="9"]
+visible = false
+margin_left = 228.0
+margin_top = 320.0
+margin_right = 448.0
+margin_bottom = 472.0
+
+[node name="LevelBtn11" parent="SelectEraser/LevelBtnsGrid" index="10"]
+visible = false
+margin_left = 456.0
+margin_top = 320.0
+margin_right = 676.0
+margin_bottom = 472.0
+
+[node name="LevelBtn12" parent="SelectEraser/LevelBtnsGrid" index="11"]
+visible = false
+margin_left = 684.0
+margin_top = 320.0
+margin_right = 904.0
+margin_bottom = 472.0
+
+[node name="LevelBtn13" parent="SelectEraser/LevelBtnsGrid" index="12"]
+visible = false
+margin_top = 360.0
+margin_right = 220.0
+margin_bottom = 472.0
+
+[node name="LevelBtn14" parent="SelectEraser/LevelBtnsGrid" index="13"]
+visible = false
+margin_left = 228.0
+margin_top = 360.0
+margin_right = 448.0
+margin_bottom = 472.0
+
+[node name="LevelBtn15" parent="SelectEraser/LevelBtnsGrid" index="14"]
+visible = false
+margin_left = 456.0
+margin_top = 360.0
+margin_right = 676.0
+margin_bottom = 472.0
 
 [node name="More" type="Label" parent="SelectEraser"]
 visible = false
@@ -3225,5 +3348,6 @@ anims/settings = SubResource( 530 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 
+[editable path="SelectEraser/LevelBtnsGrid"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall/HighscoreTable"]

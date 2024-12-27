@@ -36,7 +36,7 @@ func spawn_level_btns(game_name_key: int):
 
 	game_key = game_name_key
 	var game_tilemap_paths: Array = Profiles.tilemap_paths[game_key]
-	var column_number: int = round(sqrt(game_tilemap_paths.size()))
+	var column_number: int = round(sqrt(game_tilemap_paths.size()+2))
 	columns = column_number
 
 	# spawnam nove gumbe za vsak tilemap_path
@@ -146,8 +146,9 @@ func _spawn_btn_tilemap(level_btn, BtnTilemap):
 		new_btn_tilemap.position += tilemap_offset
 
 		# da hover pravilno deluje
-		new_btn_tilemap.edge_holder.z_index = 0
-		new_btn_tilemap.tilemap_background.hide()
+		new_btn_tilemap.show_as_thumbnail()
+#		new_btn_tilemap.edge_holder.z_index = 0
+#		new_btn_tilemap.tilemap_background.hide()
 
 
 func _get_btn_highscore(btn_level_number: int):

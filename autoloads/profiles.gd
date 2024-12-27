@@ -4,7 +4,6 @@ extends Node
 func TOP(): pass
 
 
-enum Games {CLEANER, ERASER, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 enum HighscoreTypes {NONE, POINTS, TIME}
 
 enum TOUCH_CONTROLLER {DISABLED, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
@@ -77,6 +76,8 @@ var default_game_settings: Dictionary = { # per game
 # GAME DATA -----------------------------------------------------------------------------------
 func GAME_DATA(): pass
 
+
+enum Games {CLEANER, ERASER, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 
 var game_data: Dictionary = {
 
@@ -162,21 +163,7 @@ var game_data: Dictionary = {
 			"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
 			"level": 0,
 			},
-
 }
-
-
-#onready var game_descriptions: Array = [
-#	"You have %d minutes to show your cleaning skills. Restore perfect order to this vibrant mess."  % 5,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 32,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 0,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 01,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 02,
-#	"Eliminate all %d stray pixels. Give it your best and beat the record time!" % 03,
-#	"Stop invading colors from taking over the screen as they keep crashing in!",
-#	"Stop nasty colors from flooding the screen as they keep poping in!",
-#	"Sweep them all in one move! %d saturated screens need a quick cleaning service." % Profiles.sweeper_level_tilemap_paths.size()
-#	]
 
 var tilemap_paths: Dictionary = {
 	Games.ERASER: [
@@ -184,8 +171,13 @@ var tilemap_paths: Dictionary = {
 			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_s.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_m.tscn",
-			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_l.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_xl.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_m_checker.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_m_maze.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_shark.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_snake.tscn",
+#			"res://game/tilemaps/eraser/tilemap_eraser_butter.tscn",
 			],
 	Games.SWEEPER: [
 			# zaporedje je ključno za level name
@@ -206,53 +198,11 @@ var tilemap_paths: Dictionary = {
 			"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
 			"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
 			],
-	Games.CLEANER: [
-			"res://game/tilemaps/tilemap_cleaner.tscn",
-			],
-	Games.DEFENDER: [
-			"res://game/tilemaps/tilemap_defender.tscn",
-			],
-	Games.HUNTER: [
-			"res://game/tilemaps/tilemap_hunter.tscn",
-			],
-	Games.THE_DUEL: [
-			"res://game/tilemaps/tilemap_duel.tscn",
-			],
-
+	Games.CLEANER: ["res://game/tilemaps/tilemap_cleaner.tscn"],
+	Games.DEFENDER: ["res://game/tilemaps/tilemap_defender.tscn"],
+	Games.HUNTER: ["res://game/tilemaps/tilemap_hunter.tscn"],
+	Games.THE_DUEL: ["res://game/tilemaps/tilemap_duel.tscn"],
 }
-#var sweeper_level_tilemap_paths: Array = [
-#	# zaporedje je ključno za level name
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_10.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_11.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_12.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_13.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-##	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	]
-#
-#var eraser_level_tilemap_paths: Array = [
-#	# _temp ... zaporedje je ključno za level name
-#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-#	]
 
 
 # PROCES -----------------------------------------------------------------------------------
@@ -309,20 +259,20 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 	if debug_mode:
 #		var debug_game = Games.SHOWCASE # fix camera
-		var debug_game = Games.CLEANER
+#		var debug_game = Games.CLEANER
 #		var debug_game = Games.ERASER_XS
 #		var debug_game = Games.ERASER_S
 #		var debug_game = Games.ERASER_M
 #		var debug_game = Games.ERASER_L
 #		var debug_game = Games.ERASER_XL
 #		var debug_game = Games.HUNTER
-#		var debug_game = Games.DEFENDER
+		var debug_game = Games.DEFENDER
 #		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
 
 #		start_with_method = "home_in_intro"
-		start_with_method = "home_in_no_intro"
-#		start_with_method = "game_in"
+#		start_with_method = "home_in_no_intro"
+		start_with_method = "game_in"
 
 #		vsync_on = false
 #		analytics_mode = false
@@ -347,7 +297,6 @@ func set_game_data(selected_game):
 
 	match selected_game:
 		Games.CLEANER:
-#			current_game_data = game_data_cleaner.duplicate()
 			current_game_data = game_data[Games.CLEANER].duplicate()
 			game_settings["game_time_limit"] = 300
 			game_settings["create_strays_count"] = 500
@@ -358,58 +307,20 @@ func set_game_data(selected_game):
 			game_settings["cleaned_reward_points"] = 1
 			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
-#		Games.ERASER_XS:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_xs.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 32
-#			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
-#		Games.ERASER_S:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_s.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 50
-#			game_settings["spawn_white_stray_part"] = 0.11
-#		Games.ERASER_M:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_m.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 140
-#			game_settings["spawn_white_stray_part"] = 0.11
-#		Games.ERASER_L:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_l.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 230
-#			game_settings["spawn_white_stray_part"] = 0.11
-#		Games.ERASER_XL:
-#			current_game_data = game_data[Games.ERASER].duplicate()
-##			current_game_data = game_data_eraser_xl.duplicate()
-#			game_settings["game_time_limit"] = 0
-#			game_settings["cleaned_reward_points"] = 1
-#			game_settings["create_strays_count"] = 320
-#			game_settings["spawn_white_stray_part"] = 0.11
 		Games.HUNTER:
 			current_game_data = game_data[Games.HUNTER].duplicate()
-#			current_game_data = game_data_hunter.duplicate()
 			game_settings["respawn_strays_count_range"] = [2, 8]
 			game_settings["respawn_pause_time"] = 3
 			game_settings["spawn_white_stray_part"] = 0.32
 			game_settings["start_countdown"] = false
 		Games.DEFENDER:
 			current_game_data = game_data[Games.DEFENDER].duplicate()
-#			current_game_data = game_data_defender.duplicate()
 			game_settings["full_power_mode"] = true
 			game_settings["create_strays_count"] = 1
 			game_settings["start_countdown"] = false
 			game_settings["follow_mode"] = true
 		Games.SWEEPER:
 			current_game_data = game_data[Games.SWEEPER].duplicate()
-#			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
 			game_settings["on_hit_wall_energy_factor"] = 0
 			game_settings["player_start_color"] = Color.white
@@ -425,7 +336,6 @@ func set_game_data(selected_game):
 			tutorial_mode = false # _temp rabi posebn tutorial
 		Games.THE_DUEL:
 			current_game_data = game_data[Games.THE_DUEL].duplicate()
-#			current_game_data = game_data_the_duel.duplicate()
 			game_settings["player_start_life"] = 3
 			game_settings["game_time_limit"] = 180 # tilemap set
 			game_settings["respawn_strays_count_range"] = [1, 14]

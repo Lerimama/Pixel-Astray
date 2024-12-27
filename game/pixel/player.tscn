@@ -790,6 +790,12 @@ cast_to = Vector2( 170, 0 )
 collision_mask = 31
 collide_with_areas = true
 
+[node name="BurstingRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 64 )
+collide_with_areas = true
+collide_with_bodies = false
+
 [node name="Touch" type="Node2D" parent="."]
 
 [node name="TouchAreaU" type="Area2D" parent="Touch"]

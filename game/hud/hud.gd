@@ -340,7 +340,6 @@ func _check_for_new_highscore(current_player_score: int, gameover_reason: int = 
 	# točkovni rekord preverjam sproti, tudi, če je trenutni 0
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 		if current_player_score > highscore_on_start:
-			printt("rekord?", highscore_on_start, current_player_score)
 			new_record_set = true
 			highscore_label.text = str(current_player_score) + " by You"
 			highscore_holder.modulate = Global.color_green

@@ -11,11 +11,13 @@ var no_stray_global_positions: Array
 var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se lahko potem random spawna (floor - stray - no-stray - player)
 var solution_line: Line2D # opredelim popreverjanj, če je prisotna
 
+# za home level btne
 var wall_tile_id: int = 3
 var edge_tile_id: int = 1
 var floor_tile_id: int = 0
-var stray_tile_id: int = 5 # za home sweeper btne
-var stray_white_tile_id: int = 7 # za home sweeper btne
+var stray_tile_id: int = 5
+var stray_white_tile_id: int = 7
+
 var player_tile_ids: Array = [4, 6]
 var tilemap_edge_rectangle: Rect2 # velikost floor "igralne mize"
 
@@ -24,6 +26,7 @@ onready var background_room: TextureRect = $Background/Room
 onready var tilemap_background: Node2D = $Background
 onready var edge_cover: Control = $EdgeCover/Edge # da se rob ne vidi na zoomin in, da se ne vidijo pixli prek roba (malo bolje je)
 onready var edge_holder: Node2D = $EdgeCover # da se rob ne vidi na zoomin in, da se ne vidijo pixli prek roba (malo bolje je)
+onready var btn_tilemap: TileMap = $BtnTilemap
 
 
 func _ready() -> void:
@@ -33,6 +36,8 @@ func _ready() -> void:
 
 #	edge_cover.hide()
 	edge_cover.show()
+#	btn_tilemap.hide() ...  error?
+
 
 	if has_node("SolutionLine"):
 		solution_line = $SolutionLine
@@ -43,6 +48,7 @@ func _ready() -> void:
 		else:
 			solution_line.get_node("NoSolutionHint").hide()
 			solution_line.get_node("Dots").show()
+
 
 
 func get_tiles():
@@ -61,10 +67,10 @@ func get_tiles():
 			# zaznavanje tiletov
 			var cell_index = get_cellv(cell)
 			match cell_index:
-				0: # floor
+				floor_tile_id: # floor, floor visible
 					all_floor_tiles_global_positions.append(cell_global_position)
 					random_spawn_floor_positions.append(cell_global_position)
-				5: # stray spawn positions
+				stray_tile_id: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
 					all_floor_tiles_global_positions.append(cell_global_position)
@@ -80,7 +86,7 @@ func get_tiles():
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 					all_floor_tiles_global_positions.append(cell_global_position)
-				7: # spawn wall stray
+				stray_white_tile_id: # spawn wall stray
 					stray_wall_global_positions.append(cell_global_position)
 					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
@@ -144,3 +150,10 @@ func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je 
 	var tile_index: int = get_cellv(colliding_cell_grid_position) # index zadete celice na poziciji v grid koordinatah
 
 	return tile_index
+
+
+func show_as_thumbnail():
+
+	#	edge_holder.hide()
+	tilemap_background.hide()
+	btn_tilemap.show()

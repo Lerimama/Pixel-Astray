@@ -14,6 +14,7 @@ func _ready() -> void:
 	Global.current_tilemap = self
 
 	edge_cover.hide()
+	btn_tilemap.hide()
 
 	top_screen_limit.add_to_group(Global.group_tilemap)
 	bottom_screen_limit.add_to_group(Global.group_tilemap)
@@ -38,10 +39,10 @@ func get_tiles():
 			# zaznavanje tiletov
 			var cell_index = get_cellv(cell)
 			match cell_index:
-				0: # floor
+				floor_tile_id: # floor
 					random_spawn_floor_positions.append(cell_global_position)
 					# all_floor_tiles_global_positions.append(cell_global_position)
-				5: # stray spawn positions
+				stray_tile_id: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
 					# all_floor_tiles_global_positions.append(cell_global_position)
@@ -57,7 +58,7 @@ func get_tiles():
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 					all_floor_tiles_global_positions.append(cell_global_position)
-				7: # spawn wall stray
+				stray_white_tile_id: # spawn wall stray
 					stray_wall_global_positions.append(cell_global_position)
 					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
