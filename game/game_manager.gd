@@ -87,13 +87,18 @@ func set_tilemap(): # kliče MAIN pred fade-in scene 01.
 
 	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
 
-#	if Profiles.tilemap_paths[game_data["game"]].size() > 1:
-#		var game_tilemap_paths: Array = Profiles.tilemap_paths[game_data["game"]]
-#		game_data["tilemap_path"] = game_tilemap_paths[game_data["level"] - 1]
+	var tilemap_to_load_path: String
 
-	var tilemap_to_load_path: String = Profiles.tilemap_paths[game_data["game"]][game_data["level"] - 1]
-
-#	var tilemap_to_load_path: String = game_data["tilemap_path"]
+	# sweeper in eraser
+	if Profiles.tilemap_paths[game_data["game"]].size() > 1:
+		for tilemap_path in Profiles.tilemap_paths[game_data["game"]]:
+			var tilemap_name: String = tilemap_path.get_slice(".", 0)
+			var level_name: String = tilemap_name.get_slice("_", 2).to_upper()
+			printt ("level name", level_name, game_data["level_name"])
+			if level_name == game_data["level_name"]:
+				tilemap_to_load_path = tilemap_path
+	else:
+		tilemap_to_load_path = Profiles.tilemap_paths[game_data["game"]][0]
 
 	# release default tilemap
 	tilemap_to_release.set_physics_process(false)
@@ -156,6 +161,8 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 #	Analytics.save_selected_game_data()
 	if game_data["level"] > 0:
 		Global.hud.level_label.text = "L%02d" % game_data["level"]
+	elif not game_data["level_name"].empty():
+		Global.hud.level_label.text = "" % game_data["level_name"]
 #	Global.hud.slide_in() # pokaže countdown
 
 	# player

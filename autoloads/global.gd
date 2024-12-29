@@ -42,6 +42,7 @@ var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
 var color_orange: Color = Color("#ff9990")
 var color_purple: Color = Color("#c774f5")
+
 # gui colors
 var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
 #var color_gui_gray_trans: Color = Color(255, 255, 255, 131) # 83ffffff siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
@@ -62,11 +63,11 @@ var color_dark_gray_pixel: Color = Color("#232323")
 var color_hunting: Color = Color("#f35b7f") # color_red
 var color_holding: Color = Color(color_hunting, 1.3) # color_red bloom
 var color_white_pixel_bloom: Color = Color(1, 1, 1, 1.22)
+
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
-#var color_edge: Color = Color.black
+var color_edge: Color = Color.black
 var color_floor: Color = Color("#15ffffff")
-var color_background: Color = Color.black
 
 # hs / lootlocker
 var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu

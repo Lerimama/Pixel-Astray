@@ -89,6 +89,7 @@ var game_data: Dictionary = {
 #			"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 			"description": "%d minutes to show your cleaning skills. Restore the perfect order!" % 5,
 			"home_btn_desc": "You have %d minutes to restore order to this vibrant mess." % 5,
+			"level_name": "",
 			"level": 0, # 0 pomeni, da se lvel ne upošteva
 			},
 	Games.DEFENDER: {
@@ -100,6 +101,7 @@ var game_data: Dictionary = {
 			"description" : "Defend your screen against invading colors!",
 			"home_btn_desc": "Stop invading colors from taking over the screen as they keep crashing in!",
 			# štart
+			"level_name": "",
 			"level": 1,
 			"level_goal_count": 320, # CON kolikor jih spawnanih v prvi rundi
 			"spawn_round_range": [1, 3], # random spawn count, največ 120 - 8
@@ -119,6 +121,7 @@ var game_data: Dictionary = {
 			"description" : "Keep the colors in check as they keep popping in!",
 			"home_btn_desc": "Stop nasty colors from flooding the screen as they keep poping in!",
 			# štart
+			"level_name": "",
 			"level": 1,
 			"level_goal_count": 1, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
 			"level_goal_count_grow": 3,
@@ -140,6 +143,7 @@ var game_data: Dictionary = {
 			"description" : "Collect all %d colors and become the brightest again!" % 32,
 			"home_btn_desc": "Pick which of the %d the crisis situations you can handle!" % 5, # % tilemap_paths[Games.ERASER].size(),
 			"level": 1,
+			"level_name": "XS",
 			},
 	Games.SWEEPER: {
 			"game": Games.SWEEPER, # key igre je key lootlocker tabele
@@ -151,6 +155,7 @@ var game_data: Dictionary = {
 			"home_btn_desc": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
 			"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
 			"level": 1,
+			"level_name": "%02d" % 1,
 			},
 	Games.THE_DUEL: {
 			"game": Games.THE_DUEL, # key igre je key lootlocker tabele
@@ -161,6 +166,7 @@ var game_data: Dictionary = {
 			"description" : "Only the best cleaner will shine in this epic battle!",
 			"home_btn_desc": "Sofa showdown! Battle for the ultimate cleaning champ title!",
 			"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
+			"level_name": "",
 			"level": 0,
 			},
 }
@@ -173,8 +179,8 @@ var tilemap_paths: Dictionary = {
 			"res://game/tilemaps/eraser/tilemap_eraser_m.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_l.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_xl.tscn",
-			"res://game/tilemaps/eraser/tilemap_eraser_m_checker.tscn",
-			"res://game/tilemaps/eraser/tilemap_eraser_m_maze.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_checker.tscn",
+			"res://game/tilemaps/eraser/tilemap_eraser_maze.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_shark.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_snake.tscn",
 #			"res://game/tilemaps/eraser/tilemap_eraser_butter.tscn",
@@ -271,8 +277,8 @@ func _ready() -> void:
 #		var debug_game = Games.THE_DUEL
 
 #		start_with_method = "home_in_intro"
-#		start_with_method = "home_in_no_intro"
-		start_with_method = "game_in"
+		start_with_method = "home_in_no_intro"
+#		start_with_method = "game_in"
 
 #		vsync_on = false
 #		analytics_mode = false

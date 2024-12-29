@@ -46,8 +46,7 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	if show_title:
 		table_title_label.text = "Top " + table_game_data["game_name"] + "s"
 		if Profiles.tilemap_paths[table_game_data["game"]].size() > 1:
-#		if table_game_data["game"] == Profiles.Games.SWEEPER:
-			table_title_label.text += " %02d" % table_game_data["level"]
+			table_title_label.text += " %s" % table_game_data["level_name"]
 	else:
 		table_title_edge.hide()
 		table_title_label.hide()

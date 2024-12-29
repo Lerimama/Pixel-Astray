@@ -70,7 +70,8 @@ func delete_highscores_file(file_game_data: Dictionary):
 	var local_highscores = true
 
 	if Profiles.tilemap_paths[file_game_data["game"]].size() > 1:
-		file_game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + str(file_game_data["level"])
+		file_game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + file_game_data["level_name"]
+#		file_game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + str(file_game_data["level"])
 	else:
 		file_game_name = Profiles.Games.keys()[file_game_data["game"]]
 
@@ -168,7 +169,8 @@ func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: 
 	# get hs name
 	var write_game_name: String
 	if Profiles.tilemap_paths[write_game_data["game"]].size() > 1:
-		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + str(write_game_data["level"])
+		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + write_game_data["level_name"]
+#		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + str(write_game_data["level"])
 	else:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]]
 
@@ -193,7 +195,8 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 	var read_game_name: String
 
 	if Profiles.tilemap_paths[read_game_data["game"]].size() > 1:
-		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
+		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + read_game_data["level_name"]
+#		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 	else:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]]
 
@@ -212,8 +215,8 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 		# če iščem globalnega in ga ni, probam z lokalnim
 		else:
 			if Profiles.tilemap_paths[read_game_data["game"]].size() > 1:
-#			if read_game_data["game"] == Profiles.Games.SWEEPER:
-				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
+#				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
+				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + read_game_data["level_name"]
 			else:
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]]
 			var local_error = data_file.open("user://%s_highscores.save" % read_game_name, File.READ)

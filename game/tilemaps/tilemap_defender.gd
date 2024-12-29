@@ -13,8 +13,8 @@ func _ready() -> void:
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
+	edge_cover.modulate = Color.black
 	edge_cover.hide()
-	btn_tilemap.hide()
 
 	top_screen_limit.add_to_group(Global.group_tilemap)
 	bottom_screen_limit.add_to_group(Global.group_tilemap)
@@ -25,6 +25,7 @@ func _ready() -> void:
 func get_tiles():
 	# namen: drugače nabere froor tile (samo no_strays in players
 
+	tilemap_thumb.queue_free()
 	get_tilemap_edge_rect()
 
 	# prečesi vse celice in določi globalne pozicije
@@ -64,7 +65,7 @@ func get_tiles():
 					set_cellv(cell, 0)
 					# all_floor_tiles_global_positions.append(cell_global_position)
 
-	_colorize_tiles()
+	_colorize_tilemap_elements()
 
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)
@@ -81,7 +82,7 @@ func get_tilemap_edge_rect():
 	tilemap_edge_rectangle.size.x = inside_edge_level_tiles.end.x * cell_size_x - 2 * cell_size_x
 	tilemap_edge_rectangle.size.y = inside_edge_level_tiles.end.y * cell_size_x - 2 * cell_size_x # 2 * ker se pozicija zamakne
 
-	edge_cover.rect_position.x = tilemap_edge_rectangle.position.x
-	edge_cover.rect_position.y = tilemap_edge_rectangle.position.y
-	edge_cover.rect_size.x = tilemap_edge_rectangle.size.x
-	edge_cover.rect_size.y = tilemap_edge_rectangle.size.y
+	edge_rect.rect_position.x = tilemap_edge_rectangle.position.x
+	edge_rect.rect_position.y = tilemap_edge_rectangle.position.y
+	edge_rect.rect_size.x = tilemap_edge_rectangle.size.x
+	edge_rect.rect_size.y = tilemap_edge_rectangle.size.y

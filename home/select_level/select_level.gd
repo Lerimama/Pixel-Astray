@@ -25,11 +25,11 @@ func _ready() -> void:
 		show()
 
 
-func play_selected_level(selected_level: int):
+func play_selected_level(selected_level: String):
 
 	# set game data level
 	var level_game_data = Profiles.game_data[game_key]
-	level_game_data["level"] = selected_level
+	level_game_data["level_name"] = selected_level
 
 	# set game data
 	var game_level_settings = Profiles.set_game_data(game_key)

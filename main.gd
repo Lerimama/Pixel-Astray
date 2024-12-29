@@ -147,7 +147,7 @@ func game_out(game_to_exit: int):
 
 	release_scene(current_scene)
 	call_deferred("home_in_from_game", game_to_exit) # nujno deferred, ker se tudi relese scene zgodi deferred
-
+	var krknek: Expression
 
 func reload_game(): # game out z drugačnim zaključkom
 

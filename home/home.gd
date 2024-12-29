@@ -50,8 +50,6 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
-	current_screen = Screens.MAIN_MENU
-#	current_screen = Screens.SELECT_GAME
 
 	# premik animacije na konec
 	var animation_length: float = animation_player.get_current_animation_length()
@@ -60,20 +58,24 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
 		$HomeScreen/GamesMenu/HBoxContainer/CleanerBtn.grab_focus()
+		current_screen = Screens.MAIN_MENU
 	elif finished_game == Profiles.Games.HUNTER:
 		$HomeScreen/GamesMenu/HBoxContainer/HunterBtn.grab_focus()
+		current_screen = Screens.MAIN_MENU
 	elif finished_game == Profiles.Games.DEFENDER:
 		$HomeScreen/GamesMenu/HBoxContainer/DefenderBtn.grab_focus()
+		current_screen = Screens.MAIN_MENU
 	elif finished_game == Profiles.Games.SWEEPER:
 		animation_player.play("select_sweeper")
 		$HomeScreen/GamesMenu/HBoxContainer/SweeperBtn.grab_focus()
+		current_screen = Screens.SELECT_LEVEL
 	elif finished_game == Profiles.Games.ERASER:
 		animation_player .play("select_eraser")
 		$HomeScreen/GamesMenu/HBoxContainer/EraserBtn.grab_focus()
+		current_screen = Screens.SELECT_ERASER
 	elif finished_game == Profiles.Games.THE_DUEL:
 		$SelectGame/GamesMenu/HBoxContainer/TheDuelBtn.grab_focus()
-#	else: # ERASER
-#		$HomeScreen/GamesMenu/HBoxContainer/Eraser/HBoxContainer/XSBtn.grab_focus()
+		current_screen = Screens.MAIN_MENU
 
 	intro.finish_intro()
 	_load_highscores_on_start()
@@ -95,7 +97,7 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 	yield(get_tree().create_timer(0.5), "timeout")
 
-	current_screen = Screens.MAIN_MENU
+	current_screen = Screens.MAIN_MENU # _temp a rabm na menu in?
 	default_focus_node.grab_focus()
 
 	menu.modulate.a = 0

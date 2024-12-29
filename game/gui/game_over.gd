@@ -179,6 +179,7 @@ func show_menu():
 	var focus_btn: Button = restart_btn
 	if Profiles.tilemap_paths[played_game_key].size() > 1:
 		focus_btn = select_level_btns_holder.all_level_btns[gameover_game_data["level"] - 1]
+
 		#		restart_btn.text = "TRY AGAIN"
 		#		restart_btn.hide()
 	elif played_game_key == Profiles.Games.THE_DUEL:
@@ -194,10 +195,13 @@ func show_menu():
 	focus_btn.grab_focus()
 
 
-func play_selected_level(selected_level: int):
+func play_selected_level(selected_level: String):
+#func play_selected_level(selected_level: int):
 
 	# set level on game data
-	Profiles.game_data[played_game_key]["level"] = selected_level
+#	Profiles.game_data[played_game_key]["level"] = selected_level
+
+	Profiles.game_data[played_game_key]["level_name"] = selected_level
 
 	# set sweeper level
 	Global.game_manager.game_settings["pregame_screen_on"] = false
@@ -330,7 +334,8 @@ func _set_game_summary():
 	var stat_skills_used: Label = selected_content.get_node("Data/DataContainer/SkillsUsed")
 
 	if played_game_key == Profiles.Games.SWEEPER:
-		summary_title.text = "Sweeper %02d Summary" % gameover_game_data["level"]
+		summary_title.text = "Sweeper %s Summary" % gameover_game_data["level_name"]
+#		summary_title.text = "Sweeper %02d Summary" % gameover_game_data["level"]
 		stats_title.text = "Game stats"
 		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
@@ -342,7 +347,8 @@ func _set_game_summary():
 		$GameSummary/ContentSweeper.show()
 		$GameSummary/Content.hide()
 	elif played_game_key == Profiles.Games.ERASER:
-		summary_title.text = "Eraser %02d Summary" % gameover_game_data["level"]
+#		summary_title.text = "Eraser %02d Summary" % gameover_game_data["level"]
+		summary_title.text = "Eraser %s Summary" % gameover_game_data["level_name"]
 		stats_title.text = "Game stats"
 		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
@@ -482,10 +488,9 @@ func _on_RestartBtn_pressed() -> void:
 #	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 
 	if Profiles.tilemap_paths[played_game_key].size() > 1:
-#	if played_game_key == Profiles.Games.SWEEPER or played_game_key == Profiles.Games.ERASER:
-		Profiles.game_data[played_game_key]["level"] = gameover_game_data["level"]
-#	if played_game_key == Profiles.Games.SWEEPER:
-#		Profiles.game_data_sweeper["level"] = gameover_game_data["level"]
+#		Profiles.game_data[played_game_key]["level"] = gameover_game_data["level"]
+		Profiles.game_data[played_game_key]["level_name"] = gameover_game_data["level_name"]
+
 	Global.main_node.reload_game()
 
 

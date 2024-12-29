@@ -120,9 +120,12 @@ func _ready() -> void:
 		var new_hall: Control = HighscoresHall.instance()
 		$GameHalls/Sweepers/TabContainer.add_child(new_hall)
 		# imena tabov in tabel
+
+		var table_tilemap_name: String = Profiles.tilemap_paths[Profiles.Games.SWEEPER][sweeper_tilemap_index].get_slice(".", 0) # odstranim .tscn
+		var table_level_name: String = table_tilemap_name.get_slice("_", 2).to_upper()
 		var hall_table: Control = new_hall.get_node("HighscoreTable")
-		new_hall.name = "%02d" % (sweeper_tilemap_index + 1)
-		hall_table.name = "Sweeper" + new_hall.name + "Table"
+		new_hall.name = table_level_name
+		hall_table.name = "Sweeper_" + new_hall.name + "_Table"
 		# append
 		all_tables.append(hall_table)
 
@@ -131,9 +134,11 @@ func _ready() -> void:
 		var new_hall: Control = HighscoresHall.instance()
 		$GameHalls/Erasers/TabContainer.add_child(new_hall)
 		# imena tabov in tabel
+		var table_tilemap_name: String = Profiles.tilemap_paths[Profiles.Games.ERASER][eraser_tilemap_index].get_slice(".", 0) # odstranim .tscn
+		var table_level_name: String = table_tilemap_name.get_slice("_", 2).to_upper()
 		var hall_table: Control = new_hall.get_node("HighscoreTable")
-		new_hall.name = "%02d" % (eraser_tilemap_index + 1)
-		hall_table.name = "Eraser" + new_hall.name + "Table"
+		new_hall.name = table_level_name
+		hall_table.name = "Eraser_" + new_hall.name + "_Table"
 		# append
 		all_tables.append(hall_table)
 
@@ -272,14 +277,14 @@ func _get_tables_game_data(hs_table: Control):
 		hs_table_game_data = Profiles.game_data[Profiles.Games.CLEANER]
 	elif hs_table.name.begins_with("Sweeper"):
 		hs_table_game_data = Profiles.game_data[Profiles.Games.SWEEPER]
-		hs_table_game_data["level"] = int(hs_table.name.get_slice("Sweeper", 1).substr(0, 2)) # poiščem številko v imenu, delimiter je kar ime
+		hs_table_game_data["level_name"] = hs_table.name.get_slice("_", 1)
 	elif hs_table.name.begins_with("Hunter"):
 		hs_table_game_data = Profiles.game_data[Profiles.Games.HUNTER]
 	elif hs_table.name.begins_with("Defender"):
 		hs_table_game_data = Profiles.game_data[Profiles.Games.DEFENDER]
 	elif hs_table.name.begins_with("Eraser"):
 		hs_table_game_data = Profiles.game_data[Profiles.Games.ERASER]
-		hs_table_game_data["level"] = int(hs_table.name.get_slice("Eraser", 1).substr(0, 2))
+		hs_table_game_data["level_name"] = hs_table.name.get_slice("_", 1)
 
 	#	printt("hs_table_game_data", hs_table.name)
 	return hs_table_game_data

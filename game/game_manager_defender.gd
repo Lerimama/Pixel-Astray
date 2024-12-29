@@ -248,7 +248,7 @@ func set_new_level():
 func line_step():
 
 	# če je upgrade in progres ne stepa, timer pa se reštarta in nadaljuje stepanje
-	if not level_upgrade_in_progress:
+	if not level_upgrade_in_progress and game_on:
 
 		line_step_in_progress = true
 

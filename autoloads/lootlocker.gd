@@ -34,7 +34,7 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if Profiles.tilemap_paths[game_data["game"]].size() > 1:
-		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + game_data["level_name"]
 
 	_authenticate_guest_session(player_name, true)
 	yield(self, "guest_authenticated")
@@ -63,7 +63,7 @@ func multipublish_scores_to_lootlocker(player_name: String, player_score: float,
 
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if Profiles.tilemap_paths[game_data["game"]].size() > 1:
-		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + game_data["level_name"]
 
 	if multipublish_count == 1: # avtenticiram na ime prvega rezultata v vrsti
 		_authenticate_guest_session(player_name, true)
@@ -103,7 +103,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 
 	var game_leaderboard_key: String = Profiles.Games.keys()[game_data["game"]]
 	if Profiles.tilemap_paths[game_data["game"]].size() > 1:
-		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + game_data["level_name"]
 
 	var url_without_count: String = "https://api.lootlocker.io/game/leaderboards/%s/list?count=" % game_leaderboard_key
 	var url: String = url_without_count + str(lootlocker_score_check_limit)

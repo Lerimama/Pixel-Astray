@@ -12,6 +12,7 @@ border_width_bottom = 1
 border_color = Color( 1, 1, 1, 1 )
 
 [node name="EdgeCover" type="Node2D"]
+modulate = Color( 1, 1, 1, 0.627451 )
 z_index = 10
 
 [node name="Edge" type="Control" parent="."]
@@ -21,26 +22,22 @@ margin_bottom = 360.0
 [node name="Up" type="ColorRect" parent="Edge"]
 anchor_right = 1.0
 margin_bottom = 32.0
-color = Color( 0, 0, 0, 1 )
 
 [node name="Down" type="ColorRect" parent="Edge"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -32.0
-color = Color( 0, 0, 0, 1 )
 
 [node name="Left" type="ColorRect" parent="Edge"]
 anchor_bottom = 1.0
 margin_right = 32.0
-color = Color( 0, 0, 0, 1 )
 
 [node name="Right" type="ColorRect" parent="Edge"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -32.0
-color = Color( 0, 0, 0, 1 )
 
 [node name="EdgeLight" type="Panel" parent="Edge"]
 visible = false

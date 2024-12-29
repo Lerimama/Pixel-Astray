@@ -24,7 +24,7 @@ func open(): # kliče GM set game
 
 	# game title
 	if Profiles.tilemap_paths[current_game_data["game"]].size() > 1:
-		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
+		title.text = current_game_data["game_name"] + " %s" % current_game_data["level_name"]
 	else:
 		title.text = current_game_data["game_name"]
 

@@ -1244,8 +1244,9 @@ margin_right = 1280.0
 margin_bottom = 720.0
 
 [node name="IntroViewPortContainer" type="ViewportContainer" parent="HomeScreen"]
+margin_top = -32.0
 margin_right = 2560.0
-margin_bottom = 1440.0
+margin_bottom = 1408.0
 rect_scale = Vector2( 0.5, 0.5 )
 
 [node name="IntroViewport" type="Viewport" parent="HomeScreen/IntroViewPortContainer"]
@@ -1748,9 +1749,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -200.0
-margin_top = 249.0
+margin_top = 241.0
 margin_right = 200.0
-margin_bottom = 274.0
+margin_bottom = 266.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 custom_constants/separation = 24
@@ -1849,7 +1850,7 @@ texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="Title" type="Label" parent="SelectSweeper"]
-modulate = Color( 1, 1, 1, 0.470588 )
+modulate = Color( 1, 1, 1, 0.552941 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 154.0
@@ -1871,7 +1872,6 @@ autowrap = true
 margin_top = 176.0
 margin_right = 912.0
 margin_bottom = 648.0
-rect_min_size = Vector2( 903, 472 )
 
 [node name="More" type="Label" parent="SelectSweeper"]
 visible = false
@@ -1914,7 +1914,7 @@ texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="Title" type="Label" parent="SelectEraser"]
-modulate = Color( 1, 1, 1, 0.470588 )
+modulate = Color( 1, 1, 1, 0.552941 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 154.0
@@ -1926,17 +1926,15 @@ text = "Select screen to erase"
 [node name="Subtitle" type="Label" parent="SelectEraser"]
 margin_left = 8.0
 margin_top = 128.0
-margin_right = 680.0
-margin_bottom = 154.0
-custom_fonts/font = ExtResource( 14 )
-text = "The ultimate test of tactics and skills. Sweep all colors with one spectacular move!"
+margin_right = 912.0
+margin_bottom = 178.0
+text = "The ultimate test of tactics and skills."
 autowrap = true
 
 [node name="LevelBtnsGrid" parent="SelectEraser" instance=ExtResource( 19 )]
 margin_top = 176.0
 margin_right = 912.0
 margin_bottom = 648.0
-rect_min_size = Vector2( 903, 472 )
 columns = 3
 
 [node name="LevelBtn" parent="SelectEraser/LevelBtnsGrid" index="0"]
