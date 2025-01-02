@@ -34,7 +34,7 @@ func update_settings_btns():
 	# specialci
 	if $TouchPopUpBtn.visible:
 		$TouchSensSlider.value = Profiles.screen_touch_sensitivity
-		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
+		if Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_LEFT or Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT:
 			$TouchSensSlider.show()
 		else:
 			$TouchSensSlider.hide()
@@ -88,7 +88,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 #	Analytics.save_ui_click("TouchControls %s" % controller_key)
 
 	# ugasnem za buttons in none
-	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
+	if Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_LEFT or Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT:
 		$TouchSensSlider.show()
 	else:
 		$TouchSensSlider.hide()

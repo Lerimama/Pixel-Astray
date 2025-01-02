@@ -12,7 +12,6 @@ border_width_bottom = 1
 border_color = Color( 1, 1, 1, 1 )
 
 [node name="EdgeCover" type="Node2D"]
-modulate = Color( 1, 1, 1, 0.627451 )
 z_index = 10
 
 [node name="Edge" type="Control" parent="."]

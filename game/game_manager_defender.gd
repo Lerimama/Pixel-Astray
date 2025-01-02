@@ -19,7 +19,6 @@ onready var line_steps_per_spawn_round: int = game_data["line_steps_per_spawn_ro
 onready var spawn_round_range: Array = game_data["spawn_round_range"]
 
 
-
 func _ready() -> void:
 	# namen: ugasnem stray pos indikatorje tako da dam limito na 0
 
@@ -47,6 +46,11 @@ func set_game():
 
 	if game_settings["pregame_screen_on"]:
 		yield(Global.hud.instructions_popup, "players_ready")
+
+	# leveling
+	current_level = 1
+	Global.hud.level_label.text = "L%02d" % current_level
+	Global.hud.level_label.show()
 
 	# animacije plejerja in straysov in zooma
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
@@ -92,7 +96,7 @@ func start_game():
 
 func game_over(gameover_reason: int):
 	# namen: samo TIME in LIFE, CLEANED je level ampak upgrade
-
+	printt("GO",gameover_reason)
 	if game_on: # preprečim double gameover
 		game_on = false
 
@@ -231,15 +235,12 @@ func set_new_level():
 
 	var prev_level_goal_count: int = game_data["level_goal_count"]
 	game_data["level_goal_count"] += game_data["level_goal_count_grow"]
-	line_steps_per_spawn_round *= game_data["line_steps_per_spawn_round_factor"]
 
 	stray_step_pause_time *= game_settings["stray_step_pause_time"]
 	stray_step_pause_time = clamp (stray_step_pause_time, 0.2, stray_step_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
 
 	spawn_round_range[0] += game_data["spawn_round_range_grow"][0]
 	spawn_round_range[1] += game_data["spawn_round_range_grow"][1]
-
-	game_data["level"] = current_level
 
 
 # EKSKLUZIVNO -----------------------------------------------------------------------------------------------------
@@ -309,4 +310,3 @@ func _on_EngineStalledTimer_timeout() -> void:
 	if free_home_positions.empty():
 		print("prazne home pozicije II")
 		game_over(GameoverReason.TIME)
-

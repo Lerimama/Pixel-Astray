@@ -730,7 +730,6 @@ func push(stray_to_move: Node2D):
 		if room_for_push: # če je prostor gre dlje, kot če ga ni
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			# neu
 			push_tween.parallel().tween_property(skill_light, "energy", 0.5, push_cocktime)
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			# lučko zapeljem na začetek ghosta (ostane ob strayu)
@@ -752,7 +751,6 @@ func push(stray_to_move: Node2D):
 			var push_tween = get_tree().create_tween()
 			# cock
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			# neu
 			push_tween.parallel().tween_property(skill_light, "energy", 0.5, push_cocktime)
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			# lučko zapeljem na začetek ghosta (ostane ob strayu)
@@ -1631,12 +1629,9 @@ func _change_stat(stat_event: String, stat_value):
 					player_stats["player_energy"] = player_max_energy
 			"all_cleaned": # nagrada je določena v settingsih
 				var cleaned_reward: int = game_settings["cleaned_reward_points"]
-				if cleaned_reward == 1:
-					pass
-				else:
-					cleaned_reward *= Global.game_manager.current_level - 1 # ker je v tem trenutku že naslednji level
-
-				player_stats["player_points"] += cleaned_reward
+				if cleaned_reward > 1:
+					cleaned_reward = player_stats["player_points"] # ker je v tem trenutku že naslednji level
+					player_stats["player_points"] += cleaned_reward
 				var reward_tag: Node = spawn_floating_tag(cleaned_reward)
 
 		# pošiljanje

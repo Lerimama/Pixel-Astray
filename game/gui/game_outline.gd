@@ -30,18 +30,17 @@ func get_instructions_content():
 			record_panel.show()
 			record_panel_mobile.hide()
 
-		var record_title: Label = record_holder_to_fill.get_node("VBoxContainer/RecordTitle")
+		var record_icon: TextureRect = record_holder_to_fill.get_node("VBoxContainer/CupIcon")
 		var record_label: Label = record_holder_to_fill.get_node("VBoxContainer/RecordLabel")
 		var record_owner: Label = record_holder_to_fill.get_node("VBoxContainer/RecordOwner")
 		record_label.show()
-		record_title.show()
+		record_icon.show()
 		record_owner.show()
 
 		# record
 		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-			record_title.text = "Current record time:"
 			if current_highscore == 0:
-				record_owner.text = "No record time yet ..."
+				record_owner.text = Profiles.game_text["outline_record_TIME"]
 				record_label.hide()
 			else:
 				var clock_record: String = Global.get_clock_time(current_highscore)
@@ -49,9 +48,8 @@ func get_instructions_content():
 				record_label.text = clock_record
 		# points
 		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
-			record_title.text = "Current top score:"
 			if current_highscore == 0:
-				record_owner.text = "No record top score yet ..."
+				record_owner.text = Profiles.game_text["outline_record_POINTS"]
 				record_label.hide()
 			else:
 				record_label.text = str(current_highscore) + " points"
@@ -80,22 +78,22 @@ func get_instructions_content():
 	# player controls
 	var def_min_y: float = 184 #168
 	var touch_min_y: float = 280 # 288
-	var ctrls_wide: Control = controls.get_child(0)
-	for ctrl_node in ctrls_wide.get_children():
+	var ctrls_display: Control = controls.get_child(0)
+	for ctrl_node in ctrls_display.get_children():
 		ctrl_node.hide()
 	if Profiles.touch_available and not Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.DISABLED:
 		controls.rect_min_size.y = touch_min_y
 		var touch_ctrl_name: String
 		match Profiles.set_touch_controller:
-			Profiles.TOUCH_CONTROLLER.BUTTONS_LEFT: touch_ctrl_name = "Buttons_L"
-			Profiles.TOUCH_CONTROLLER.BUTTONS_RIGHT: touch_ctrl_name = "Buttons_R"
-			Profiles.TOUCH_CONTROLLER.SCREEN_LEFT: touch_ctrl_name = "Sliding_L"
-			Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT: touch_ctrl_name = "Sliding_R"
-		ctrls_wide.get_node(touch_ctrl_name).show()
+			Profiles.TOUCH_CONTROLLER.BUTTONS_LEFT: touch_ctrl_name = "Buttons_Burst_L"
+			Profiles.TOUCH_CONTROLLER.BUTTONS_RIGHT: touch_ctrl_name = "Buttons_Burst_R"
+			Profiles.TOUCH_CONTROLLER.SCREEN_LEFT: touch_ctrl_name = "Sliding_Burst_L"
+			Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT: touch_ctrl_name = "Sliding_Burst_R"
+		ctrls_display.get_node(touch_ctrl_name).show()
 	else:
 		controls.rect_min_size.y = def_min_y
 		if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-			ctrls_wide.get_node("2P").show()
+			ctrls_display.get_node("2P").show()
 		else:
-			ctrls_wide.get_node("1P").show()
+			ctrls_display.get_node("1P").show()
 	controls.show()

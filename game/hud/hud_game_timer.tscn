@@ -18,9 +18,8 @@ __meta__ = {
 }
 
 [node name="Mins" type="Label" parent="."]
-margin_left = 34.0
 margin_top = 4.0
-margin_right = 62.0
+margin_right = 28.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_vertical = 8
@@ -31,9 +30,9 @@ align = 2
 valign = 2
 
 [node name="Dots" type="Label" parent="."]
-margin_left = 64.0
+margin_left = 30.0
 margin_top = 4.0
-margin_right = 70.0
+margin_right = 36.0
 margin_bottom = 26.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
@@ -44,41 +43,38 @@ align = 1
 valign = 2
 
 [node name="Secs" type="Label" parent="."]
-margin_left = 72.0
+margin_left = 38.0
 margin_top = 4.0
-margin_right = 100.0
+margin_right = 67.0
 margin_bottom = 26.0
 grow_horizontal = 2
-rect_min_size = Vector2( 28, 0 )
+rect_min_size = Vector2( 29, 0 )
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "00"
-align = 1
 valign = 2
 
 [node name="Dots2" type="Label" parent="."]
-visible = false
-margin_left = 94.0
+margin_left = 69.0
 margin_top = 4.0
-margin_right = 100.0
+margin_right = 75.0
 margin_bottom = 26.0
 size_flags_horizontal = 12
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
-text = ":"
+text = "."
 align = 1
 valign = 2
 
 [node name="Hunds" type="Label" parent="."]
-visible = false
-margin_left = 72.0
+margin_left = 77.0
 margin_top = 4.0
-margin_right = 100.0
+margin_right = 106.0
 margin_bottom = 26.0
 grow_horizontal = 0
-rect_min_size = Vector2( 28, 0 )
+rect_min_size = Vector2( 29, 0 )
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )

@@ -6,13 +6,14 @@ func TOP(): pass
 
 enum HighscoreTypes {NONE, POINTS, TIME}
 
-enum TOUCH_CONTROLLER {DISABLED, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
+
+enum TOUCH_CONTROLLER {DISABLED, BUTTONS_RIGHT, BUTTONS_LEFT, SCREEN_RIGHT, SCREEN_LEFT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
 var touch_controller_content: Dictionary = {
 	TOUCH_CONTROLLER.DISABLED: {"Disabled": "Touch controls DISABLED"},
-	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons Right": "On-screen BUTTONS, Burst on right"},
-	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons Left": "On-screen BUTTONS, Burst on left"},
-	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Sliding Left": "SLIDE tracking for motion, Burst on left"},
+	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons Right": "On-screen BUTTONS, Burst on right"},
+	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons Left": "On-screen BUTTONS, Burst on left"},
 	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Sliding Right": "SLIDE tracking for motion, Burst on right"},
+	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Sliding Left": "SLIDE tracking for motion, Burst on left"},
 }
 
 var default_player_stats: Dictionary = {
@@ -35,7 +36,7 @@ var default_game_settings: Dictionary = { # per game
 	# points
 	"color_picked_points": 10,
 	"white_eliminated_points": 100,
-	"cleaned_reward_points": 1000, # 1 ... izpiše se "SUCCESS!" # TEST
+	"cleaned_reward_points": 2, # 1 izpiše se "SUCCESS!", večja kot ena vedno podvoji trnuten skor
 	# energija
 	"color_picked_energy": 10,
 	"cell_traveled_energy": 0,
@@ -54,7 +55,6 @@ var default_game_settings: Dictionary = { # per game
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
 	"stray_step_time": 0.4, # ne manjši od 0.2
 	"stray_step_pause_time": 1, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
-
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"color_pool_colors_count": 500,
@@ -68,8 +68,7 @@ var default_game_settings: Dictionary = { # per game
 	# gui
 	"start_countdown": true,
 	"zoom_to_level_size": false, # SHOWCASE
-	"always_zoomed_in": false, # SWEEPER
-
+	"always_zoomed_in": false, # SWEEPER, ERASER # play iz GO je že zumiran
 }
 
 
@@ -79,101 +78,121 @@ func GAME_DATA(): pass
 
 enum Games {CLEANER, ERASER, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 
+var game_text: Dictionary = {
+#	name_input_label_good.text = "But still ... "
+	"name_input_label_GOOD": "Great work!",
+	"name_input_label_BAD": "But still ...",
+	"outline_record_TIME": "No record time yet ...",
+	"outline_record_POINTS": "No record top score yet ...",
+	"btn_empty_score_string": "Waiting for\nfirst cleaning",
+}
+
 var game_data: Dictionary = {
 
 	Games.CLEANER: {
 			"game": Games.CLEANER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.POINTS,
 			"game_name": "Cleaner",
-			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
-			"description": "%d minutes to show your cleaning skills. Restore the perfect order!" % 5,
-			"home_btn_desc": "You have %d minutes to restore order to this vibrant mess." % 5,
-			"level_name": "",
-			"level": 0, # 0 pomeni, da se lvel ne upošteva
+			"level_name": "", # prazn pomeni samo uporabo game_name
+			"description": "%d minutes to show your cleaning skills!" % 5,
+			"home_btn_desc": "%d minutes to show your cleaning skills!" % 5,
+			"game_over_subtitle_CLEANED": "You are the brightest of them all!",
+			"game_over_subtitle_TIME": "Time is up!", # time up
+			"game_over_subtitle_LIFE": "Can't handle the colors?", # lost life
+			"game_over_subtitle_RECORD": "You've set a new record!",
+#			"game_scene_path": "res://game/game.tscn"
 			},
 	Games.DEFENDER: {
 			"game": Games.DEFENDER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.POINTS,
 			"game_name": "Defender",
-			"game_scene_path": "res://game/game_defender.tscn",
-#			"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
-			"description" : "Defend your screen against invading colors!",
-			"home_btn_desc": "Stop invading colors from taking over the screen as they keep crashing in!",
-			# štart
 			"level_name": "",
-			"level": 1,
-			"level_goal_count": 320, # CON kolikor jih spawnanih v prvi rundi
-			"spawn_round_range": [1, 3], # random spawn count, največ 120 - 8
+			"description": "Stop the invading strays from taking over!",
+			"home_btn_desc": "Stop the invading strays from taking over!",
+			"game_over_subtitle_CLEANED": "You are the brightest of them all!",
+			"game_over_subtitle_TIME": "You were overpowered.", # full sceen
+			"game_over_subtitle_LIFE": "You were surrounded.", # surrounded
+			"game_over_subtitle_RECORD": "You've set a new record!",
+			# štart
+			"level_goal_count": 10, # igra je "goal_mode" ... uporablja var current level
+			"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
 			"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 			# level up
 			"level_goal_count_grow": 10, # dodatno prištejem
 			"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
-			"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
-			"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
+			"spawn_round_range_grow": [1, 2], # množim [spodnjo, zgornjo] mejo
+			"game_scene_path": "res://game/game_defender.tscn"
 			},
 	Games.HUNTER: {
 			"game": Games.HUNTER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.POINTS,
 			"game_name": "Hunter",
-			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/tilemap_hunter.tscn",
-			"description" : "Keep the colors in check as they keep popping in!",
-			"home_btn_desc": "Stop nasty colors from flooding the screen as they keep poping in!",
-			# štart
 			"level_name": "",
-			"level": 1,
-			"level_goal_count": 1, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
-			"level_goal_count_grow": 3,
-			# "create_strays_count": 0, # določi tilemap
-			"create_strays_count_grow": 0,
-			# "respawn_strays_count_range": [2,8],
-			"respawn_strays_count_range_grow": [1,1],
-			# "respawn_pause_time": 3,
-			"respawn_pause_time_factor": 0.80,
-			# "spawn_white_stray_part": 0.21,
-			"spawn_white_stray_part_grow": 0, # omejena na 2. level na set_new_level
+			"description" : "Keep the saturation in check as colors keep popping in!",
+			"home_btn_desc" : "Keep the saturation in check as colors keep popping in!",
+			"game_over_subtitle_CLEANED": "You are the brightest of them all!",
+			"game_over_subtitle_TIME": "Your screen is drowning in colors.", # full sceen,
+			"game_over_subtitle_LIFE": "You were surrounded.", # surrounded
+			"game_over_subtitle_RECORD": "You've set a new record!",
+			# štart
+			"level_goal_count": 1, # igra je "goal_mode" ... uporablja var current level
+			# level up
+			"level_goal_count_grow": 10,
+			"create_strays_count_grow": 0, # default seta tilemp
+			"respawn_strays_count_range_grow": [1,3], # prištejem ... default v settingsih [2,8]
+			"respawn_pause_time_factor": 0.80, # default v settingsih 3
+			"spawn_white_stray_part_grow": 0, # omejena na 2. level na set_new_level ... default v settingsih 0.21
+#			"game_scene_path": "res://game/game.tscn"
 			},
 	Games.ERASER: {
 			"game": Games.ERASER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.TIME,
-			"game_name": "Eraser XS",
-			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
-			"description" : "Collect all %d colors and become the brightest again!" % 32,
-			"home_btn_desc": "Pick which of the %d the crisis situations you can handle!" % 5, # % tilemap_paths[Games.ERASER].size(),
-			"level": 1,
+			"game_name": "Eraser",
 			"level_name": "XS",
+			"description": "Erasing sprint! %d designs need to be completely erased!" % 9,
+			"home_btn_desc": "Erasing sprint! %d designs need to be completely erased!" % 9,
+			"game_over_subtitle_CLEANED": "You are the brightest of them all!",
+			"game_over_subtitle_TIME": "You need to be faster!", # lost momentum,
+			"game_over_subtitle_LIFE": "Is the White to bright?", # če ostanejo samo beli
+			"game_over_subtitle_RECORD": "You've set a new record!",
+#			"game_scene_path": "res://game/game.tscn"
 			},
 	Games.SWEEPER: {
 			"game": Games.SWEEPER, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.TIME,
 			"game_name": "Sweeper",
-			"game_scene_path": "res://game/game.tscn",
-#			"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-			"description" : "Sweep the entire screen with one spectacular move!",
+			"level_name": "%02d" % 1,
+			"description": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
 			"home_btn_desc": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
 			"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
-			"level": 1,
-			"level_name": "%02d" % 1,
+			"game_over_subtitle_CLEANED": "That was impressive!",
+			"game_over_subtitle_TIME": "You missed the target.", # nemogoče,
+			"game_over_subtitle_LIFE": "You missed the target.", # če ostanejo samo beli
+			"game_over_subtitle_RECORD": "You've set a new record!",
+#			"game_scene_path": "res://game/game.tscn"
 			},
 	Games.THE_DUEL: {
 			"game": Games.THE_DUEL, # key igre je key lootlocker tabele
 			"highscore_type": HighscoreTypes.NONE,
 			"game_name": "The Duel",
-			"game_scene_path": "res://game/game.tscn",
-			"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-			"description" : "Only the best cleaner will shine in this epic battle!",
-			"home_btn_desc": "Sofa showdown! Battle for the ultimate cleaning champ title!",
-			"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
 			"level_name": "",
-			"level": 0,
+			"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
+			"description": "Couch showdown! Battle for the ultimate cleaning champ title!",
+			"home_btn_desc": "Couch showdown! Battle for the ultimate cleaning champ title!",
+			"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
+			"game_over_subtitle_CLEANED": "...", # nemogoče,
+			"game_over_subtitle_TIME_DRAW": "You both collected the same amount of points.", # draw
+			"game_over_subtitle_TIME_WIN": " was %d points better than ", # winner/loser
+			"game_over_subtitle_TIME_TIGHT": " was better by only one point.", # winner/loser
+			"game_over_subtitle_LIFE": " couldn't handle all the saturation.", # player X lose all life
+#			"game_scene_path": "res://game/game.tscn"
 			},
 }
 
 var tilemap_paths: Dictionary = {
+	# zaporedje vpliva na zaporedje gumbov
+	# če je število tilemapov večje od ena ima svoj ekran
 	Games.ERASER: [
-			# _temp ... zaporedje je ključno za level name
 			"res://game/tilemaps/eraser/tilemap_eraser_xs.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_s.tscn",
 			"res://game/tilemaps/eraser/tilemap_eraser_m.tscn",
@@ -186,7 +205,6 @@ var tilemap_paths: Dictionary = {
 #			"res://game/tilemaps/eraser/tilemap_eraser_butter.tscn",
 			],
 	Games.SWEEPER: [
-			# zaporedje je ključno za level name
 			"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 			"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
 			"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
@@ -217,9 +235,7 @@ var tilemap_paths: Dictionary = {
 var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
 var touch_available: bool = false
 var debug_mode: bool = false
-
 var tutorial_music_track_index: int = 3
-
 # settings (home)
 var use_default_color_theme: bool = true # sejvam
 var pregame_screen_on: bool = true # sejvam
@@ -230,12 +246,14 @@ var brightness: float = 1 setget _change_brightness # 0.6 > 1.1 ... def = 1
 var vsync_on: bool = true setget _change_vsync
 var set_touch_controller: int = TOUCH_CONTROLLER.BUTTONS_RIGHT
 var screen_touch_sensitivity: float = 0.1 # 0 - 20% VP width ... def 0.1 ... ročno nastavljen ticker node
-
 var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
-
-
 var start_with_method: String = "home_in_intro"
+
+var game_scene_path: String = "res://game/game.tscn"
+var game_scene_defender_path: String = "res://game/game_defender.tscn"
+var home_scene_path: String = "res://home/home.tscn"
+
 
 func _ready() -> void:
 
@@ -252,37 +270,36 @@ func _ready() -> void:
 
 	# nastavim sejvane settingse
 	if not html5_mode:
+		# slovar sejvam v data
 		var apply_game_settings: Dictionary = Data.read_settings_from_file() # če fileta ni, pobere trenutno setane vrednosti
 		pregame_screen_on = apply_game_settings["pregame_screen_on"]
 		camera_shake_on = apply_game_settings["camera_shake_on"]
 		tutorial_mode = apply_game_settings["tutorial_mode"]
 		analytics_mode = apply_game_settings["analytics_mode"]
 		self.vsync_on = apply_game_settings["vsync_on"]
+		# neu
+		set_touch_controller = apply_game_settings["touch_controller"]
+		screen_touch_sensitivity = apply_game_settings["touch_sensitivity"]
 
-	tutorial_mode = false
-	# DEBUG setup
+	tutorial_mode = false # _temp
 
 	# če greš iz menija je tole povoženo
 	if debug_mode:
 #		var debug_game = Games.SHOWCASE # fix camera
 #		var debug_game = Games.CLEANER
-#		var debug_game = Games.ERASER_XS
-#		var debug_game = Games.ERASER_S
-#		var debug_game = Games.ERASER_M
-#		var debug_game = Games.ERASER_L
-#		var debug_game = Games.ERASER_XL
+#		var debug_game = Games.ERASER
 #		var debug_game = Games.HUNTER
 		var debug_game = Games.DEFENDER
 #		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
 
-#		start_with_method = "home_in_intro"
-		start_with_method = "home_in_no_intro"
+		start_with_method = "home_in_intro"
+#		start_with_method = "home_in_no_intro"
 #		start_with_method = "game_in"
 
 #		vsync_on = false
 #		analytics_mode = false
-		pregame_screen_on = false
+#		pregame_screen_on = false
 		tutorial_mode = false
 #		html5_mode = true
 #		touch_available = true
@@ -298,7 +315,9 @@ func _ready() -> void:
 
 func set_game_data(selected_game):
 
+	game_scene_path = "res://game/game.tscn" # reset defaulta, ker se spremeni v defenderju
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
+
 	game_settings["pregame_screen_on"] = pregame_screen_on # da se seta aka per-game in osnovnega ne spreminjam
 
 	match selected_game:
@@ -311,8 +330,15 @@ func set_game_data(selected_game):
 			current_game_data = game_data[Games.ERASER].duplicate()
 			game_settings["game_time_limit"] = 0
 			game_settings["cleaned_reward_points"] = 1
-			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
+#			current_game_data["level_name"] = "XL"
+			match current_game_data["level_name"]:
+				"XS": game_settings["create_strays_count"] = 32
+				"S": game_settings["create_strays_count"] = 50
+				"M": game_settings["create_strays_count"] = 140
+				"L": game_settings["create_strays_count"] = 230
+				"XL": game_settings["create_strays_count"] = 320
+				_: pass # določa tilemap
 		Games.HUNTER:
 			current_game_data = game_data[Games.HUNTER].duplicate()
 			game_settings["respawn_strays_count_range"] = [2, 8]
@@ -321,12 +347,14 @@ func set_game_data(selected_game):
 			game_settings["start_countdown"] = false
 		Games.DEFENDER:
 			current_game_data = game_data[Games.DEFENDER].duplicate()
+			game_scene_path = game_scene_defender_path
 			game_settings["full_power_mode"] = true
 			game_settings["create_strays_count"] = 1
 			game_settings["start_countdown"] = false
 			game_settings["follow_mode"] = true
 		Games.SWEEPER:
 			current_game_data = game_data[Games.SWEEPER].duplicate()
+#			current_game_data["level_name"] = "04"
 			game_settings["player_start_life"] = 1
 			game_settings["on_hit_wall_energy_factor"] = 0
 			game_settings["player_start_color"] = Color.white
@@ -337,8 +365,6 @@ func set_game_data(selected_game):
 			game_settings["game_music_track_index"] = 3
 			# zoom-in je samo prvi level iz home menija
 			# med igro se seta na off, da ostane zoomiran
-			# play iz GO je že zumiran
-#			game_settings["always_zoomed_in"] = false
 			tutorial_mode = false # _temp rabi posebn tutorial
 		Games.THE_DUEL:
 			current_game_data = game_data[Games.THE_DUEL].duplicate()

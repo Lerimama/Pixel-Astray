@@ -34,7 +34,6 @@ visible = false
 position = Vector2( 0, -736 )
 
 [node name="EdgeCover" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [node name="Edge" parent="EdgeCover" index="0"]
 margin_right = 1344.0
@@ -118,6 +117,7 @@ text = "zoom 1"
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
 
 [node name="TilemapThumb" parent="." instance=ExtResource( 6 )]
+visible = false
 
 [editable path="Background"]
 [editable path="EdgeCover"]

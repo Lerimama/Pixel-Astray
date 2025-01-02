@@ -15,6 +15,10 @@ var screen_dir_is_pressed: bool = false
 var last_direction_imitated: String # za screen release
 var last_screen_touch_location: Vector2 = Vector2.ZERO
 
+# full screen mode
+var screen_burst_is_pressed: bool = false
+var screen_touch_is_moving: bool = false
+
 onready var direction_btns: Node2D = $DirectionBtns
 onready var burst_btn: TouchScreenButton = $BurstBtn
 onready var screen_btn: TouchScreenButton = $ScreenBtn
@@ -32,13 +36,8 @@ onready var tutorial_elements: Array = [
 	$BurstBtn/Label
 	]
 
-
 # debug
 var touch_direction_line: Line2D
-
-# full screen mode
-var screen_burst_is_pressed: bool = false
-var screen_touch_is_moving: bool = false
 
 
 
@@ -64,7 +63,6 @@ func open():
 
 	var music_player_position_x: float = Global.hud.music_player.rect_global_position.x
 	mute_btn.global_position.x = music_player_position_x# + 50 # izmerjeno
-	printt(mute_btn.global_position.x, music_player_position_x)
 
 
 func close():
@@ -72,6 +70,7 @@ func close():
 	var fade = get_tree().create_tween().set_ease(Tween.EASE_IN).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade.tween_property(self, "modulate:a", 0, fade_inout_time)
 	fade.tween_callback(self, "hide")
+	print("hide")
 
 
 func toggle_tutorial_elements(show_it: bool):
@@ -105,7 +104,7 @@ func _set_current_controller():
 	var poly_shape_r: Polygon2D = $ScreenBtn/PolyShapeR
 
 	match current_touch_controller:
-		Profiles.TOUCH_CONTROLLER.BUTTONS_LEFT:
+		Profiles.TOUCH_CONTROLLER.BUTTONS_RIGHT:
 			if not visible:
 				open()
 			direction_btns.position = left_position
@@ -117,7 +116,7 @@ func _set_current_controller():
 				btn.connect("released", self, "_on_dir_btn_released", [btn])
 			burst_btn.connect("pressed", self, "_on_dir_btn_pressed", [burst_btn])
 			burst_btn.connect("released", self, "_on_dir_btn_released", [burst_btn])
-		Profiles.TOUCH_CONTROLLER.BUTTONS_RIGHT:
+		Profiles.TOUCH_CONTROLLER.BUTTONS_LEFT:
 			direction_btns.position = right_position
 			burst_btn.position = left_position
 			if not visible:
@@ -129,7 +128,7 @@ func _set_current_controller():
 				btn.connect("released", self, "_on_dir_btn_released", [btn])
 			burst_btn.connect("pressed", self, "_on_dir_btn_pressed", [burst_btn])
 			burst_btn.connect("released", self, "_on_dir_btn_released", [burst_btn])
-		Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
+		Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT:
 			if not visible:
 				open()
 			burst_btn.position = right_position
@@ -140,7 +139,7 @@ func _set_current_controller():
 			screen_btn.connect("released", self, "_on_screen_btn_released", [screen_btn])
 			burst_btn.connect("pressed", self, "_on_dir_btn_pressed", [burst_btn])
 			burst_btn.connect("released", self, "_on_dir_btn_released", [burst_btn])
-		Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT:
+		Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
 			if not visible:
 				open()
 			burst_btn.position = left_position
@@ -179,7 +178,7 @@ func _imitate_input(key_name: String, imitate_pressed: bool = true):
 	new_event.pressed = imitate_pressed
 	Input.parse_input_event(new_event)
 
-#	# po pritisku ga označim za zadnjega pritisnjenega
+	# po pritisku ga označim za zadnjega pritisnjenega
 	if imitate_pressed and not key_name == key_burst:
 		last_direction_imitated = key_name
 

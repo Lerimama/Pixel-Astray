@@ -27,18 +27,13 @@ onready var tilemap_background: Node2D = $Background
 onready var edge_rect: Control = $EdgeCover/Edge # da se rob ne vidi na zoomin in, da se ne vidijo pixli prek roba (malo bolje je)
 onready var edge_cover: Node2D = $EdgeCover # da se rob ne vidi na zoomin in, da se ne vidijo pixli prek roba (malo bolje je)
 
-# thumb
-onready var thumb_background: ColorRect = $TilemapThumb/Background
-onready var thumb_cover: ColorRect = $TilemapThumb/Cover
-onready var tilemap_thumb: TileMap = $TilemapThumb
-
 
 func _ready() -> void:
 
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
+	edge_cover.modulate = Color.black
 	edge_cover.hide()
-	#	tilemap_thumb.hide() #  ...  error? ... je v grt_tiles
 
 	if has_node("SolutionLine"):
 		solution_line = $SolutionLine
@@ -53,7 +48,7 @@ func _ready() -> void:
 
 func get_tiles():
 
-	tilemap_thumb.queue_free()
+	$TilemapThumb.queue_free()
 	get_tilemap_edge_rect()
 
 	# prečesi vse celice in določi globalne pozicije
@@ -156,8 +151,8 @@ func show_as_thumbnail():
 
 	for child in get_children():
 		child.hide()
-	tilemap_thumb.show()
-	thumb_cover.modulate = Color.black # ker je za editiranje drugih barv
-	thumb_background.modulate = Color.black
-	thumb_cover.show() # zazih
-	thumb_background.show() # zazih
+	$TilemapThumb.show()
+	$TilemapThumb/Cover.modulate = Color.black # ker je za editiranje drugih barv
+	$TilemapThumb/Background.modulate = Color.black
+	$TilemapThumb/Cover.show() # zazih
+	$TilemapThumb/Background.show() # zazih

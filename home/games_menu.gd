@@ -89,18 +89,18 @@ func _on_game_btn_focused(btn: Control):
 	var current_btn_description: String
 
 	match btn.name:
-		"EraserBtn":
+		"CleanerBtn":
 			current_btn_color = btn_colors[3]
+			current_btn_description = Profiles.game_data[Profiles.Games.CLEANER]["home_btn_desc"]
+		"EraserBtn":
+			current_btn_color = btn_colors[4]
 			current_btn_description = Profiles.game_data[Profiles.Games.ERASER]["home_btn_desc"]
 		"DefenderBtn":
-			current_btn_color = btn_colors[4]
+			current_btn_color = btn_colors[5]
 			current_btn_description = Profiles.game_data[Profiles.Games.DEFENDER]["home_btn_desc"]
 		"SweeperBtn":
-			current_btn_color = btn_colors[5]
-			current_btn_description = Profiles.game_data[Profiles.Games.SWEEPER]["home_btn_desc"]
-		"CleanerBtn":
 			current_btn_color = btn_colors[6]
-			current_btn_description = Profiles.game_data[Profiles.Games.CLEANER]["home_btn_desc"]
+			current_btn_description = Profiles.game_data[Profiles.Games.SWEEPER]["home_btn_desc"]
 		"HunterBtn":
 			current_btn_color = btn_colors[7]
 			current_btn_description = Profiles.game_data[Profiles.Games.HUNTER]["home_btn_desc"]
@@ -108,9 +108,12 @@ func _on_game_btn_focused(btn: Control):
 			current_btn_color = btn_colors[9]
 			current_btn_description = Profiles.game_data[Profiles.Games.THE_DUEL]["home_btn_desc"]
 
+	description_label.text = current_btn_description
 	var focus_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	focus_tween.tween_property(btn, "modulate", current_btn_color, focus_time)
-	focus_tween.parallel().tween_property(description_label, "modulate", current_btn_color, 0.2)#.from(current_btn_color).set_delay(0.2)
-	focus_tween.parallel().tween_property(description_label, "modulate:a", 0, 0.2)
-	focus_tween.tween_callback(description_label, "set_text", [current_btn_description])
-	focus_tween.parallel().tween_property(description_label, "modulate", Color.white, 0.2)#.from(current_btn_color).set_delay(0.2)
+#	focus_tween.parallel().tween_property(description_label, "modulate", current_btn_color, 0.2)#.from(current_btn_color).set_delay(0.2)
+#	focus_tween.parallel().tween_property(description_label, "modulate", Color.white, 0.2)#.from(current_btn_color).set_delay(0.2)
+#	focus_tween.parallel().tween_property(description_label, "modulate:a", 0, 0.2)
+#	focus_tween.tween_callback(description_label, "set_text", [current_btn_description])
+#	focus_tween.parallel().tween_property(description_label, "modulate", Color.white, 0.2)#.from(current_btn_color).set_delay(0.2)
+	focus_tween.parallel().tween_property(description_label, "modulate", current_btn_color, focus_time)#.from(current_btn_color).set_delay(0.2)

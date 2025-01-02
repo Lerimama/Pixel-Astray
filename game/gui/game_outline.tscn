@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=5]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=6]
 [ext_resource path="res://common/shortcuts.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/atlas_hud.png" type="Texture" id=10]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 10 )
+region = Rect2( 32, 0, 16, 20 )
 
 [node name="GameOutline" type="HFlowContainer"]
 anchor_left = 0.5
@@ -21,7 +26,8 @@ custom_constants/vseparation = 8
 custom_constants/hseparation = 8
 script = ExtResource( 3 )
 __meta__ = {
-"_edit_group_": true
+"_edit_group_": true,
+"_edit_horizontal_guides_": [ 272.0, 240.0 ]
 }
 
 [node name="Record" type="Panel" parent="."]
@@ -47,10 +53,21 @@ margin_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RecordTitle" type="Label" parent="Record/VBoxContainer"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_right = 279.0
+[node name="CupIcon" type="TextureRect" parent="Record/VBoxContainer"]
+margin_left = 131.0
+margin_right = 147.0
 margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource( 1 )
+
+[node name="__RecordTitle" type="Label" parent="Record/VBoxContainer"]
+visible = false
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 26.0
+margin_right = 279.0
+margin_bottom = 51.0
 grow_horizontal = 2
 rect_min_size = Vector2( 0, 25 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
@@ -76,7 +93,7 @@ margin_right = 279.0
 margin_bottom = 73.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 2 )
-text = "%by owner"
+text = "%by Nobody"
 align = 1
 valign = 2
 

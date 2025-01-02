@@ -12,7 +12,6 @@ func _ready() -> void:
 
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
-
 	edge_cover.modulate = Color.black
 	edge_cover.hide()
 
@@ -25,7 +24,7 @@ func _ready() -> void:
 func get_tiles():
 	# namen: drugače nabere froor tile (samo no_strays in players
 
-	tilemap_thumb.queue_free()
+	$TilemapThumb.queue_free()
 	get_tilemap_edge_rect()
 
 	# prečesi vse celice in določi globalne pozicije

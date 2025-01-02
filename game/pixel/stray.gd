@@ -32,6 +32,7 @@ func _ready() -> void:
 	modulate.a = 0
 	pixel_face.hide()
 	pixel_face.stop() # zazih
+
 	if Global.game_manager.game_settings["show_expressions"]:
 		pixel_face.show()
 		manage_expressions()
@@ -91,8 +92,8 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 			animation_player.play(random_animation_name)
 
 		# color vanish
-		var collision_disabled_delay: float = 0.3
-		yield(get_tree().create_timer(collision_disabled_delay), "timeout") # če je delay v tvinu ne dela okej
+		#		var collision_disabled_delay: float = 0.0
+		#		yield(get_tree().create_timer(collision_disabled_delay), "timeout") # če je delay v tvinu ne dela okej
 		collision_shape.disabled = true
 		Global.game_manager.add_to_free_floor_positions(global_position)
 
@@ -167,7 +168,7 @@ func step(following_target: Node2D = null):
 				current_state = STATES.HOLDING
 				color_poly.modulate = Global.color_holding
 				if step_timer.is_stopped():
-					step_timer.start(next_step_pause) # _temp ... refaktor v frugo metodo
+					step_timer.start(next_step_pause) # _temp ... refaktor v drugo metodo
 
 
 func _random_step(step_direction: Vector2 = Vector2.DOWN): # smer določa preferenco

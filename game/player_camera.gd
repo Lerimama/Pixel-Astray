@@ -90,6 +90,7 @@ func _physics_process(delta: float) -> void:
 func zoom_in(hud_in_out_time: float): # kliče hud
 
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	#	zoom_in_tween.tween_property(self, "zoom", zoom_end * 5, hud_in_out_time) # debug
 	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
 	yield(zoom_in_tween, "finished")

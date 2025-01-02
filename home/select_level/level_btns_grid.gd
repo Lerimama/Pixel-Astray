@@ -16,18 +16,11 @@ var btn_final_size: Vector2 = Vector2.ZERO # velikost gumba po koncu vseh risajz
 var record_holder_path: String = "RecordContent"
 var level_name_path: String = "LevelName"
 var tilemap_path: String = "TilemapHolder/LevelTilemap"
-
-var empty_score_string: String = "Waiting for\nfirst cleaning"
+var tilemap_thumb_path: String = "TilemapHolder/LevelTilemap"
+var tilemap_thumb_cover_path: String = "TilemapHolder/LevelTilemap/TilemapThumb/Cover"
 
 onready var LevelBtn: PackedScene = preload("res://home/select_level/level_btn.tscn")
 
-
-
-#func _input(event: InputEvent) -> void:
-#
-#	if Input.is_action_just_pressed("no1"):
-#		for btn in all_level_btns:
-#			_on_btn_unhovered_or_unfocused(btn)
 
 func spawn_level_btns(game_name_key: int):
 
@@ -67,19 +60,16 @@ func set_level_btns_content():
 		# btn name
 		var game_tilemap_paths: Array = Profiles.tilemap_paths[game_key]
 		var level_tilemap_path: String = game_tilemap_paths[btn_count]
-		var tilemap_name: String = level_tilemap_path.get_slice(".", 0) # odstranim .tscn
-		var btn_level_name: String = tilemap_name.get_slice("_", 2).to_upper()
-		btn.name = "LevelBtn_" + btn_level_name
 
-		var btn_level_number: int = btn_count + 1
+		var level_name: String = Global.get_level_out_of_path(level_tilemap_path)
+		btn.name = "LevelBtn_" + level_name
 
 		# highscore ... preverjam HScore > 0
-#		var level_hs_line: Array = _get_btn_highscore(btn_level_number)
-		var level_hs_line: Array = _get_btn_highscore(btn_level_name)
+		var level_hs_line: Array = _get_btn_highscore(level_name)
 
 		var current_hs_time_int: int = int(level_hs_line[0])
 
-		btn.get_node(level_name_path).text = btn_level_name#.capitalize()
+		btn.get_node(level_name_path).text = level_name
 		btn.get_node(level_name_path).show()
 		btn.get_node(record_owner_path).show()
 
@@ -90,7 +80,7 @@ func set_level_btns_content():
 			btn.get_node(record_icon_path).show()
 			btn.get_node(record_score_path).show()
 		else:
-			btn.get_node(record_owner_path).text = empty_score_string
+			btn.get_node(record_owner_path).text = Profiles.game_text["btn_empty_score_string"]
 			btn.get_node(record_icon_path).hide()
 			btn.get_node(record_score_path).hide()
 
@@ -138,8 +128,8 @@ func _spawn_level_btn_tilemap(level_btn: Button, btn_count: int):
 		yield(get_tree(), "idle_frame") # da zabeleži trenutne velikosti
 
 		# size
-		var thumbnail_visible_rect: Vector2 = new_btn_tilemap.thumb_background.rect_size - Vector2(64, 64)
-		var thumbnail_visible_position: Vector2 = new_btn_tilemap.thumb_background.rect_position + Vector2(32, 32)
+		var thumbnail_visible_rect: Vector2 = new_btn_tilemap.get_node("TilemapThumb/Background").rect_size - Vector2(64, 64)
+		var thumbnail_visible_position: Vector2 = new_btn_tilemap.get_node("TilemapThumb/Background").rect_position + Vector2(32, 32)
 
 		var tilemap_thumb_width: float = thumbnail_visible_rect.x
 		var tilemap_size_factor: float = level_btn.rect_size.x / tilemap_thumb_width
@@ -176,23 +166,6 @@ func _get_btn_highscore(level_name: String):
 	var current_highscore_owner: String = current_highscore_line[1]
 
 	return [current_highscore_clock, current_highscore_owner]
-
-
-#func _get_btn_highscore_with_number(btn_level_number: int):
-#
-#
-#	var btn_level_game_data = Profiles.game_data[game_key]
-#	btn_level_game_data["level"] = btn_level_number
-#
-#	var current_highscore_line: Array = Data.get_saved_highscore(btn_level_game_data)
-#	var current_highscore_clock = 0
-#	# če je < 0, ga ne formatiram (bolje vem, da je "scoreless")
-#	if current_highscore_line[0] > 0:
-#		current_highscore_clock = Global.get_clock_time(current_highscore_line[0])
-#
-#	var current_highscore_owner: String = current_highscore_line[1]
-#
-#	return [current_highscore_clock, current_highscore_owner]
 
 
 func _connect_level_btns(connect_it: bool = true):
@@ -244,7 +217,8 @@ func _on_btn_hovered_or_focused(btn):
 	var fade_time: float = 0.2
 	var fade_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_tween.tween_callback(btn, "set_self_modulate", [Color.white])
-	fade_tween.parallel().tween_property(btn.get_node(tilemap_path).thumb_cover, "modulate:a", 0, fade_time)#.set_delay(0.01)
+	fade_tween.parallel().tween_property(btn.get_node(tilemap_thumb_cover_path), "modulate:a", 0, fade_time)#.set_delay(0.01)
+#	fade_tween.parallel().tween_property(btn.get_node(tilemap_path).thumb_cover, "modulate:a", 0, fade_time)#.set_delay(0.01)
 	fade_tween.parallel().tween_property(btn.get_node(record_holder_path), "modulate:a", 0, fade_time)#.set_delay(0.01)
 	fade_tween.parallel().tween_property(btn, "self_modulate", btn_color, fade_time).from(Color.white).set_delay(0.01)
 
@@ -254,7 +228,8 @@ func _on_btn_unhovered_or_unfocused(btn: Button):
 	var btn_color: Color = btn_colors[all_level_btns.find(btn)]
 	var fade_time: float = 0.2
 	var fade_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_tween.tween_property(btn.get_node(tilemap_path).thumb_cover, "modulate:a", 0.8, fade_time)
+	fade_tween.tween_property(btn.get_node(tilemap_thumb_cover_path), "modulate:a", 0.8, fade_time)
+#	fade_tween.tween_property(btn.get_node(tilemap_path).thumb_cover, "modulate:a", 0.8, fade_time)
 	if solved_btns.has(btn):
 		fade_tween.parallel().tween_property(btn.get_node(record_holder_path), "modulate", btn_color, fade_time)
 	else:

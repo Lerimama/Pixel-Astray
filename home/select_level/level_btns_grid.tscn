@@ -22,7 +22,6 @@ __meta__ = {
 }
 
 [node name="LevelBtn" parent="." instance=ExtResource( 5 )]
-margin_bottom = 104.0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -30,7 +29,6 @@ __meta__ = {
 [node name="LevelBtn2" parent="." instance=ExtResource( 5 )]
 margin_left = 200.0
 margin_right = 392.0
-margin_bottom = 104.0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -38,7 +36,6 @@ __meta__ = {
 [node name="LevelBtn3" parent="." instance=ExtResource( 5 )]
 margin_left = 400.0
 margin_right = 592.0
-margin_bottom = 104.0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -46,7 +43,6 @@ __meta__ = {
 [node name="LevelBtn4" parent="." instance=ExtResource( 5 )]
 margin_left = 600.0
 margin_right = 792.0
-margin_bottom = 104.0
 __meta__ = {
 "_editor_description_": ""
 }

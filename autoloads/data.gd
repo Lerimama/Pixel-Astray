@@ -34,8 +34,6 @@ func get_saved_highscore(current_game_data: Dictionary):
 	var local_hs_owner: String = loaded_local_highscores[local_first_rank_key].keys()[0]
 	var local_hs_score: float = loaded_local_highscores[local_first_rank_key].values()[0]
 
-	#	printt("get_saved_highscore", current_game_data["game_name"], current_game_data["level"], local_hs_score, global_hs_score)
-
 	var top_highscore: float
 	var top_highscore_owner: String
 
@@ -71,7 +69,6 @@ func delete_highscores_file(file_game_data: Dictionary):
 
 	if Profiles.tilemap_paths[file_game_data["game"]].size() > 1:
 		file_game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + file_game_data["level_name"]
-#		file_game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + str(file_game_data["level"])
 	else:
 		file_game_name = Profiles.Games.keys()[file_game_data["game"]]
 
@@ -130,12 +127,15 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 
 
 func write_settings_to_file():
-
+	# slovar prikličem v profilih
 	data_game_settings["pregame_screen_on"] = Profiles.pregame_screen_on
 	data_game_settings["camera_shake_on"] = Profiles.camera_shake_on
 	data_game_settings["tutorial_mode"] = Profiles.tutorial_mode
 	data_game_settings["analytics_mode"] = Profiles.analytics_mode
 	data_game_settings["vsync_on"] = Profiles.vsync_on
+	# neu
+	data_game_settings["touch_controller"] = Profiles.set_touch_controller
+	data_game_settings["touch_sensitivity"] = Profiles.screen_touch_sensitivity
 
 	# podam novi HS v json obliko
 	var json_string = JSON.print(data_game_settings)
@@ -170,7 +170,6 @@ func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: 
 	var write_game_name: String
 	if Profiles.tilemap_paths[write_game_data["game"]].size() > 1:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + write_game_data["level_name"]
-#		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + str(write_game_data["level"])
 	else:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]]
 
@@ -196,7 +195,6 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 
 	if Profiles.tilemap_paths[read_game_data["game"]].size() > 1:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + read_game_data["level_name"]
-#		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 	else:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]]
 
@@ -215,7 +213,6 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 		# če iščem globalnega in ga ni, probam z lokalnim
 		else:
 			if Profiles.tilemap_paths[read_game_data["game"]].size() > 1:
-#				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + read_game_data["level_name"]
 			else:
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]]

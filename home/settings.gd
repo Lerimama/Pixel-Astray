@@ -7,7 +7,6 @@ onready var gradient_icon: TextureRect = $Content/ColorSchemeOptions/RandomizeBt
 onready var spectrum_icon: TextureRect = $Content/ColorSchemeOptions/RandomizeBtn/SpectrumIcon
 
 onready var intro: Node2D = $"%Intro"
-onready var select_level_node: Control = $"../SelectSweeper"
 onready var highscores_node: Control = $"../Highscores"
 onready var games_menu: Control = $"%GamesMenu"
 onready var default_focus_node: Control = $Content/MenuMusicBtn
@@ -72,7 +71,7 @@ func _ready() -> void:
 			var controller_description: String = controller_content[controller_title_key]
 			$TouchControllerPopup.add_item(controller_description, controller_count)
 		# sensi-slider
-		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
+		if Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_LEFT or Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT:
 			$Content/TouchSensSlider.show()
 		else:
 			$Content/TouchSensSlider.hide()
@@ -122,8 +121,9 @@ func _on_SchemeResetBtn_pressed() -> void:
 		Profiles.use_default_color_theme = true
 		randomize_btn.grab_focus()
 
-#		intro.respawn_title_strays()
-		select_level_node.select_level_btns_holder.colorize_level_btns()
+		intro.respawn_title_strays()
+		$"../SelectSweeper".select_level_btns_holder.colorize_level_btns()
+		$"../SelectEraser".select_level_btns_holder.colorize_level_btns()
 		games_menu.update_btn_colors()
 
 
@@ -139,8 +139,9 @@ func _on_RandomizeBtn_pressed() -> void:
 		var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
 		gradient_icon.texture.gradient = current_color_scheme_gradient
 
-#		intro.respawn_title_strays()
-		select_level_node.select_level_btns_holder.colorize_level_btns()
+		intro.respawn_title_strays()
+		$"../SelectSweeper".select_level_btns_holder.colorize_level_btns()
+		$"../SelectEraser".select_level_btns_holder.colorize_level_btns()
 		games_menu.update_btn_colors()
 
 
@@ -217,7 +218,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 #	get_parent().home_swipe_btn.show()
 
 	# ugasnem za buttons in none
-	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
+	if Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_LEFT or Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.SCREEN_RIGHT:
 		$Content/TouchSensSlider.show()
 	else:
 		$Content/TouchSensSlider.hide()

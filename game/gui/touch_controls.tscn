@@ -53,7 +53,6 @@ margin = Rect2( -2, 0, 0, 0 )
 [sub_resource type="AtlasTexture" id=376]
 atlas = ExtResource( 1 )
 region = Rect2( 72, 72, 24, 24 )
-margin = Rect2( -2, 0, 0, 0 )
 
 [sub_resource type="RectangleShape2D" id=369]
 extents = Vector2( 51, 26 )

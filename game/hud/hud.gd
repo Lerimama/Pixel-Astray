@@ -110,10 +110,6 @@ func _set_hud_elements():
 
 	# game name and level
 	game_label.text = Global.game_manager.game_data["game_name"]
-	if Global.game_manager.game_data["level"] > 0:
-		level_label.show()
-	else:
-		level_label.hide()
 
 	# player statlines
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
@@ -174,7 +170,7 @@ func slide_in(): # kliče GM set_game()
 		fade_in.parallel().tween_property(Global.current_tilemap.background_room, "modulate:a", 0, hud_in_out_time)
 		yield(fade_in, "finished")
 
-	if not Global.game_manager.level_goal_mode:
+	if Global.game_manager.current_level == 0:
 		for indicator in all_color_indicators:
 			var indicator_fade_in = get_tree().create_tween().set_trans(Tween.TRANS_QUAD)#.set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 			indicator_fade_in.tween_property(indicator, "modulate:a", stray_in_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
@@ -239,10 +235,11 @@ func spawn_color_indicators(spawn_colors: Array): # kliče GM
 		# spawn indicator
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = spawn_color
-		if Global.game_manager.level_goal_mode:
-			new_color_indicator.modulate.a = stray_out_indicator_alpha # prikažem jih na slide in
-		else:
+
+		if Global.game_manager.current_level == 0: # not goal_mode
 			new_color_indicator.modulate.a = stray_in_indicator_alpha # prikažem jih na slide in
+		else:
+			new_color_indicator.modulate.a = stray_out_indicator_alpha # prikažem jih na slide in
 
 		spectrum.add_child(new_color_indicator)
 
@@ -266,18 +263,18 @@ func indicate_color_collected(collected_color: Color = Color("00000000")):
 	for indicator in all_color_indicators:
 		# če je izbrana barva "skrijem" vse "odkrite"
 		if collected_color == Color("00000000"):
-			if Global.game_manager.level_goal_mode:
-				indicator.modulate.a = stray_in_indicator_alpha
-			else:
+			if Global.game_manager.current_level == 0: # not goal_mode
 				indicator.modulate.a = stray_out_indicator_alpha
+			else:
+				indicator.modulate.a = stray_in_indicator_alpha
 		else:
 			# pobrana barva
 			if indicator.color == collected_color:
 				current_indicator_index = all_color_indicators.find(indicator)
-				if Global.game_manager.level_goal_mode:
-					indicator.modulate.a = stray_in_indicator_alpha
-				else:
+				if Global.game_manager.current_level == 0: # not goal_mode
 					indicator.modulate.a = stray_out_indicator_alpha
+				else:
+					indicator.modulate.a = stray_in_indicator_alpha
 				break
 
 
@@ -326,7 +323,7 @@ func _get_highscore_on_start():
 
 	# brez rekorda ... current_highscore == 0
 	if highscore_on_start == 0:
-		highscore_label.text = "No higscore yet"
+		highscore_label.text = "No highscore yet"
 	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 		highscore_label.text = str(highscore_on_start) + " by %s" % highscore_owner
 		highscore_holder.modulate = Global.color_hud_text
@@ -334,6 +331,7 @@ func _get_highscore_on_start():
 		var highscore_clock: String = Global.get_clock_time(highscore_on_start)
 		highscore_label.text = highscore_clock + " by %s" % highscore_owner
 		highscore_holder.modulate = Global.color_hud_text
+
 
 func _check_for_new_highscore(current_player_score: int, gameover_reason: int = -1):
 

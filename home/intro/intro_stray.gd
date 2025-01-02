@@ -42,7 +42,7 @@ func _random_step(step_direction: Vector2 = Vector2.DOWN): # smer določa prefer
 			current_state = STATES.MOVING
 			previous_position = global_position
 			Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)
-			var step_time: float = Global.game_manager.game_settings["stray_step_time"]*2
+			var step_time: float = Global.game_manager.game_settings["stray_step_time"] * 2
 			var step_tween = get_tree().create_tween()
 			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
 			step_tween.tween_callback(self ,"end_move")

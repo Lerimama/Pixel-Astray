@@ -444,8 +444,7 @@ margin_right = 3.0
 margin_bottom = -2.0
 texture = SubResource( 524 )
 
-[node name="Buttons_R" type="Control" parent="."]
-visible = false
+[node name="Buttons_Burst_R" type="Control" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -455,7 +454,7 @@ margin_top = -112.0
 margin_right = 224.0
 margin_bottom = 112.0
 
-[node name="Title" type="Label" parent="Buttons_R"]
+[node name="Title" type="Label" parent="Buttons_Burst_R"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -140.0
@@ -473,7 +472,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="BurstBtn" type="TextureRect" parent="Buttons_R"]
+[node name="BurstBtn" type="TextureRect" parent="Buttons_Burst_R"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -160.0
@@ -483,7 +482,7 @@ margin_bottom = 136.0
 rect_scale = Vector2( 2, 2 )
 texture = SubResource( 536 )
 
-[node name="Label" type="Label" parent="Buttons_R/BurstBtn"]
+[node name="Label" type="Label" parent="Buttons_Burst_R/BurstBtn"]
 margin_left = 14.5
 margin_top = 25.5
 margin_right = 69.5
@@ -495,11 +494,11 @@ align = 1
 valign = 1
 uppercase = true
 
-[node name="DirectionBtns" type="Node2D" parent="Buttons_R"]
+[node name="DirectionBtns" type="Node2D" parent="Buttons_Burst_R"]
 position = Vector2( 0, 56 )
 scale = Vector2( 2, 2 )
 
-[node name="TouchBtn_L" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+[node name="TouchBtn_L" type="TextureRect" parent="Buttons_Burst_R/DirectionBtns"]
 margin_left = 32.0
 margin_top = 24.0
 margin_right = 64.0
@@ -507,11 +506,11 @@ margin_bottom = 56.0
 rect_scale = Vector2( -1, 1 )
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_L"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_R/DirectionBtns/TouchBtn_L"]
 position = Vector2( 20.9999, 16.0001 )
 texture = SubResource( 531 )
 
-[node name="TouchBtn_U" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+[node name="TouchBtn_U" type="TextureRect" parent="Buttons_Burst_R/DirectionBtns"]
 margin_left = 24.0
 margin_top = 32.0
 margin_right = 56.0
@@ -519,22 +518,22 @@ margin_bottom = 64.0
 rect_rotation = -89.9999
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_U"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_R/DirectionBtns/TouchBtn_U"]
 position = Vector2( 20.9999, 16.0001 )
 texture = SubResource( 531 )
 
-[node name="TouchBtn_R" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+[node name="TouchBtn_R" type="TextureRect" parent="Buttons_Burst_R/DirectionBtns"]
 margin_left = 48.0
 margin_top = 24.0
 margin_right = 80.0
 margin_bottom = 56.0
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_R"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_R/DirectionBtns/TouchBtn_R"]
 position = Vector2( 21, 16 )
 texture = SubResource( 531 )
 
-[node name="TouchBtn_D" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+[node name="TouchBtn_D" type="TextureRect" parent="Buttons_Burst_R/DirectionBtns"]
 margin_left = 56.0
 margin_top = 48.0
 margin_right = 88.0
@@ -542,18 +541,18 @@ margin_bottom = 80.0
 rect_rotation = 90.0
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_D"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_R/DirectionBtns/TouchBtn_D"]
 position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 531 )
 
-[node name="Buttons_L" type="Control" parent="."]
+[node name="Buttons_Burst_L" type="Control" parent="."]
 visible = false
 margin_left = -224.0
 margin_top = -112.0
 margin_right = 224.0
 margin_bottom = 104.0
 
-[node name="Title" type="Label" parent="Buttons_L"]
+[node name="Title" type="Label" parent="Buttons_Burst_L"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -140.0
@@ -571,14 +570,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="BurstBtn" type="TextureRect" parent="Buttons_L"]
+[node name="BurstBtn" type="TextureRect" parent="Buttons_Burst_L"]
 margin_top = 56.0
 margin_right = 80.0
 margin_bottom = 136.0
 rect_scale = Vector2( 2, 2 )
 texture = SubResource( 536 )
 
-[node name="Label" type="Label" parent="Buttons_L/BurstBtn"]
+[node name="Label" type="Label" parent="Buttons_Burst_L/BurstBtn"]
 margin_left = 14.5
 margin_top = 25.5
 margin_right = 69.5
@@ -590,11 +589,11 @@ align = 1
 valign = 1
 uppercase = true
 
-[node name="DirectionBtns" type="Node2D" parent="Buttons_L"]
+[node name="DirectionBtns" type="Node2D" parent="Buttons_Burst_L"]
 position = Vector2( 288, 56 )
 scale = Vector2( 2, 2 )
 
-[node name="TouchBtn_L" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+[node name="TouchBtn_L" type="TextureRect" parent="Buttons_Burst_L/DirectionBtns"]
 margin_left = 32.0
 margin_top = 24.0
 margin_right = 64.0
@@ -602,11 +601,11 @@ margin_bottom = 56.0
 rect_scale = Vector2( -1, 1 )
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_L"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_L/DirectionBtns/TouchBtn_L"]
 position = Vector2( 20.9999, 16.0001 )
 texture = SubResource( 531 )
 
-[node name="TouchBtn_U" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+[node name="TouchBtn_U" type="TextureRect" parent="Buttons_Burst_L/DirectionBtns"]
 margin_left = 24.0
 margin_top = 32.0
 margin_right = 56.0
@@ -614,22 +613,22 @@ margin_bottom = 64.0
 rect_rotation = -89.9999
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_U"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_L/DirectionBtns/TouchBtn_U"]
 position = Vector2( 20.9999, 16.0001 )
 texture = SubResource( 531 )
 
-[node name="TouchBtn_R" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+[node name="TouchBtn_R" type="TextureRect" parent="Buttons_Burst_L/DirectionBtns"]
 margin_left = 48.0
 margin_top = 24.0
 margin_right = 80.0
 margin_bottom = 56.0
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_R"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_L/DirectionBtns/TouchBtn_R"]
 position = Vector2( 21, 16 )
 texture = SubResource( 531 )
 
-[node name="TouchBtn_D" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+[node name="TouchBtn_D" type="TextureRect" parent="Buttons_Burst_L/DirectionBtns"]
 margin_left = 56.0
 margin_top = 48.0
 margin_right = 88.0
@@ -637,18 +636,18 @@ margin_bottom = 80.0
 rect_rotation = 90.0
 texture = SubResource( 530 )
 
-[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_D"]
+[node name="Arrow" type="Sprite" parent="Buttons_Burst_L/DirectionBtns/TouchBtn_D"]
 position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 531 )
 
-[node name="Sliding_R" type="Control" parent="."]
+[node name="Sliding_Burst_R" type="Control" parent="."]
 visible = false
 margin_left = -208.0
 margin_top = -112.0
 margin_right = 208.0
 margin_bottom = 112.0
 
-[node name="Title" type="Label" parent="Sliding_R"]
+[node name="Title" type="Label" parent="Sliding_Burst_R"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -120.0
@@ -666,7 +665,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Label" type="Label" parent="Sliding_R"]
+[node name="Label" type="Label" parent="Sliding_Burst_R"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 52.0
@@ -678,17 +677,17 @@ text = "Touch Sliding area"
 valign = 1
 uppercase = true
 
-[node name="Area" type="Control" parent="Sliding_R"]
+[node name="Area" type="Control" parent="Sliding_Burst_R"]
 margin_top = 40.0
 margin_right = 416.0
 margin_bottom = 224.0
 
-[node name="Corner" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Corner" type="TextureRect" parent="Sliding_Burst_R/Area"]
 margin_right = 12.0
 margin_bottom = 12.0
 texture = SubResource( 525 )
 
-[node name="Corner2" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Corner2" type="TextureRect" parent="Sliding_Burst_R/Area"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -12.0
@@ -696,7 +695,7 @@ margin_bottom = 12.0
 texture = SubResource( 525 )
 flip_h = true
 
-[node name="Corner3" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Corner3" type="TextureRect" parent="Sliding_Burst_R/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -707,7 +706,7 @@ margin_top = -108.0
 margin_bottom = -96.0
 texture = SubResource( 525 )
 
-[node name="Corner4" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Corner4" type="TextureRect" parent="Sliding_Burst_R/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -719,7 +718,7 @@ margin_right = -84.0
 margin_bottom = -86.0
 texture = SubResource( 525 )
 
-[node name="Corner5" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Corner5" type="TextureRect" parent="Sliding_Burst_R/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -730,7 +729,7 @@ margin_top = -12.0
 margin_right = -94.0
 texture = SubResource( 525 )
 
-[node name="Corner6" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Corner6" type="TextureRect" parent="Sliding_Burst_R/Area"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -12.0
@@ -738,7 +737,7 @@ margin_right = 12.0
 texture = SubResource( 525 )
 flip_h = true
 
-[node name="Line" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Line" type="TextureRect" parent="Sliding_Burst_R/Area"]
 anchor_right = 1.0
 margin_left = 12.0
 margin_right = -12.0
@@ -747,7 +746,7 @@ rect_min_size = Vector2( 0, 2 )
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line5" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Line5" type="TextureRect" parent="Sliding_Burst_R/Area"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -758,7 +757,7 @@ rect_min_size = Vector2( 0, 2 )
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line3" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Line3" type="TextureRect" parent="Sliding_Burst_R/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -772,7 +771,7 @@ rect_min_size = Vector2( 0, 2 )
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line2" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Line2" type="TextureRect" parent="Sliding_Burst_R/Area"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_top = 12.0
@@ -783,7 +782,7 @@ rect_rotation = 90.0
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line4" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Line4" type="TextureRect" parent="Sliding_Burst_R/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -797,7 +796,7 @@ rect_rotation = 90.0
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line6" type="TextureRect" parent="Sliding_R/Area"]
+[node name="Line6" type="TextureRect" parent="Sliding_Burst_R/Area"]
 margin_left = 2.0
 margin_top = 12.0
 margin_right = 162.0
@@ -807,7 +806,7 @@ rect_rotation = 90.0
 texture = SubResource( 526 )
 expand = true
 
-[node name="Burst" type="TextureRect" parent="Sliding_R"]
+[node name="Burst" type="TextureRect" parent="Sliding_Burst_R"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -816,7 +815,7 @@ margin_left = -80.0
 margin_top = -80.0
 texture = SubResource( 536 )
 
-[node name="Label" type="Label" parent="Sliding_R/Burst"]
+[node name="Label" type="Label" parent="Sliding_Burst_R/Burst"]
 margin_left = 14.5
 margin_top = 25.0
 margin_right = 69.5
@@ -828,7 +827,7 @@ align = 1
 valign = 1
 uppercase = true
 
-[node name="TrackingLine" type="Line2D" parent="Sliding_R"]
+[node name="TrackingLine" type="Line2D" parent="Sliding_Burst_R"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -223, -115 )
 scale = Vector2( 0.75, 0.75 )
@@ -842,7 +841,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dots" type="Node2D" parent="Sliding_R/TrackingLine"]
+[node name="Dots" type="Node2D" parent="Sliding_Burst_R/TrackingLine"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 396, 328 )
 scale = Vector2( -1, 1 )
@@ -850,7 +849,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
+[node name="Dot" type="Line2D" parent="Sliding_Burst_R/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -601.333, -336 )
 points = PoolVector2Array( 616, 344, 632, 344 )
@@ -862,7 +861,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot2" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
+[node name="Dot2" type="Line2D" parent="Sliding_Burst_R/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -573.333, -336 )
 points = PoolVector2Array( 616, 344, 624, 344 )
@@ -874,7 +873,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot3" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
+[node name="Dot3" type="Line2D" parent="Sliding_Burst_R/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -553.333, -336 )
 points = PoolVector2Array( 616, 344, 618, 344 )
@@ -886,7 +885,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dots2" type="Node2D" parent="Sliding_R/TrackingLine"]
+[node name="Dots2" type="Node2D" parent="Sliding_Burst_R/TrackingLine"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 572, 337.333 )
 rotation = 1.5708
@@ -894,7 +893,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
+[node name="Dot" type="Line2D" parent="Sliding_Burst_R/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -605.334, -336 )
 points = PoolVector2Array( 616, 344, 632, 344 )
@@ -906,7 +905,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot2" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
+[node name="Dot2" type="Line2D" parent="Sliding_Burst_R/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -577.334, -336 )
 points = PoolVector2Array( 616, 344, 624, 344 )
@@ -918,7 +917,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot3" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
+[node name="Dot3" type="Line2D" parent="Sliding_Burst_R/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -557.333, -336 )
 points = PoolVector2Array( 616, 344, 618, 344 )
@@ -930,13 +929,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Sliding_L" type="Control" parent="."]
+[node name="Sliding_Burst_L" type="Control" parent="."]
+visible = false
 margin_left = -208.0
 margin_top = -112.0
 margin_right = 208.0
 margin_bottom = 112.0
 
-[node name="Title" type="Label" parent="Sliding_L"]
+[node name="Title" type="Label" parent="Sliding_Burst_L"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -120.0
@@ -954,7 +954,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Label" type="Label" parent="Sliding_L"]
+[node name="Label" type="Label" parent="Sliding_Burst_L"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -178.0
@@ -967,19 +967,19 @@ text = "Touch Sliding area"
 valign = 1
 uppercase = true
 
-[node name="Area" type="Control" parent="Sliding_L"]
+[node name="Area" type="Control" parent="Sliding_Burst_L"]
 margin_left = 416.0
 margin_top = 40.0
 margin_right = 832.0
 margin_bottom = 224.0
 rect_scale = Vector2( -1, 1 )
 
-[node name="Corner" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Corner" type="TextureRect" parent="Sliding_Burst_L/Area"]
 margin_right = 12.0
 margin_bottom = 12.0
 texture = SubResource( 525 )
 
-[node name="Corner2" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Corner2" type="TextureRect" parent="Sliding_Burst_L/Area"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -12.0
@@ -987,7 +987,7 @@ margin_bottom = 12.0
 texture = SubResource( 525 )
 flip_h = true
 
-[node name="Corner3" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Corner3" type="TextureRect" parent="Sliding_Burst_L/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -998,7 +998,7 @@ margin_top = -108.0
 margin_bottom = -96.0
 texture = SubResource( 525 )
 
-[node name="Corner4" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Corner4" type="TextureRect" parent="Sliding_Burst_L/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1010,7 +1010,7 @@ margin_right = -84.0
 margin_bottom = -86.0
 texture = SubResource( 525 )
 
-[node name="Corner5" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Corner5" type="TextureRect" parent="Sliding_Burst_L/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1021,7 +1021,7 @@ margin_top = -12.0
 margin_right = -94.0
 texture = SubResource( 525 )
 
-[node name="Corner6" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Corner6" type="TextureRect" parent="Sliding_Burst_L/Area"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -12.0
@@ -1029,7 +1029,7 @@ margin_right = 12.0
 texture = SubResource( 525 )
 flip_h = true
 
-[node name="Line" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Line" type="TextureRect" parent="Sliding_Burst_L/Area"]
 anchor_right = 1.0
 margin_left = 12.0
 margin_right = -12.0
@@ -1038,7 +1038,7 @@ rect_min_size = Vector2( 0, 2 )
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line5" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Line5" type="TextureRect" parent="Sliding_Burst_L/Area"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1049,7 +1049,7 @@ rect_min_size = Vector2( 0, 2 )
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line3" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Line3" type="TextureRect" parent="Sliding_Burst_L/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1063,7 +1063,7 @@ rect_min_size = Vector2( 0, 2 )
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line2" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Line2" type="TextureRect" parent="Sliding_Burst_L/Area"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_top = 12.0
@@ -1074,7 +1074,7 @@ rect_rotation = 90.0
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line4" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Line4" type="TextureRect" parent="Sliding_Burst_L/Area"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1088,7 +1088,7 @@ rect_rotation = 90.0
 texture = SubResource( 526 )
 expand = true
 
-[node name="Line6" type="TextureRect" parent="Sliding_L/Area"]
+[node name="Line6" type="TextureRect" parent="Sliding_Burst_L/Area"]
 margin_left = 2.0
 margin_top = 12.0
 margin_right = 162.0
@@ -1098,14 +1098,14 @@ rect_rotation = 90.0
 texture = SubResource( 526 )
 expand = true
 
-[node name="Burst" type="TextureRect" parent="Sliding_L"]
+[node name="Burst" type="TextureRect" parent="Sliding_Burst_L"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -80.0
 margin_right = 80.0
 texture = SubResource( 536 )
 
-[node name="Label" type="Label" parent="Sliding_L/Burst"]
+[node name="Label" type="Label" parent="Sliding_Burst_L/Burst"]
 margin_left = 14.5
 margin_top = 25.0
 margin_right = 69.5
@@ -1117,7 +1117,7 @@ align = 1
 valign = 1
 uppercase = true
 
-[node name="TrackingLine" type="Line2D" parent="Sliding_L"]
+[node name="TrackingLine" type="Line2D" parent="Sliding_Burst_L"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 647, -115 )
 scale = Vector2( -0.75, 0.75 )
@@ -1131,7 +1131,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dots" type="Node2D" parent="Sliding_L/TrackingLine"]
+[node name="Dots" type="Node2D" parent="Sliding_Burst_L/TrackingLine"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 396, 328 )
 scale = Vector2( -1, 1 )
@@ -1139,7 +1139,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
+[node name="Dot" type="Line2D" parent="Sliding_Burst_L/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -601.333, -336 )
 points = PoolVector2Array( 616, 344, 632, 344 )
@@ -1151,7 +1151,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot2" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
+[node name="Dot2" type="Line2D" parent="Sliding_Burst_L/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -573.333, -336 )
 points = PoolVector2Array( 616, 344, 624, 344 )
@@ -1163,7 +1163,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot3" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
+[node name="Dot3" type="Line2D" parent="Sliding_Burst_L/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -553.333, -336 )
 points = PoolVector2Array( 616, 344, 618, 344 )
@@ -1175,7 +1175,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dots2" type="Node2D" parent="Sliding_L/TrackingLine"]
+[node name="Dots2" type="Node2D" parent="Sliding_Burst_L/TrackingLine"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 572, 337.333 )
 rotation = 1.5708
@@ -1184,7 +1184,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
+[node name="Dot" type="Line2D" parent="Sliding_Burst_L/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -605.334, -336 )
 points = PoolVector2Array( 616, 344, 632, 344 )
@@ -1196,7 +1196,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot2" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
+[node name="Dot2" type="Line2D" parent="Sliding_Burst_L/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -577.334, -336 )
 points = PoolVector2Array( 616, 344, 624, 344 )
@@ -1208,7 +1208,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Dot3" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
+[node name="Dot3" type="Line2D" parent="Sliding_Burst_L/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -557.333, -336 )
 points = PoolVector2Array( 616, 344, 618, 344 )

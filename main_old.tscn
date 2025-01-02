@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/invert_screen_colors.gdshader" type="Shader" id=2]
@@ -83,10 +83,6 @@ audio_stream = ExtResource( 8 )
 [sub_resource type="AudioStreamRandomPitch" id=24]
 audio_stream = ExtResource( 11 )
 random_pitch = 1.05
-
-[sub_resource type="AudioStreamRandomPitch" id=232]
-audio_stream = ExtResource( 12 )
-random_pitch = 1.03
 
 [sub_resource type="AudioStreamRandomPitch" id=34]
 audio_stream = ExtResource( 30 )
@@ -285,14 +281,8 @@ volume_db = -15.0
 pitch_scale = 0.6
 bus = "Gui"
 
-[node name="BtnFocus_" type="AudioStreamPlayer" parent="SoundManager/Sfx/Inputs"]
-stream = ExtResource( 12 )
-volume_db = -30.0
-pitch_scale = 1.07
-bus = "Gui"
-
 [node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/Sfx/Inputs"]
-stream = SubResource( 232 )
+stream = ExtResource( 12 )
 volume_db = -30.0
 pitch_scale = 1.07
 bus = "Gui"

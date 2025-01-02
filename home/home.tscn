@@ -182,11 +182,11 @@ noise = ExtResource( 10 )
 atlas = ExtResource( 11 )
 region = Rect2( 320, 320, 1916, 640 )
 
+[sub_resource type="StyleBoxEmpty" id=478]
+
 [sub_resource type="StyleBoxEmpty" id=564]
 
 [sub_resource type="StyleBoxEmpty" id=151]
-
-[sub_resource type="StyleBoxEmpty" id=478]
 
 [sub_resource type="AtlasTexture" id=195]
 atlas = ExtResource( 2 )
@@ -691,7 +691,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, -272, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -240, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0.04, 1 )
 }
 tracks/4/type = "value"
@@ -1023,7 +1023,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, 464, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 496, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0.04, 1 )
 }
 tracks/4/type = "value"
@@ -1576,11 +1576,31 @@ margin_bottom = 72.0
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="EraserBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
+[node name="CleanerBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
 margin_right = 148.0
 margin_bottom = 64.0
+grow_horizontal = 0
+grow_vertical = 0
 rect_min_size = Vector2( 0, 64 )
-focus_neighbour_left = NodePath("../HunterBtn")
+focus_neighbour_left = NodePath("../TheDuelBtn")
+focus_neighbour_bottom = NodePath("../../../Menu/HighscoresBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 22 )
+custom_styles/pressed = ExtResource( 22 )
+custom_styles/focus = ExtResource( 22 )
+custom_styles/disabled = SubResource( 478 )
+custom_styles/normal = ExtResource( 12 )
+text = "CLEANER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="EraserBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
+margin_left = 156.0
+margin_right = 304.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/HighscoresBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -1595,8 +1615,8 @@ __meta__ = {
 }
 
 [node name="DefenderBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 156.0
-margin_right = 304.0
+margin_left = 312.0
+margin_right = 460.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 focus_neighbour_bottom = NodePath("../../../Menu/SettingsBtn")
@@ -1613,13 +1633,13 @@ __meta__ = {
 }
 
 [node name="SweeperBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 312.0
-margin_right = 460.0
+margin_left = 468.0
+margin_right = 616.0
 margin_bottom = 64.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 0, 64 )
-focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
+focus_neighbour_bottom = NodePath("../../../Menu/SettingsBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 22 )
@@ -1628,26 +1648,6 @@ custom_styles/focus = ExtResource( 22 )
 custom_styles/disabled = SubResource( 478 )
 custom_styles/normal = ExtResource( 12 )
 text = "SWEEPER"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CleanerBtn" type="Button" parent="HomeScreen/GamesMenu/HBoxContainer"]
-margin_left = 468.0
-margin_right = 616.0
-margin_bottom = 64.0
-grow_horizontal = 0
-grow_vertical = 0
-rect_min_size = Vector2( 0, 64 )
-focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-custom_styles/hover = ExtResource( 22 )
-custom_styles/pressed = ExtResource( 22 )
-custom_styles/focus = ExtResource( 22 )
-custom_styles/disabled = SubResource( 478 )
-custom_styles/normal = ExtResource( 12 )
-text = "CLEANER"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -1675,6 +1675,7 @@ margin_left = 780.0
 margin_right = 928.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
+focus_neighbour_right = NodePath("../CleanerBtn")
 focus_neighbour_bottom = NodePath("../../../Menu/AboutBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -1707,9 +1708,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -464.0
-margin_top = -6.5
+margin_top = 1.5
 margin_right = 464.0
-margin_bottom = 18.5
+margin_bottom = 26.5
 text = "Stop invading colors from taking over the screen as they keep crashing in!"
 align = 1
 autowrap = true
@@ -1749,9 +1750,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -200.0
-margin_top = 241.0
+margin_top = 233.0
 margin_right = 200.0
-margin_bottom = 266.0
+margin_bottom = 258.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 custom_constants/separation = 24
@@ -2908,14 +2909,14 @@ focus_neighbour_top = NodePath("..")
 focus_mode = 2
 mouse_default_cursor_shape = 2
 
-[node name="HunterHall" parent="Highscores/GameHalls/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+[node name="DefenderHall" parent="Highscores/GameHalls/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="DefenderHall" parent="Highscores/GameHalls/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+[node name="HunterHall" parent="Highscores/GameHalls/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3234,10 +3235,10 @@ autowrap = true
 [node name="PointsCleanedLabel" type="Label" parent="About/Scoring"]
 margin_left = 1.0
 margin_top = 146.0
-margin_right = 377.0
-margin_bottom = 212.0
+margin_right = 352.0
+margin_bottom = 194.0
 custom_fonts/font = ExtResource( 14 )
-text = "You get rewarded %000 points (multiplied by level count) for cleaning the whole screen."
+text = "You current score will double if you erase all strays on screen."
 autowrap = true
 
 [node name="NavigationHint" type="Label" parent="."]

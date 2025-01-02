@@ -140,6 +140,15 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	return snapped_pixel_global_position
 
 
+func get_level_out_of_path(tilemap_path: String):
+	# neki_neki_XX.tscn
+
+	var tilemap_name: String = tilemap_path.get_slice(".", 0) # odstranim .tscn
+	var btn_level_name: String = tilemap_name.get_slice("_", 2).to_upper()
+
+	return btn_level_name
+
+
 func get_hunds_from_clock(clock_string: String):
 
 	var clock_format: String = "00:00.00"

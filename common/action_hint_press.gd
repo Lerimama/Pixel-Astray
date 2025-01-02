@@ -13,3 +13,4 @@ func _ready() -> void:
 		$Hint/KEYBOARD.show()
 		$Hint/JOYPAD.show()
 		$Hint/and_or.show()
+

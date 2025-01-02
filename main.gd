@@ -5,8 +5,6 @@ var current_scene: Node2D
 var fade_scene_time: float = 0.7
 
 onready var inverted_scheme: Node2D = $InvertedScheme
-onready var home_scene_path: String = "res://home/home.tscn"
-onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
 
 #func _process(delta: float) -> void:
 #	printt ("strays count", get_tree().get_nodes_in_group(Global.group_strays).size())
@@ -50,7 +48,7 @@ func home_in_intro():
 
 	get_viewport().set_disable_input(false)
 
-	var home_scene = spawn_new_scene(home_scene_path, self)
+	var home_scene = spawn_new_scene(Profiles.home_scene_path, self)
 	home_scene.open_with_intro()
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -62,7 +60,7 @@ func home_in_no_intro():
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 
-	var home_scene = spawn_new_scene(home_scene_path, self)
+	var home_scene = spawn_new_scene(Profiles.home_scene_path, self)
 	home_scene.open_without_intro()
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -77,10 +75,10 @@ func home_in_from_game(finished_game: int):
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 
-	var home_scene = spawn_new_scene(home_scene_path, self)
+	var home_scene = spawn_new_scene(Profiles.home_scene_path, self)
 	home_scene.open_from_game(finished_game) # select game screen
 
-#	spawn_new_scene(home_scene_path, self)
+#	spawn_new_scene(Profiles.home_scene_path, self)
 #	current_scene.open_from_game(finished_game) # select game screen
 
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
@@ -113,12 +111,10 @@ func game_in():
 	else:
 		Global.sound_manager.current_music_track_index = Profiles.game_settings["game_music_track_index"]
 
-	game_scene_path = Profiles.current_game_data["game_scene_path"]
-
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 
-	var game_scene = spawn_new_scene(game_scene_path, self)
+	var game_scene = spawn_new_scene(Profiles.game_scene_path, self)
 
 	# tukaj se seta GM glede na izbiro igre
 	Global.game_manager.set_tilemap()
@@ -192,7 +188,7 @@ func release_scene(scene_node): # release scene
 
 func _free_scene(scene_node):
 
-#	if Profiles.debug_mode:  # debug OS mode
+#	if Profiles.debug_mode:
 #		#		print("SCENE RELEASED (in next step): ", scene_node)
 #		pass
 	scene_node.free()
@@ -203,13 +199,13 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	var scene_resource = ResourceLoader.load(scene_path)
 	var new_current_scene = scene_resource.instance()
 
-#	if Profiles.debug_mode: # debug OS mode
+#	if Profiles.debug_mode:
 #		#		print("SCENE INSTANCED: ", new_current_scene)
 #		pass
 	new_current_scene.modulate.a = 0
 	parent_node.add_child(new_current_scene)
 
-#	if Profiles.debug_mode:  # debug OS mode
+#	if Profiles.debug_mode:
 #		#		print("SCENE ADDED: ", new_current_scene)
 #		print("--- new scene ---")
 

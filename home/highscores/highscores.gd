@@ -18,7 +18,6 @@ onready var update_scores_btn: Button = $UpdateScoresBtn
 onready var publish_unpublished_btn: Button = $PublishUnpublishedBtn
 onready var back_btn: TextureButton = $BackBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-onready var select_level_node: Control = $"../SelectSweeper"
 onready var game_halls: HBoxContainer = $GameHalls
 onready var default_focus_node: Control = $GameHalls/Cleaner
 onready var HighscoresHall: PackedScene = preload("res://home/highscores/highscores_hall.tscn")
@@ -120,9 +119,7 @@ func _ready() -> void:
 		var new_hall: Control = HighscoresHall.instance()
 		$GameHalls/Sweepers/TabContainer.add_child(new_hall)
 		# imena tabov in tabel
-
-		var table_tilemap_name: String = Profiles.tilemap_paths[Profiles.Games.SWEEPER][sweeper_tilemap_index].get_slice(".", 0) # odstranim .tscn
-		var table_level_name: String = table_tilemap_name.get_slice("_", 2).to_upper()
+		var table_level_name: String = Global.get_level_out_of_path(Profiles.tilemap_paths[Profiles.Games.SWEEPER][sweeper_tilemap_index])
 		var hall_table: Control = new_hall.get_node("HighscoreTable")
 		new_hall.name = table_level_name
 		hall_table.name = "Sweeper_" + new_hall.name + "_Table"
@@ -134,8 +131,7 @@ func _ready() -> void:
 		var new_hall: Control = HighscoresHall.instance()
 		$GameHalls/Erasers/TabContainer.add_child(new_hall)
 		# imena tabov in tabel
-		var table_tilemap_name: String = Profiles.tilemap_paths[Profiles.Games.ERASER][eraser_tilemap_index].get_slice(".", 0) # odstranim .tscn
-		var table_level_name: String = table_tilemap_name.get_slice("_", 2).to_upper()
+		var table_level_name: String = Global.get_level_out_of_path(Profiles.tilemap_paths[Profiles.Games.ERASER][eraser_tilemap_index])
 		var hall_table: Control = new_hall.get_node("HighscoreTable")
 		new_hall.name = table_level_name
 		hall_table.name = "Eraser_" + new_hall.name + "_Table"
@@ -144,8 +140,8 @@ func _ready() -> void:
 
 	var other_halls: Array = [
 		$GameHalls/Cleaner/CleanerHall,
-		$GameHalls/Unbeatables/TabContainer/HunterHall,
 		$GameHalls/Unbeatables/TabContainer/DefenderHall,
+		$GameHalls/Unbeatables/TabContainer/HunterHall,
 		]
 	for hall in other_halls:
 		# imena tabov in tabel
@@ -218,7 +214,8 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 		Batnz.grab_focus_nofx(default_focus_node)
 
 	# ponovno seta vsebino (brez tilemapa)
-	select_level_node.select_level_btns_holder.set_level_btns_content() # _temp ... povzroča nek error ...
+	$"../SelectSweeper".select_level_btns_holder.set_level_btns_content() #
+	$"../SelectEraser".select_level_btns_holder.set_level_btns_content() #
 
 	highscores_loaded = true
 
