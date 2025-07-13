@@ -95,7 +95,7 @@ var game_data: Dictionary = {
 			"game_name": "Cleaner",
 			"level_name": "", # prazn pomeni samo uporabo game_name
 			"description": "%d minutes to show your cleaning skills!" % 5,
-			"home_btn_desc": "%d minutes to show your cleaning skills!" % 5,
+			"home_btn_desc": "%d minutes\nto show your cleaning skills!" % 5,
 			"game_over_subtitle_CLEANED": "You are the brightest of them all!",
 			"game_over_subtitle_TIME": "Time is up!", # time up
 			"game_over_subtitle_LIFE": "Can't handle the colors?", # lost life
@@ -150,7 +150,7 @@ var game_data: Dictionary = {
 			"game_name": "Eraser",
 			"level_name": "XS",
 			"description": "Erasing sprint! %d designs need to be completely erased!" % 9,
-			"home_btn_desc": "Erasing sprint! %d designs need to be completely erased!" % 9,
+			"home_btn_desc": "Erasing sprint! %d designs\nneed to be completely erased!" % 9,
 			"game_over_subtitle_CLEANED": "You are the brightest of them all!",
 			"game_over_subtitle_TIME": "You need to be faster!", # lost momentum,
 			"game_over_subtitle_LIFE": "Is the White to bright?", # če ostanejo samo beli
@@ -163,7 +163,8 @@ var game_data: Dictionary = {
 			"game_name": "Sweeper",
 			"level_name": "%02d" % 1,
 			"description": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
-			"home_btn_desc": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
+			"home_btn_desc": "Sweep them\nall in one! %d screens need a quick swipe." % 16,
+#			"home_btn_desc": "Sweep them all in one move! %d screens need a quick cleaning service." % 16,
 			"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
 			"game_over_subtitle_CLEANED": "That was impressive!",
 			"game_over_subtitle_TIME": "You missed the target.", # nemogoče,

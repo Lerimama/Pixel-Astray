@@ -34,6 +34,19 @@ func _set_game_btns():
 
 	update_btn_colors()
 
+	$HBoxContainer/CleanerBtn/Label.text = Profiles.game_data[Profiles.Games.CLEANER]["home_btn_desc"]
+	$HBoxContainer/EraserBtn/Label.text = Profiles.game_data[Profiles.Games.ERASER]["home_btn_desc"]
+	$HBoxContainer/DefenderBtn/Label.text = Profiles.game_data[Profiles.Games.DEFENDER]["home_btn_desc"]
+	$HBoxContainer/SweeperBtn/Label.text = Profiles.game_data[Profiles.Games.SWEEPER]["home_btn_desc"]
+	$HBoxContainer/HunterBtn/Label.text = Profiles.game_data[Profiles.Games.HUNTER]["home_btn_desc"]
+
+#	$HBoxContainer/CleanerBtn.modulate = btn_colors[3]
+#	$HBoxContainer/EraserBtn.modulate = btn_colors[5]
+#	$HBoxContainer/DefenderBtn.modulate = btn_colors[6]
+#	$HBoxContainer/SweeperBtn.modulate = btn_colors[7]
+#	$HBoxContainer/HunterBtn.modulate = btn_colors[9]
+
+
 	for btn in all_game_btns:
 		btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
 		btn.connect("focus_entered", self, "_on_game_btn_focused", [btn])
@@ -79,8 +92,8 @@ func _on_game_btn_unfocused(btn: Control):
 	var unfocus_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	unfocus_tween.tween_property(btn, "modulate", unfocused_btn_color, focus_time)
 	# če so defokusirani vsi skrijem opis
-	if not all_game_btns.has(get_focus_owner()):
-		unfocus_tween.parallel().tween_property(description_label, "modulate:a", 0, 0.2)
+#	if not all_game_btns.has(get_focus_owner()):
+#		unfocus_tween.parallel().tween_property(description_label, "modulate:a", 0, 0.2)
 
 
 func _on_game_btn_focused(btn: Control):
@@ -90,23 +103,25 @@ func _on_game_btn_focused(btn: Control):
 
 	match btn.name:
 		"CleanerBtn":
-			current_btn_color = btn_colors[3]
-			current_btn_description = Profiles.game_data[Profiles.Games.CLEANER]["home_btn_desc"]
+			current_btn_color = btn_colors[1]
+#			current_btn_description = Profiles.game_data[Profiles.Games.CLEANER]["home_btn_desc"]
 		"EraserBtn":
-			current_btn_color = btn_colors[4]
-			current_btn_description = Profiles.game_data[Profiles.Games.ERASER]["home_btn_desc"]
+			current_btn_color = btn_colors[3]
+#			current_btn_description = Profiles.game_data[Profiles.Games.ERASER]["home_btn_desc"]
 		"DefenderBtn":
 			current_btn_color = btn_colors[5]
-			current_btn_description = Profiles.game_data[Profiles.Games.DEFENDER]["home_btn_desc"]
+#			current_btn_description = Profiles.game_data[Profiles.Games.DEFENDER]["home_btn_desc"]
 		"SweeperBtn":
-			current_btn_color = btn_colors[6]
-			current_btn_description = Profiles.game_data[Profiles.Games.SWEEPER]["home_btn_desc"]
-		"HunterBtn":
 			current_btn_color = btn_colors[7]
-			current_btn_description = Profiles.game_data[Profiles.Games.HUNTER]["home_btn_desc"]
-		"TheDuelBtn":
+#			current_btn_description = Profiles.game_data[Profiles.Games.SWEEPER]["home_btn_desc"]
+		"HunterBtn":
 			current_btn_color = btn_colors[9]
-			current_btn_description = Profiles.game_data[Profiles.Games.THE_DUEL]["home_btn_desc"]
+#			current_btn_description = Profiles.game_data[Profiles.Games.HUNTER]["home_btn_desc"]
+#		"TheDuelBtn":
+#			current_btn_color = btn_colors[9]
+##			current_btn_description = Profiles.game_data[Profiles.Games.THE_DUEL]["home_btn_desc"]
+
+#	btn.get_node("BtnLabel").modulate = Color.white
 
 	description_label.text = current_btn_description
 	var focus_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)

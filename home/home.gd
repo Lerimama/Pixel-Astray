@@ -129,8 +129,8 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 	var final_text_node: = intro.get_node("Text/Story6")
 
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(games_menu, "modulate:a", 1, 0.5)
-	fade_in.parallel().tween_property(final_text_node, "modulate:a", 1, 0.5)
+	fade_in.tween_property(final_text_node, "modulate:a", 0, 0.5)
+	fade_in.tween_property(games_menu, "modulate:a", 1, 0.5).set_delay(0.2)
 	fade_in.parallel().tween_property(menu, "modulate:a", 1, 0.5).set_delay(0.2)
 	if navigation_hint.visible:
 		fade_in.parallel().tween_property(navigation_hint, "modulate:a", 1, 0.5)

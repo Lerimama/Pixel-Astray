@@ -6,7 +6,6 @@ var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko
 var allow_ui_sfx: bool = false
 var strays_on_screen: Array = [] # za stray position indikatorje
 
-
 # node ref
 var enviroment_node = null # za setat (brajtnes)
 var main_node = null
@@ -294,7 +293,7 @@ func get_spectrum_colors(color_count: int):
 		var color = spectrum_image.get_pixel(color_position_x, 0) # barva na lokaciji v spektrumu
 		split_colors.append(color)
 
-	return	split_colors
+	return split_colors
 
 
 # BUTTONS --------------------------------------------------------------------------------------------------
@@ -302,7 +301,7 @@ func get_spectrum_colors(color_count: int):
 
 
 func object_not_in_deletion(object_to_check: Node): # za tole pomoje obstaja biltin funkcija
-
+#is_queued_for_deletion()
 	if str(object_to_check) == "[Deleted Object]": # anti home_out nek toggle btn
 		print ("Object in deletion: ", object_to_check, " > [Deleted Object]")
 		return true
